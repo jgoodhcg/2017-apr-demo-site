@@ -1,10 +1,13 @@
 ### todo 
 
 #### refactor
-- [ ] alter docker-compose and get running
-- [ ] strip out all uneccessary stuff
-- [ ] folder hiearchy
-- [ ] activities/activity form to look like sketch
+- [x] alter docker-compose and get running
+- [x] strip out all uneccessary stuff
+- [x] folder hiearchy
+- [ ] refactor to look like sketches
+  - [ ] bio card
+  - [ ] activities
+  - [ ] activity
 - [ ] new project pages
   - [ ] chorechart
   - [ ] timesheets

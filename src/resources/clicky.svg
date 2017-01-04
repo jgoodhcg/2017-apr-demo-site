@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1000"
+   height="1000"
+   viewBox="0 0 999.99999 1000"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="clicky.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#b9ffff"
+     bordercolor="#d96666"
+     borderopacity="1"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="412.14285"
+     inkscape:cy="408.01491"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     units="px"
+     inkscape:showpageshadow="false"
+     gridtolerance="10"
+     inkscape:snap-tangential="true"
+     inkscape:snap-perpendicular="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4155"
+       empspacing="10"
+       spacingx="9.9999999"
+       spacingy="10" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-52.362161)">
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 100 0 L 100 100 L 200 100 L 200 0 L 100 0 z M 200 100 L 200 200 L 215.18945 200 L 215.18945 110.49219 L 300 195.30273 L 300 100 L 200 100 z M 300 100 L 400 100 L 400 0 L 300 0 L 300 100 z M 200 200 L 100 200 L 100 300 L 200 300 L 200 200 z M 200 300 L 200 400 L 215.18945 400 L 215.18945 300 L 200 300 z M 200 400 L 100 400 L 100 500 L 200 500 L 200 400 z M 200 500 L 200 600 L 215.18945 600 L 215.18945 500 L 200 500 z M 200 600 L 100 600 L 100 700 L 200 700 L 200 600 z M 200 700 L 200 800 L 215.18945 800 L 215.18945 700 L 200 700 z M 200 800 L 100 800 L 100 900 L 200 900 L 200 800 z M 200 900 L 200 1000 L 300 1000 L 300 900 L 252.41992 900 L 215.18945 937.23047 L 215.18945 900 L 200 900 z M 300 900 L 400 900 L 400 800 L 352.41992 800 L 300 852.41992 L 300 900 z M 100 900 L 0 900 L 0 1000 L 100 1000 L 100 900 z M 100 800 L 100 700 L 0 700 L 0 800 L 100 800 z M 100 600 L 100 500 L 0 500 L 0 600 L 100 600 z M 100 400 L 100 300 L 0 300 L 0 400 L 100 400 z M 100 200 L 100 100 L 0 100 L 0 200 L 100 200 z M 502 0 L 502 100 L 602 100 L 602 0 L 502 0 z M 602 100 L 602 200 L 702 200 L 702 100 L 602 100 z M 702 100 L 800 100 L 800 200 L 702 200 L 702 300 L 800 300 L 800 400 L 702 400 L 702 500 L 800 500 L 800 600 L 704.69727 600 L 787.33008 682.63281 L 702 682.63281 L 702 700 L 800 700 L 800 800 L 702 800 L 702 900 L 800 900 L 800 1000 L 900 1000 L 900 900 L 802 900 L 802 800 L 900 800 L 900 700 L 802 700 L 802 600 L 900 600 L 900 500 L 802 500 L 802 400 L 900 400 L 900 300 L 802 300 L 802 200 L 900 200 L 900 100 L 802 100 L 802 0 L 702 0 L 702 100 z M 900 100 L 1000 100 L 1000 0 L 900 0 L 900 100 z M 900 200 L 900 300 L 1000 300 L 1000 200 L 900 200 z M 900 400 L 900 500 L 1000 500 L 1000 400 L 900 400 z M 900 600 L 900 700 L 1000 700 L 1000 600 L 900 600 z M 900 800 L 900 900 L 1000 900 L 1000 800 L 900 800 z M 702 900 L 623.28906 900 L 623.30273 900.0332 L 602 910.68555 L 602 1000 L 702 1000 L 702 900 z M 702 800 L 702 700 L 602 700 L 602 800 L 702 800 z M 602 800 L 581.62695 800 L 602 848.90234 L 602 800 z M 602 700 L 602 682.63281 L 532.72852 682.63281 L 539.96484 700 L 602 700 z M 702 500 L 604.69727 500 L 702 597.30273 L 702 500 z M 702 400 L 702 300 L 602 300 L 602 400 L 702 400 z M 602 400 L 504.69727 400 L 602 497.30273 L 602 400 z M 602 300 L 602 200 L 502 200 L 502 300 L 602 300 z M 502 300 L 404.69727 300 L 502 397.30273 L 502 300 z M 502 200 L 502 100 L 402 100 L 402 200 L 502 200 z M 304.69727 200 L 400 295.30273 L 400 200 L 304.69727 200 z M 402 758.28125 L 402 800 L 419.26172 800 L 402 758.28125 z M 402 900 L 402 1000 L 502 1000 L 502 960.68555 L 488.53516 967.41797 L 460.63867 900 L 402 900 z "
+       transform="translate(0,52.362161)"
+       id="rect4186-3-3-5-2-6" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     style="display:inline" />
+</svg>

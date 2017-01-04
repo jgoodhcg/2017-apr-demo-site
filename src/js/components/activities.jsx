@@ -1,0 +1,53 @@
+import React from "react";
+import InlineSVG from 'svg-inline-react';
+import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
+
+import Activity from "./activity.jsx";
+
+export default class Activities extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            activities: [
+                {id: "clicky", resource: "clicky", name: "clicky",
+                 color: "game", route: "/clicky"},
+
+                {id: "clicky2", resource: "clicky", name: "clicky",
+                 color: "game", route: "/clicky"},
+
+                {id: "clicky3", resource: "clicky", name: "clicky",
+                 color: "game", route: "/clicky"},
+
+                {id: "clicky4", resource: "clicky", name: "clicky",
+                 color: "game", route: "/clicky"},
+           ]};
+    }
+
+    expansion(e){
+        this.setState(Object.assign(
+            this.state, {expanded: e.target.getAttribute("data-activity")}));
+        console.log(this.state);
+    }
+
+    render(){
+        return (
+            <div id="activities" class="col-12-sm card card-1" >
+                <div class="row">
+                    {this.state.activities.map((activity, i, activities) => {
+                         return (
+                             <Activity id={activity.id}
+                                       color={activity.color}
+                                       key={i}
+                                       route={activity.route}
+                                       resource={activity.resource}
+                                       name={activity.name}>
+                             </Activity>
+                         );
+                     })}
+                </div>
+            </div>
+        );
+    }
+}
+

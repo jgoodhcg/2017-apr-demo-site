@@ -1,0 +1,74 @@
+$icon-size: 1.5em;
+$icon-margin: 0.25em;
+$drawer-padding: 1em;
+
+@keyframes hamburger-fade-in {0%{opacity: 0;}100%{opacity: 1;}}
+@keyframes hamburger-fade-out {0%{opacity: 1;}100%{opacity: 0;}}
+
+@keyframes links-icon-grow{
+    0%{
+        position: relative;
+        right: -($icon-size+$icon-margin);
+    }
+    100% {
+        right: auto;
+    }
+}
+@keyframes links-icon-shrink{
+    0%{
+        right: auto;
+    }
+    100% {
+        position: relative;
+        right: -($icon-size+$icon-margin);
+
+    }
+}
+
+@keyframes links-grow {
+    0% {
+        max-height: $icon-size+(2*$icon-margin);
+        width: 0em;
+        padding-right: 0em;
+    }
+    85%{
+        max-height: 6*($icon-size+(2*$icon-margin));
+    }
+    100% {
+        @include side-drawer-right-shadow;
+
+        max-height: 6*($icon-size+(2*$icon-margin));
+        width: $icon-size+(2*$icon-margin)+$drawer-padding;
+        padding-right: $drawer-padding;
+
+        background-color: $light-primary;
+    }
+}
+@keyframes links-shrink {
+    0% {
+        @include side-drawer-right-shadow;
+
+        max-height: 6*($icon-size+(2*$icon-margin));
+        width: $icon-size+(2*$icon-margin)+$drawer-padding;
+        padding-right: $drawer-padding;
+
+        background-color: $light-primary;
+    }
+    0% {
+        @include side-drawer-right-shadow;
+
+        max-height: 6*($icon-size+(2*$icon-margin));
+        width: $icon-size+(2*$icon-margin)+$drawer-padding;
+        padding-right: $drawer-padding;
+
+        background-color: $light-primary;
+    }
+    100% {
+        max-height: $icon-size+(2*$icon-margin);
+        width: 0em;
+        padding-right: 0em;
+    }
+    15%{
+        max-height: 6*($icon-size+(2*$icon-margin));
+    }
+}
