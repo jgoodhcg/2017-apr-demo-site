@@ -4,19 +4,14 @@
 #title{
     $portrait-size: 10em;
 
-    display: flex;
-
-    color: $primary-text;
-
     #portrait{
         display: flex;
-        align-items: center;
+        justify-content: center;
+
         i svg{height: $portrait-size;}
     }
 
     #info{
-        display: flex;
-        align-items: center;
         #bio{
         }
     } 

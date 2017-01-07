@@ -32,7 +32,7 @@ export default class Activities extends React.Component {
 
     render(){
         return (
-            <div id="activities">
+            <div id="activities" class="row" >
                 {this.state.activities.map((activity, i, activities) => {
                      return (
                          <Activity id={activity.id}

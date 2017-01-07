@@ -1,28 +1,20 @@
-#activities-container{
-}
 
 #activities{
-    .row{
-        .card{
-       }
-    } 
+}
+
+.activity-container{
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .activity-image{
-    position: relative;
+    background-color: $bg-dark;
+    padding: 0;
 
-    display: inline-block;
-    margin: 0.2em;
-    a{
-        text-decoration: none;
-        text-align: center;
-        p{
-            color: $text-icons;
-            margin: 0;
-        }
+    a i svg{
+        height: 100%
     }
 }
 
 .activity-info{
-    display: inline-block;
 }

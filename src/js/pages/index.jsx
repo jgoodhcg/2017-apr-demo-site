@@ -17,7 +17,7 @@ export default class Index extends React.Component {
 
     render() {
         return (
-            <div id="index-container" class="">
+            <div id="index-container" class="container-fluid">
                 <Title/>
                 <Activities/>
             </div>
