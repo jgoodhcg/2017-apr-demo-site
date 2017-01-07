@@ -1,8 +1,6 @@
-@import './../sass/simple-grid';
-
 /* CSS GROUPING GUIDE (line between each)
-@imports
 $variables
+@imports
 @keyframes
 @includes
 animations
@@ -19,364 +17,52 @@ card
     row
       col-x
 */
+// fonts
+$font-family: 'Lato', Helvetica, sans-serif;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-heavy: 700;
+$font-height: 1.5;
 
-$dark-primary : #455A64;
-$text-icons: #ffffff; 
-$primary-text: #212121;
-$secondary-text: #757575;
-$light-primary: #cfd8dc;
-$accent-color: #03A9F4;
-$primary-game: #FFC107;
-$primary-software: #607D8B;
-$primary-data: #009688;
+// colors
+$dark-grey: #333447;
+$dark-gray: #333447; // for the Americans
 
-html {
-    height: 100%;
+// other
+$icon-size: 1.5em;
 
-    box-sizing: border-box;
-}
-*, *:before, *:after {
-  box-sizing: inherit;
-}
+@import './../sass/flexboxgrid';
+@import './../sass/colors';
+@import './../sass/topography';
+@import './../sass/partials/activities';
+@import './../sass/partials/cards';
+@import './../sass/partials/clicky';
+@import './../sass/partials/experience';
+@import './../sass/partials/nav';
+@import './../sass/partials/title';
 
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic);
+
+// universal
+
+html,
 body {
-    height: 100%;
-
-    background: #e2e1e0;
-    
-    text-align: center;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  font-size: 100%;
+  box-sizing: border-box;
+  background: #e2e1e0;
 }
 
-.card {
-  position: relative;
-
-  display: inline-block;
-  padding: 1em 0.25em 1em 0.25em;
-  margin: 0.5em 0.35em 0em 0.35em;
-  border-radius: 2px;
-
-  background: #fff;
-}
-
-.card-1 {
-    z-index: 1;
-
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.card-1-hover:hover {
-    transition: box-shadow 0.35s cubic-bezier(0.25,0.8,0.25,1);
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-
-.card-2 {
-    z-index: 2;
-
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-
-.card-3 {
-    z-index: 3;
-
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
-
-.card-4 {
-    z-index: 4;
-
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-
-.card-5 {
-    z-index: 5;
-
-    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-}
-
-@mixin side-drawer-right-shadow{
-    z-index: 6;
-
-    box-shadow: -30px 20px 76px rgba(0,0,0,0.35), 0px 20px 25px rgba(0,0,0,0.22);
-}
-
-.side-drawer-right{
-    @include side-drawer-right-shadow;
-}
-
-#top-bar{
-    display: block;
-    width: 100%;
-    height: 2em;
-    padding-left: 1em;
-    padding-right: 1em;
-
-    background-color: $dark-primary;
-
-    font-size: 1.5em;
-
-    #name{
-        float: left;
-
-        cursor: pointer;
-
-        div{
-            margin: 0.25em;
-            color: $text-icons;
-        }
-    }
-
-    #links{
-        @import './../sass/animations/topbar-links.scss';
-
-        float: right;
-
-        text-align: right;
-
-        div{
-            display: inline-block;
-            height: $icon-size;
-            width: $icon-size;
-            margin: $icon-margin;
-
-            color: $text-icons;
-
-            &#hamburger{
-                transition: transform 0.25s cubic-bezier(0.25,0.8,0.25,1);
-            }
-
-            //
-            // medium to large screens
-            //
-            @media screen and (min-width: $breakpoint-small){
-                &#hamburger{
-                    display: none;
-                }
-            }
-        }
-
-        //
-        // small screens - drawer only shows on this size
-        //
-        @media screen and (max-width: $breakpoint-small){
-            &.collapsed{
-                div:not(#hamburger){
-                    display: none;
-                }
-
-                div#hamburger{
-                    display: inline-block;
-                }
-            }
-            &.expanded{
-
-                animation: links-grow 0.35s 0s 1 cubic-bezier(1,.015,.295,1.225) normal forwards;
-
-                position: fixed;
-                right: 0;
-                top: 0;
-                float: none;
-
-                width: $icon-size+(2*$icon-margin)+$drawer-padding;
-                padding-right: $drawer-padding;
-
-                div{
-                    animation: links-icon-grow 0.25s 0s 1 cubic-bezier(1,.015,.295,1.225) normal forwards;
-
-                    display: inline-block;
-
-                    &#hamburger{
-                        animation: hamburger-fade 0.25s 0.2s 1 cubic-bezier(1,.015,.295,1.225) normal forwards;
-                        transform: rotate(90deg);
-
-                    }
-                }
-            }
-        }
-    }
-}
-
-#title-container{
-}
-
-#title{
-    $portrait-size: 10em;
-
-    background-color: $text-icons;
-    color: $primary-text;
-
-    #portrait{
-        i svg{height: $portrait-size;}
-    }
-
-    #info{
-        #bio{
-        }
-    } 
-}
-
-#activities-container{
-}
-
-#activities{
-
-    .row{
-        .card{
-       }
-    } 
-}
-
-.activity-image{
-    position: relative;
-
-    display: inline-block;
-    margin: 0.2em;
-    a{
-        text-decoration: none;
-        text-align: center;
-        p{
-            color: $text-icons;
-            margin: 0;
-        }
-    }
-}
-
-.activity-info{
-    display: inline-block;
-}
-
-.collapse-btn-container{
-    position: absolute;
-    bottom: 0.5em;
-    right: 0.5em;
-    z-index: 99;
-
-    width: 100%;
-
-    text-align: right;
-
-    &.collapsed .collapse-btn{
-            transform: rotate(180deg);
-    }
-
-    .collapse-btn{
-        display: inline-block;
-       
-        width: 1.5em; 
-
-        transition: all 0.25s cubic-bezier(0.25,0.8,0.25,1);
-    }
-}
-
-#experience{
-    .card{
-        padding: 0.7em;
-
-        text-align: left;
-
-        h2{
-            margin: 0.1em;
-            color: $secondary-text
-        }
-        h3{
-            margin: 0.1em;
-            color: $secondary-text
-        }
-        p{
-            margin: 0.1em;
-            color: $primary-text;
-        }
-    }
-
-    svg.skill{
-        rect{
-            stroke: $accent-color;
-            &.filled{
-                fill: $accent-color;
-            }
-            &.empty{
-                fill: $text-icons;
-            }
-        }
-    }
-}
-
-
-.soon{
-    position: absolute;
-    top: 0em;
-    left: 0;
-    right: 0;
-
-    margin: auto;
-    height: 100%;
-    width: 100%;
-
-    color: white; 
-    font: bold 24px/45px Helvetica, Sans-Serif;
-    letter-spacing: -1px;
-    background: rgb(0, 0, 0); /* fallback color */
-    background: rgba(0, 0, 0, 0.5);
-    padding: 2em 1em 1em 1em; 
+* {
+  font-family: $font-family;
+  /* color: $dark-grey; */
+  line-height: $font-height;
 }
 
 .game{background-color: $primary-game;}       
-.app{background-color: $primary-software;}
-.data{background-color: $primary-data;}       
 
-
-#clicky-container{
-    #banner{
-        width: 100%;
-        // height is determined in clicky component
-    }
-}
-
-.link-btn{
-    display: inline-block;
-    width: 10em;
-    padding: 0.25em;
-    
-    background-color: $accent-color;
-
-    text-align: center !important;
-    
-    a{
-        width: 100%;
-        color: $text-icons;
-        text-decoration: none;
-    }
-}
-
-code{
-    color: $primary-text;
-    font-family: monospace;
-}
-
-#clicky-controls{
-    position: fixed;
-    bottom: 1em;
-    right: 1em;
-
-    width: auto;
-    padding: 0.5em;
-
-    span.exit{
-        position: absolute;
-        right: 0.5em;
-        top: 0.5em;
-
-        p{
-            color: $secondary-text;
-            font-weight: bold;
-            padding: 0;
-            margin: 0;
-        }
-
-    }
-}
-
-.code{
-    background-color: #afafaf;
-    padding: 0.5em;
-    margin: 0.5em;
-    }

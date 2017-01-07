@@ -1,0 +1,28 @@
+#activities-container{
+}
+
+#activities{
+    .row{
+        .card{
+       }
+    } 
+}
+
+.activity-image{
+    position: relative;
+
+    display: inline-block;
+    margin: 0.2em;
+    a{
+        text-decoration: none;
+        text-align: center;
+        p{
+            color: $text-icons;
+            margin: 0;
+        }
+    }
+}
+
+.activity-info{
+    display: inline-block;
+}

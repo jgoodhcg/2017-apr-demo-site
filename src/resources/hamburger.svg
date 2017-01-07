@@ -27,7 +27,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.919"
      inkscape:cx="500"
-     inkscape:cy="500"
+     inkscape:cy="325.89771"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -66,36 +66,12 @@
      id="layer1"
      transform="translate(0,-52.362161)">
     <rect
-       style="opacity:0.25;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
-       id="rect4884-6"
-       width="1000"
-       height="201.42857"
-       x="-1.4285715"
-       y="179.50502"
-       ry="100.71429" />
-    <rect
-       style="opacity:0.25;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
-       id="rect4884-6-7"
-       width="1000"
-       height="201.42857"
-       x="-1.4285715"
-       y="479.505"
-       ry="100.71429" />
-    <rect
-       style="opacity:0.25;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
-       id="rect4884-6-7-5"
-       width="1000"
-       height="201.42857"
-       x="-1.4285715"
-       y="771.505"
-       ry="100.71429" />
-    <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
        id="rect4884"
        width="1000"
        height="201.42857"
        x="-1.4285715"
-       y="149.50502"
+       y="247.50502"
        ry="100.71429" />
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
@@ -103,7 +79,7 @@
        width="1000"
        height="201.42857"
        x="-1.4285715"
-       y="453.505"
+       y="551.505"
        ry="98.857155" />
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
@@ -111,7 +87,7 @@
        width="1000"
        height="201.42857"
        x="-1.4285715"
-       y="751.505"
+       y="849.505"
        ry="100.71429" />
   </g>
 </svg>

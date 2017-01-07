@@ -1,0 +1,41 @@
+#top-bar{
+    $border-rad-pad: 1em;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 2em 0 2em;
+
+    background-color: $bg-dark;
+
+    #name{
+        display: flex;
+        position: relative;
+        padding: 0 $border-rad-pad;
+
+        border-radius: $border-rad-pad;
+
+        background-color: $bg-light;
+
+        #name-text{
+            font-size: 1.5em;
+            color:  $text-icons;
+            z-index: 2;
+        }
+    }
+
+    #links{
+        display: flex;
+        padding: 0 $border-rad-pad;
+
+        border-radius: $border-rad-pad;
+
+        background-color: $bg-light;
+
+        div{
+            margin: 0.25em;
+            width: $icon-size;
+        } 
+    }
+}
+

@@ -32,20 +32,18 @@ export default class Activities extends React.Component {
 
     render(){
         return (
-            <div id="activities" class="col-12-sm card card-1" >
-                <div class="row">
-                    {this.state.activities.map((activity, i, activities) => {
-                         return (
-                             <Activity id={activity.id}
-                                       color={activity.color}
-                                       key={i}
-                                       route={activity.route}
-                                       resource={activity.resource}
-                                       name={activity.name}>
-                             </Activity>
-                         );
-                     })}
-                </div>
+            <div id="activities">
+                {this.state.activities.map((activity, i, activities) => {
+                     return (
+                         <Activity id={activity.id}
+                                   color={activity.color}
+                                   key={i}
+                                   route={activity.route}
+                                   resource={activity.resource}
+                                   name={activity.name}>
+                         </Activity>
+                     );
+                 })}
             </div>
         );
     }

@@ -9,11 +9,11 @@ export default class Activities extends React.Component {
 
     render(){
         return (
-           <div id="title" class="col-12-sm card card-1 ">
-               <div id="portrait" class="col-12-sm col-3">
+           <div id="title" class="card card-1 ">
+               <div id="portrait" class="">
                    <InlineSVG src={require("./../../resources/justin.svg")}/>
                </div>
-               <div id="info" class="col-12-sm col-9">
+               <div id="info" class="">
                    <p id="bio" >
                        My bio should be conscise. I don't know if I spelled
                        that correctly. There should be clear definitions of

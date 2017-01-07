@@ -17,18 +17,9 @@ export default class Index extends React.Component {
 
     render() {
         return (
-            <div id="index-container">
-                <div id="title-container">
-                    <div class="row">
-                        <Title/>
-                    </div>
-                </div>
-
-                <div id="activities-container">
-                    <div class="row">
-                        <Activities/>
-                    </div>
-                </div>
+            <div id="index-container" class="">
+                <Title/>
+                <Activities/>
             </div>
         );
     }

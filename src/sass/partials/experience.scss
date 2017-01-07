@@ -1,0 +1,42 @@
+#experience{
+    .card{
+        padding: 0.7em;
+
+        text-align: left;
+
+        h2{
+            margin: 0.1em;
+            color: $secondary-text
+        }
+        h3{
+            margin: 0.1em;
+            color: $secondary-text
+        }
+        p{
+            margin: 0.1em;
+            color: $primary-text;
+        }
+    }
+
+    svg.skill{
+        rect{
+            stroke: $accent-color;
+            &.filled{
+                fill: $accent-color;
+            }
+            &.empty{
+                fill: $text-icons;
+            }
+        }
+    }
+}
+
+code{
+    color: $primary-text;
+    font-family: monospace;
+}
+.code{
+    background-color: #afafaf;
+    padding: 0.5em;
+    margin: 0.5em;
+}

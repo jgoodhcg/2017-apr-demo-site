@@ -1,0 +1,30 @@
+
+#clicky-container{
+    #banner{
+        width: 100%;
+        // height is determined in clicky component
+    }
+}
+
+#clicky-controls{
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+
+    width: auto;
+    padding: 0.5em;
+
+    span.exit{
+        position: absolute;
+        right: 0.5em;
+        top: 0.5em;
+
+        p{
+            color: $secondary-text;
+            font-weight: bold;
+            padding: 0;
+            margin: 0;
+        }
+
+    }
+}
