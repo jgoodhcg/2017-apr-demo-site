@@ -82,7 +82,7 @@ export default class Nav extends React.Component {
         return (
             <div id="top-bar" class="card-2">
                 <div id="name">
-                    <div id="name-text" onClick={this.goHome}>Justin Good</div>
+                    <div id="name-text" onClick={this.goHome}><span>Justin Good</span></div>
                 </div>
                 <div id="links" class={this.state.collapsed ? "collapsed" : "expanded"}>
                     <div id="hamburger" onClick={this.hamburgerClick.bind(this)}>

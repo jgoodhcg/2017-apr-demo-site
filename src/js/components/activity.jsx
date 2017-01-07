@@ -13,9 +13,11 @@ export default class Activity extends React.Component {
                 <div id={this.props.id} class="activity-container card card-1" >
                     <div class="row middle-xs">
                         <div  class={"activity-image col-xs-3 " + this.props.color}>
-                            <Link to={this.props.route} >
-                                <InlineSVG src={require(`./../../resources/${this.props.resource}.svg`)}/>
-                            </Link>
+                            <div>
+                                <Link to={this.props.route} >
+                                    <InlineSVG src={require(`./../../resources/${this.props.resource}.svg`)}/>
+                                </Link>
+                            </div>
                         </div>
                         <div class="activity-info col-xs-9">
                             <p>

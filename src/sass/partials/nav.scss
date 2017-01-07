@@ -31,7 +31,7 @@
         border-radius: $border-rad-pad;
 
         background-color: $bg-light;
-
+        
         div{
             margin: 0.25em;
             width: $icon-size;
@@ -39,3 +39,25 @@
     }
 }
 
+
+@media only screen and (min-width: $sm) {
+    #hamburger{
+        display: none !important;
+    }
+    #links div{
+        display: inline-block;
+    }
+}
+
+
+@media only screen and (max-width: $sm) {
+    #top-bar {
+        padding: 0;
+    }
+    #links div{
+        display: none;
+    }
+    #hamburger{
+        display: inline-block !important;
+    }
+}

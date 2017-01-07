@@ -17,6 +17,12 @@ card
     row
       col-x
 */
+
+// breakpoints (still hardcoded in flexgrid)
+$sm: 48em;
+$md: 64em;
+$lg: 75em;
+
 // fonts
 $font-family: 'Lato', Helvetica, sans-serif;
 $font-weight-light: 300;
