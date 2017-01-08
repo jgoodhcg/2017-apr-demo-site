@@ -10,12 +10,26 @@
 .activity-image{
     background-color: $bg-dark;
     padding: 0;
-    height: 100%;
+    position: relative;
+    height: 16em;
+    width: 10em;
+        
+    overflow: hidden;
+    display: flex;
 
-    a i svg{
+    div a i svg{
+        position: absolute;
+        width: 100%;
         height: 100%;
     }
 }
 
 .activity-info{
+}
+
+
+@media only screen and (max-width: $sm) {
+    .activity-image{
+        height: 6em;
+    }
 }

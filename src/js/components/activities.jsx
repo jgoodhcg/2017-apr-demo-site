@@ -11,16 +11,16 @@ export default class Activities extends React.Component {
         this.state = {
             activities: [
                 {id: "clicky", resource: "clicky", name: "clicky",
-                 color: "game", route: "/clicky"},
+                  route: "/clicky"},
 
                 {id: "clicky2", resource: "clicky", name: "clicky",
-                 color: "game", route: "/clicky"},
+                  route: "/clicky"},
 
                 {id: "clicky3", resource: "clicky", name: "clicky",
-                 color: "game", route: "/clicky"},
+                  route: "/clicky"},
 
                 {id: "clicky4", resource: "clicky", name: "clicky",
-                 color: "game", route: "/clicky"},
+                  route: "/clicky"},
            ]};
     }
 
@@ -36,7 +36,6 @@ export default class Activities extends React.Component {
                 {this.state.activities.map((activity, i, activities) => {
                      return (
                          <Activity id={activity.id}
-                                   color={activity.color}
                                    key={i}
                                    route={activity.route}
                                    resource={activity.resource}
