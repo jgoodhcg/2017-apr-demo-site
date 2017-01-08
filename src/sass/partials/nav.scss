@@ -18,7 +18,7 @@
         background-color: $bg-light;
 
         #name-text{
-            font-size: 1.5em;
+            font-size: 1.65em;
             color:  $text-icons;
             z-index: 2;
         }
@@ -31,14 +31,18 @@
         border-radius: $border-rad-pad;
 
         background-color: $bg-light;
-        
+
+        &.collapsed{
+            max-height: $icon-size + 1em; // for animation
+            // vars can't be used inside media queries!?
+        }
+
         div{
             margin: 0.25em;
             width: $icon-size;
         } 
     }
 }
-
 
 @media only screen and (min-width: $sm) { // >= SM
     #hamburger{
@@ -63,6 +67,15 @@
         }
     }
     #links.expanded{
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        z-index: 99;
+        max-height: 99em;
+        transition: max-height 1s;
+
         div{
             display: inline-block;
         }
