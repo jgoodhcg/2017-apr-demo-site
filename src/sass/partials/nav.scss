@@ -40,7 +40,7 @@
 }
 
 
-@media only screen and (min-width: $sm) {
+@media only screen and (min-width: $sm) { // >= SM
     #hamburger{
         display: none !important;
     }
@@ -50,18 +50,21 @@
 }
 
 
-@media only screen and (max-width: $sm) {
+@media only screen and (max-width: $sm) { // == XS
     #top-bar {
         padding: 0;
-    }
-    #links div{
-        display: none;
     }
     #hamburger{
         display: inline-block !important;
     }
-
+    #links.collapsed{
+        div{
+            display: none;
+        }
+    }
     #links.expanded{
-        background-color: red;
+        div{
+            display: inline-block;
+        }
     }
 }
