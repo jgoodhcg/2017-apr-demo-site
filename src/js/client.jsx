@@ -3,6 +3,7 @@ require("./../sass/app.scss");
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, IndexRoute, browserHistory, hashHistory } from "react-router";
+import * as d3 from "d3";
 
 import Layout from "./layout.jsx";
 import Index from "./pages/index.jsx";
