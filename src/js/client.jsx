@@ -3,12 +3,12 @@ require("./../sass/app.scss");
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, IndexRoute, browserHistory, hashHistory } from "react-router";
-import * as d3 from "d3";
 
 import Layout from "./layout.jsx";
 import Index from "./pages/index.jsx";
 import Experience from "./pages/experience.jsx";
 import Clicky from "./pages/clicky-thing.jsx";
+import Timesheet from "./pages/timesheet.jsx";
 
 var metaTag=document.createElement('meta');
 metaTag.name = "viewport";
@@ -27,6 +27,7 @@ ReactDOM.render(
             <IndexRoute component={Index}></IndexRoute>
             <Route path="experience" name="experience" component={Experience}></Route>
             <Route path="clicky" name="clicky" component={Clicky}></Route>
+            <Route path="timesheet" name="timesheet" component={Timesheet}></Route>
         </Route>
     </Router>, app);
 
