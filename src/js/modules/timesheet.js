@@ -1,20 +1,27 @@
 import * as d3 from "d3";
 
 export default class Calendar {
-    constructor(div_id) {
+    constructor(div_id, timesheet_data) {
         var width = 960,
             height = 136,
             cellSize = 17; // cell size
 
         var percent = d3.format(".1%"),
-            format = d3.timeFormat("%Y-%m-%d");
+            format = d3.timeFormat("%Y/%m/%d");
 
         var color = d3.scaleQuantize()
-                .domain([-.05, .05])
+                .domain([0, 1])
                 .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
 
+        var max_year = d3.max(timesheet_data, (d)=>{
+            return Math.max(d.start.getFullYear(), d.end.getFullYear());
+        });
+        var min_year = d3.min(timesheet_data, (d)=>{
+            return Math.min(d.start.getFullYear(), d.end.getFullYear());
+        });
+
         var svg = d3.select("#"+div_id).selectAll("svg")
-                .data(d3.range(2015, 2017))
+                .data(d3.range(min_year, max_year+1))
                 .enter().append("svg")
                 .attr("width", width)
                 .attr("height", height)
@@ -46,21 +53,18 @@ export default class Calendar {
             .attr("class", "month")
             .attr("d", monthPath);
 
-        // d3.csv("dji.csv", function(error, csv) {
-        //     if (error) throw error;
-
-        //     var data = d3.nest()
-        //             .key(function(d) { return d.Date; })
-        //             .rollup(function(d) { return (d[0].Close - d[0].Open) / d[0].Open; })
-        //             .map(csv);
-
-        //     console.log('data', data);
-
-        //     rect.filter(function(d) { return data.has(d); })
-        //         .attr("class", function(d) { return "day " + color(data.get(d)); })
-        //         .select("title")
-        //         .text(function(d) { return d + ": " + percent(data.get(d)); });
-        // });
+        rect.filter((d) => {
+            let day = new Date(d);
+            let tasks_on_day = timesheet_data.filter((task)=>{
+                task.start.setHours(0,0,0,0);
+                task.end.setHours(0,0,0,0);
+                day.setHours(0,0,0,0);
+                return( task.start.valueOf() <= day.valueOf() &&
+                        day.valueOf() <= task.end.valueOf());
+            });
+            return (tasks_on_day.length > 0);
+        })
+            .attr("class", function(d) { return "day " + color(0.7); });
 
         function monthPath(t0) {
             var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
