@@ -2,9 +2,9 @@ import * as d3 from "d3";
 
 export default class Calendar {
     constructor(div_id, timesheet_data) {
-        var width = 960,
-            height = 136,
-            cellSize = 17; // cell size
+        var width = 400,
+            cellSize = 400/7,
+            height = cellSize * 5;
 
         var percent = d3.format(".1%"),
             format = d3.timeFormat("%Y/%m/%d");
@@ -13,58 +13,82 @@ export default class Calendar {
                 .domain([0, 1])
                 .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
 
-        var max_year = d3.max(timesheet_data, (d)=>{
-            return Math.max(d.start.getFullYear(), d.end.getFullYear());
-        });
-        var min_year = d3.min(timesheet_data, (d)=>{
-            return Math.min(d.start.getFullYear(), d.end.getFullYear());
-        });
+        var max_epoch = d3.max(timesheet_data, (d)=>{ return d.end.valueOf();});
+        var min_epoch = d3.min(timesheet_data, (d)=>{ return d.end.valueOf();});
 
         var svg = d3.select("#"+div_id).selectAll("svg")
-                .data(d3.range(min_year, max_year+1))
+                .data(d3.timeMonths(new Date(min_epoch), new Date(max_epoch)))
                 .enter().append("svg")
                 .attr("width", width)
                 .attr("height", height)
                 .attr("class", "RdYlGn")
                 .append("g")
-                .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
+                .attr("transform", "translate(" + ((width - cellSize * 7) / 2) + "," + (height - cellSize * 5 - 1) + ")");
 
         svg.append("text")
-            .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
-            .style("text-anchor", "middle")
-            .text(function(d) { return d; });
+            .attr("x", 0)
+            .attr("y", 50)
+            .text(function(d) { return d.getMonth() + " - " + d.getFullYear(); });
+
+        function getWeekOfMonth(d) {
+            var dayOfMonth = d.getDay();
+            var month = d.getMonth();
+            var year = d.getFullYear();
+            var checkDate = new Date(year, month, d.getDate());
+            var checkDateTime = checkDate.getTime();
+            var currentWeek = 0;
+
+            for (var i = 1; i < 32; i++) {
+                var loopDate = new Date(year, month, i);
+
+                if (loopDate.getDay() == dayOfMonth) {
+                    currentWeek++;
+                }
+
+                if (loopDate.getTime() == checkDateTime) {
+                    return currentWeek;
+                }
+            }
+
+            return currentWeek;
+        };
 
         var rect = svg.selectAll(".day")
-                .data(function(d) { return d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+                .data(function(d) {
+                    return d3.timeDays(new Date(d.getFullYear(),
+                                                d.getMonth(), 1),
+                                       new Date(d.getFullYear(),
+                                                d.getMonth() + 1, 1)); })
                 .enter().append("rect")
                 .attr("class", "day")
                 .attr("width", cellSize)
                 .attr("height", cellSize)
-                .attr("x", function(d) { return d3.timeWeek.count(d3.timeYear(d), d) * cellSize; })
-                .attr("y", function(d) { return d.getDay() * cellSize; })
+                .attr("x", function(d) { return d.getDay() * cellSize; })
+                .attr("y",
+                      function(d) { return getWeekOfMonth(d) * cellSize; })
                 .datum(format);
 
-        rect.append("title")
-            .text(function(d) { return d; });
+        // rect.append("title")
+        //     .text(function(d) { return d; });
 
-        svg.selectAll(".month")
-            .data(function(d) { return d3.timeMonths(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
-            .enter().append("path")
-            .attr("class", "month")
-            .attr("d", monthPath);
+        // svg.selectAll(".month")
+        //     .data(function(d) { return d3.timeMonths(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+        //     .enter().append("path")
+        //     .attr("class", "month")
+        //     .attr("d", monthPath);
 
-        rect.filter((d) => {
-            let day = new Date(d);
-            let tasks_on_day = timesheet_data.filter((task)=>{
-                task.start.setHours(0,0,0,0);
-                task.end.setHours(0,0,0,0);
-                day.setHours(0,0,0,0);
-                return( task.start.valueOf() <= day.valueOf() &&
-                        day.valueOf() <= task.end.valueOf());
-            });
-            return (tasks_on_day.length > 0);
-        })
-            .attr("class", function(d) { return "day " + color(0.7); });
+        // rect.filter((d) => {
+        //     let day = new Date(d);
+        //     let tasks_on_day = timesheet_data.filter((task)=>{
+        //         task.start.setHours(0,0,0,0);
+        //         task.end.setHours(0,0,0,0);
+        //         day.setHours(0,0,0,0)
+        //         return( task.start.valueOf() <= day.valueOf() &&
+        //                 day.valueOf() <= task.end.valueOf());
+        //     });
+        //     return (tasks_on_day.length > 0);
+        // })
+        //     .attr("class", function(d) { return "day " + color(0.7); });
 
         function monthPath(t0) {
             var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
