@@ -4,7 +4,7 @@ export default class Calendar {
     constructor(div_id, timesheet_data) {
         var width = 400,
             cellSize = 400/7,
-            height = cellSize * 5;
+            height = cellSize * 6;
 
         var percent = d3.format(".1%"),
             format = d3.timeFormat("%Y/%m/%d");
@@ -27,31 +27,8 @@ export default class Calendar {
 
         svg.append("text")
             .attr("x", 0)
-            .attr("y", 50)
-            .text(function(d) { return d.getMonth() + " - " + d.getFullYear(); });
-
-        function getWeekOfMonth(d) {
-            var dayOfMonth = d.getDay();
-            var month = d.getMonth();
-            var year = d.getFullYear();
-            var checkDate = new Date(year, month, d.getDate());
-            var checkDateTime = checkDate.getTime();
-            var currentWeek = 0;
-
-            for (var i = 1; i < 32; i++) {
-                var loopDate = new Date(year, month, i);
-
-                if (loopDate.getDay() == dayOfMonth) {
-                    currentWeek++;
-                }
-
-                if (loopDate.getTime() == checkDateTime) {
-                    return currentWeek;
-                }
-            }
-
-            return currentWeek;
-        };
+            .attr("y", 0)
+            .text(function(d) { return (d.getMonth()+1) + " - " + d.getFullYear(); });
 
         var rect = svg.selectAll(".day")
                 .data(function(d) {
@@ -60,12 +37,20 @@ export default class Calendar {
                                        new Date(d.getFullYear(),
                                                 d.getMonth() + 1, 1)); })
                 .enter().append("rect")
-                .attr("class", "day")
+                .attr("class", (d) => { return "day "+d.toString();})
                 .attr("width", cellSize)
                 .attr("height", cellSize)
-                .attr("x", function(d) { return d.getDay() * cellSize; })
-                .attr("y",
-                      function(d) { return getWeekOfMonth(d) * cellSize; })
+                .attr("x", function(d) {
+                    return  d.getDay() * cellSize; })
+                .attr("y", function(d) {
+                    let weekStarts = d3.timeWeeks(
+                        new Date(d.getFullYear(), d.getMonth(), 1), // first day of month
+                        new Date(d.getFullYear(), d.getMonth() + 1, 0)); // last day of month
+                    let thisWeekStart = d3.timeWeek(d); // [] of start of each week this month
+                    let weekOfMonth = weekStarts.findIndex(
+                        function(ws){return ws.getDate() == this.getDate();}, thisWeekStart);
+
+                    return  weekOfMonth * cellSize; })
                 .datum(format);
 
         // rect.append("title")
