@@ -3,7 +3,7 @@ import * as d3 from "d3";
 export default class Calendar {
     constructor(div_id, timesheet_data) {
         var width = 400,
-            cellSize = 400/7,
+            cellSize = width/7,
             height = cellSize * 6;
 
         var percent = d3.format(".1%"),
@@ -23,7 +23,10 @@ export default class Calendar {
                 .attr("height", height)
                 .attr("class", "RdYlGn")
                 .append("g")
-                .attr("transform", "translate(" + ((width - cellSize * 7) / 2) + "," + (height - cellSize * 5 - 1) + ")");
+                .attr("transform",
+                      "translate(" +
+                      (0 + "," +
+                       cellSize + ")"));
 
         svg.append("text")
             .attr("x", 0)
@@ -43,12 +46,29 @@ export default class Calendar {
                 .attr("x", function(d) {
                     return  d.getDay() * cellSize; })
                 .attr("y", function(d) {
+                    let firstOfMonth =
+                            new Date(d.getFullYear(), d.getMonth(), 1);
+                    // array of start of each week this month
+                    // d3.timeWeeks is exclusive on the second date
                     let weekStarts = d3.timeWeeks(
-                        new Date(d.getFullYear(), d.getMonth(), 1), // first day of month
-                        new Date(d.getFullYear(), d.getMonth() + 1, 0)); // last day of month
-                    let thisWeekStart = d3.timeWeek(d); // [] of start of each week this month
+                        firstOfMonth,
+                        // first day of next month
+                        new Date(d.getFullYear(), d.getMonth() + 1, 1));
+                    
+                    let thisWeekStart = d3.timeWeek(d);
+
+                    // index of weekStarts is the zero based week of month num
+                    // -1 means the first week but this month started
+                    // after sunday
                     let weekOfMonth = weekStarts.findIndex(
-                        function(ws){return ws.getDate() == this.getDate();}, thisWeekStart);
+                        function(ws){
+                            return ws.getDate() == this.getDate();},
+                        thisWeekStart) + 1; // zero row of calendary is for heading
+
+                    if(firstOfMonth.getDay() == 0){
+                        // shift the rows for months that start on sunday
+                        weekOfMonth = weekOfMonth - 1;
+                    }
 
                     return  weekOfMonth * cellSize; })
                 .datum(format);
@@ -75,15 +95,5 @@ export default class Calendar {
         // })
         //     .attr("class", function(d) { return "day " + color(0.7); });
 
-        function monthPath(t0) {
-            var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
-                d0 = t0.getDay(), w0 = d3.timeWeek.count(d3.timeYear(t0), t0),
-                d1 = t1.getDay(), w1 = d3.timeWeek.count(d3.timeYear(t1), t1);
-            return "M" + (w0 + 1) * cellSize + "," + d0 * cellSize
-                + "H" + w0 * cellSize + "V" + 7 * cellSize
-                + "H" + w1 * cellSize + "V" + (d1 + 1) * cellSize
-                + "H" + (w1 + 1) * cellSize + "V" + 0
-                + "H" + (w0 + 1) * cellSize + "Z";
-        }
     }
 }
