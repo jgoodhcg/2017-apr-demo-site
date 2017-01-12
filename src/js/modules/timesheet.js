@@ -28,9 +28,12 @@ export default class Calendar {
                       (0 + "," +
                        cellSize + ")"));
 
+        // picture text like bottom left origin
+        // that grows upwards its font-size
         svg.append("text")
             .attr("x", 0)
-            .attr("y", 0)
+            .attr("y", -18) 
+            .attr("font-size", "18")
             .text(function(d) { return (d.getMonth()+1) + " - " + d.getFullYear(); });
 
         var rect = svg.selectAll(".day")

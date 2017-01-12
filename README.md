@@ -12,6 +12,8 @@
 - [ ] new project pages
   - [ ] timesheets
     - [ ] generic calendars
+      - [x] display calendar with grid
+      - [ ] pretty up margin so that there is a space for info row at top of calendar
     - [ ] time interval selection
     - [ ] parse sv into JSON
     - [ ] display stacked bar graph
