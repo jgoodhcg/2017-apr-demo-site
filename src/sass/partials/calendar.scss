@@ -9,6 +9,21 @@
   stroke-width: 2px;
 }
 
+.cal-bg {
+    fill: #cdcdcd;
+}
+
+.svg-bg {
+    fill: #f1f1f1;
+}
+
+#calendar{
+    svg{
+        margin-right: 1em;
+        margin-bottom: 1em;
+    }
+}
+
 .RdYlGn .q0-11{fill:rgb(165,0,38)}
 .RdYlGn .q1-11{fill:rgb(215,48,39)}
 .RdYlGn .q2-11{fill:rgb(244,109,67)}

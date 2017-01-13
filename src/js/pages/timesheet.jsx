@@ -3,13 +3,12 @@ import InlineSVG from 'svg-inline-react';
 import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 
 import Calendar from "./../modules/timesheet.js";
-require("./../modules/timesheet_mock.js");
+import "./../modules/timesheet_mock.js";
 
 export default class Timesheet extends React.Component {
     constructor() {
         super();
     }
-
 
     componentDidMount(){
         let timesheet_data = window.timesheet_data.map(
@@ -25,12 +24,24 @@ export default class Timesheet extends React.Component {
                     }
                 );
             });
+
         let cal = new Calendar("calendar", timesheet_data);
     }
 
     render() {
         return(
-            <div id="calendar"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card card-1">Controls</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="calendar" class="card card-1"></div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

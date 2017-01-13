@@ -2,6 +2,14 @@ import * as d3 from "d3";
 
 export default class Calendar {
     constructor(div_id, timesheet_data) {
+        var margin = {
+            top: 20,
+            bottom: 10,
+            left: 10,
+            right: 10,
+            header: 40
+        };
+
         var width = 400,
             cellSize = width/7,
             height = cellSize * 6;
@@ -19,24 +27,40 @@ export default class Calendar {
         var svg = d3.select("#"+div_id).selectAll("svg")
                 .data(d3.timeMonths(new Date(min_epoch), new Date(max_epoch)))
                 .enter().append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .attr("class", "RdYlGn")
-                .append("g")
-                .attr("transform",
-                      "translate(" +
-                      (0 + "," +
-                       cellSize + ")"));
+                .attr("width", width + (margin.left + margin.right))
+                .attr("height", height + (margin.top + margin.bottom + margin.header))
+                .attr("class", "RdYlGn");
+
+        svg.append("rect")
+                .attr("width", width + (margin.left + margin.right))
+                .attr("height", height + (margin.top + margin.bottom + margin.header))
+                .attr("class", "svg-bg");
 
         // picture text like bottom left origin
-        // that grows upwards its font-size
-        svg.append("text")
+        // that grows downward its font-size
+        svg.append("g")
+            .append("text")
+            .attr("transform",
+                  "translate(" +
+                  (margin.left + "," +
+                   (margin.top) + ")"))
             .attr("x", 0)
-            .attr("y", -18) 
+            .attr("y", 18)
             .attr("font-size", "18")
             .text(function(d) { return (d.getMonth()+1) + " - " + d.getFullYear(); });
 
-        var rect = svg.selectAll(".day")
+        var calendar = svg.append("g")
+                .attr("transform",
+                      "translate(" +
+                      (margin.left + "," +
+                       (margin.top + margin.header) + ")"));
+
+        calendar.append("rect")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", "cal-bg");
+
+        var rect = calendar.selectAll(".day")
                 .data(function(d) {
                     return d3.timeDays(new Date(d.getFullYear(),
                                                 d.getMonth(), 1),
@@ -57,7 +81,7 @@ export default class Calendar {
                         firstOfMonth,
                         // first day of next month
                         new Date(d.getFullYear(), d.getMonth() + 1, 1));
-                    
+
                     let thisWeekStart = d3.timeWeek(d);
 
                     // index of weekStarts is the zero based week of month num
@@ -66,7 +90,7 @@ export default class Calendar {
                     let weekOfMonth = weekStarts.findIndex(
                         function(ws){
                             return ws.getDate() == this.getDate();},
-                        thisWeekStart) + 1; // zero row of calendary is for heading
+                        thisWeekStart) + 1;
 
                     if(firstOfMonth.getDay() == 0){
                         // shift the rows for months that start on sunday

@@ -45,9 +45,7 @@ export default class Activities extends React.Component {
                                    route={activity.route}
                                    resource={activity.resource}
                                    description={activity.description}>
-                         </Activity>
-                     );
-                 })}
+                         </Activity>);})}
             </div>
         );
     }
