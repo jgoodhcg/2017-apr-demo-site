@@ -1,4 +1,4 @@
-window.timesheet_data =
+export const timesheet_data =
     [{"start":"1442822631","end":"1422830333","project":"timetracker","tags":""},
      {"start":"1444177401","end":"1481230300","project":"demo_site","tags":""},
      {"start":"1474990473","end":"1456493243","project":"timetracker","tags":""},
