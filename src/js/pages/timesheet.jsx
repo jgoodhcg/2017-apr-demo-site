@@ -60,10 +60,11 @@ export default class Timesheet extends React.Component {
             (d) => {
                 let s = new Date(parseInt(d.start*1000));
                 let random = Math.floor((Math.random() * 3600000) + 60000);
+                let e = new Date(s.valueOf() + random);
                 return(
                     {
                         start: s,
-                        end: new Date(s.valueOf() + random),
+                        end: e,
                         project: d.project,
                         tags: d.tags
                     }
@@ -90,7 +91,8 @@ export default class Timesheet extends React.Component {
                             <div class="row">
                                 <div class="col-xs-12">
                                     {this.listAllProjects().map((p,i) => {
-                                         return (<li key={i}>{p}</li>);
+                                         return (
+                                             <input type="button" key={i} value={p}></input>);
                                      })}
                                 </div>
                             </div>

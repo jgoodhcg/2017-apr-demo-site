@@ -22,7 +22,22 @@ export default class Calendar {
                 .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
 
         var max_epoch = d3.max(timesheet_data, (d)=>{ return d.end.valueOf();});
-        var min_epoch = d3.min(timesheet_data, (d)=>{ return d.end.valueOf();});
+        var min_epoch = d3.min(timesheet_data, (d)=>{ return d.start.valueOf();});
+
+        var max_task_time_in_day = d3.max(
+            d3.timeDays(new Date(min_epoch), new Date(max_epoch)),
+            (d)=>{
+                let tasks_on_day = tasksOnDay(d);
+                let total_time_ms = 0;
+                tasks_on_day.forEach((t)=>{
+                    let milliseconds = t.end.valueOf() - t.start.valueOf();
+                    total_time_ms += milliseconds;});
+                return total_time_ms;});
+        var min_task_time_in_day = 0;
+
+        var taskDayScale = d3.scaleLinear()
+                .domain([min_task_time_in_day, max_task_time_in_day])
+                .range([0, cellSize]);
 
         var svg = d3.select("#"+div_id).selectAll("svg")
                 .data(d3.timeMonths(new Date(min_epoch), new Date(max_epoch)))
@@ -55,11 +70,13 @@ export default class Calendar {
                       (margin.left + "," +
                        (margin.top + margin.header) + ")"));
 
+        // calendar background
         calendar.append("rect")
             .attr("width", width)
             .attr("height", height)
             .attr("class", "cal-bg");
 
+        // inactive/background days
         calendar.selectAll(".day-bg")
             .data(d3.range(0, 42))
             .enter().append("rect")
@@ -69,37 +86,58 @@ export default class Calendar {
             .attr("x", function(d){return (d%7)*cellSize;})
             .attr("y", function(d){return (d%6)*cellSize;});
 
-        var rect = calendar.selectAll(".day")
+        // active days
+        var active = calendar.selectAll(".day-group")
                 .data(function(d) {
                     return d3.timeDays(
                         new Date(d.getFullYear(), d.getMonth(), 1),
                         new Date(d.getFullYear(), d.getMonth() + 1, 1)); })
-                .enter().append("rect")
-                .attr("class", (d) => { return "day "+d.toString();})
-                .attr("width", cellSize)
-                .attr("height", cellSize)
-                .attr("x", function(d) {
-                    return  d.getDay() * cellSize; })
-                .attr("y", function(d) {
-                    let wom = weekOfMonth(d);
-                    return  wom * cellSize; })
-                .datum(format);
+                .enter().append("g")
+                .attr("transform", (d) => {
+                    let x = d.getDay() * cellSize;
+                    let y = weekOfMonth(d) * cellSize;
+                    return "translate(" +(x + "," +y + ")");
+                });
 
-        // rect.append("title")
-        //     .text(function(d) { return d; });
+        // render active
+        active.selectAll(".day")
+            .data((d) => {
+                return [new Date(d)];})
+            .enter().append("rect")
+            .attr("class", (d) => {
+                return "day "+d.toString();})
+            .attr("width", cellSize)
+            .attr("height", cellSize)
+            .attr("x", 0)
+            .attr("y", 0);
 
-        rect.filter((d) => {
-            let day = new Date(d);
-            let tasks_on_day = timesheet_data.filter((task)=>{
-                task.start.setHours(0,0,0,0);
-                task.end.setHours(0,0,0,0);
-                day.setHours(0,0,0,0);
-                return( task.start.valueOf() <= day.valueOf() &&
-                        day.valueOf() <= task.end.valueOf());
+        // render task intervals over active days
+        active.selectAll(".task")
+            .data((d)=>{return tasksOnDay(d);})
+            .enter().append("rect")
+            .attr("class", "task")
+            .attr("width", cellSize)
+            .attr("height", (task)=>{
+                let val = task.end.valueOf() - task.start.valueOf();
+                let height = taskDayScale(val);
+                return height;})
+            .attr("x", 0)
+            .attr("y", 0);
+
+        function tasksOnDay(day){
+            let tasks = timesheet_data.filter((task)=>{
+                let start = new Date(task.start);
+                let end = new Date(task.end);
+                let day_copy = new Date(day);
+                start.setHours(0,0,0,0);
+                end.setHours(0,0,0,0);
+                day_copy.setHours(0,0,0,0);
+                return( start.valueOf() <= day_copy.valueOf() &&
+                        day_copy.valueOf() <= end.valueOf());
             });
-            return (tasks_on_day.length > 0);
-        })
-            .attr("class", function(d) { return "day " + color(0.7); });
+
+            return tasks;
+        }
 
         function weekOfMonth(d){
             let firstOfMonth =
