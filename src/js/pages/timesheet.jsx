@@ -10,11 +10,11 @@ export default class Timesheet extends React.Component {
         super();
 
         this.colors = {
-           "timetracker": '#ff0000',
-           "demo_site"  : '#00ff00',
-           "yoga"       : '#0000ff',
-           "dev_skills" : '#f0000f',
-           "meditation" : '#0f00f0'
+           "timetracker": '#0D1B41',
+           "demo_site"  : '#9B351E',
+           "yoga"       : '#0D308E',
+           "dev_skills" : '#3D5B11',
+           "meditation" : '#85DA09'
         };
 
         this.state = {
@@ -64,6 +64,8 @@ export default class Timesheet extends React.Component {
     }
 
     componentDidMount(){
+        let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
         let data = timesheet_data.map(
             (d) => {
                 let s = new Date(parseInt(d.start*1000));

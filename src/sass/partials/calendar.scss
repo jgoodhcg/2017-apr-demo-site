@@ -1,11 +1,13 @@
 .day {
-  fill: #fff;
-  stroke: #ccc;
+  fill: #f5f5f5;
+  /* stroke: #fff; */
+  stroke: #a9a9a9;
 }
 
 .day-bg{
-    fill:#ababab;
-    stroke: #ccc;
+    /* fill:#ababab; */
+    fill: #e0e0e0;
+    stroke: #a9a9a9;
 }
 
 /* .task{ */
@@ -23,7 +25,8 @@
 }
 
 .svg-bg {
-    fill: #f1f1f1;
+    /* fill: #f1f1f1; */
+    fill: #e0e0e0;
 }
 
 #calendar{

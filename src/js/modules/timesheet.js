@@ -4,9 +4,9 @@ export default class Calendar {
     constructor(div_id, timesheet_data) {
         var margin = {
             top: 20,
-            bottom: 10,
-            left: 10,
-            right: 10,
+            bottom: 0,
+            left: 0,
+            right: 0,
             header: 40
         };
 
