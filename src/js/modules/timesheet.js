@@ -116,6 +116,7 @@ export default class Calendar {
             .data((d)=>{return tasksOnDay(d);})
             .enter().append("rect")
             .attr("class", "task")
+            .attr("fill", (task)=>{return task.color;})
             .attr("width", cellSize)
             .attr("height", (task)=>{
                 let val = task.end.valueOf() - task.start.valueOf();

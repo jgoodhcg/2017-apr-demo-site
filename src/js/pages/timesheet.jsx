@@ -9,6 +9,14 @@ export default class Timesheet extends React.Component {
     constructor() {
         super();
 
+        this.colors = {
+           "timetracker": '#ff0000',
+           "demo_site"  : '#00ff00',
+           "yoga"       : '#0000ff',
+           "dev_skills" : '#f0000f',
+           "meditation" : '#0f00f0'
+        };
+
         this.state = {
             start: "",
             end: "",
@@ -66,7 +74,8 @@ export default class Timesheet extends React.Component {
                         start: s,
                         end: e,
                         project: d.project,
-                        tags: d.tags
+                        tags: d.tags,
+                        color: this.colors[d.project]
                     }
                 );
             });
