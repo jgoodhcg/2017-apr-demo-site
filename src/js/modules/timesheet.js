@@ -122,7 +122,27 @@ export default class Calendar {
                 let height = taskDayScale(val);
                 return height;})
             .attr("x", 0)
-            .attr("y", 0);
+            .attr("y", function(task){
+                let day = new Date(d3.select(this.parentNode).datum()),
+                    all_tasks = tasksOnDay(day),
+                    prev_tasks = previousTasks(all_tasks, task),
+                    prev_tasks_total_time = cumulativeTasksTime(prev_tasks);
+
+                return taskDayScale(prev_tasks_total_time);
+            });
+
+        function cumulativeTasksTime(tasks){
+            return tasks
+                .map((task) => {
+                    return task.end.valueOf() - task.start.valueOf();})
+                .reduce((this_time, next_time)=>{
+                    return this_time + next_time;}, 0);
+        }
+
+        function previousTasks(day_tasks, task){
+            return day_tasks.filter((t) => {
+                return t.end.valueOf() < task.start.valueOf();});
+        }
 
         function tasksOnDay(day){
             let tasks = timesheet_data.filter((task)=>{
