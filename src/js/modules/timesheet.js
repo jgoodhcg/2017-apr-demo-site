@@ -60,12 +60,20 @@ export default class Calendar {
             .attr("height", height)
             .attr("class", "cal-bg");
 
+        calendar.selectAll(".day-bg")
+            .data(d3.range(0, 42))
+            .enter().append("rect")
+            .attr("class", "day-bg")
+            .attr("width", cellSize)
+            .attr("height", cellSize)
+            .attr("x", function(d){return (d%7)*cellSize;})
+            .attr("y", function(d){return (d%6)*cellSize;});
+
         var rect = calendar.selectAll(".day")
                 .data(function(d) {
-                    return d3.timeDays(new Date(d.getFullYear(),
-                                                d.getMonth(), 1),
-                                       new Date(d.getFullYear(),
-                                                d.getMonth() + 1, 1)); })
+                    return d3.timeDays(
+                        new Date(d.getFullYear(), d.getMonth(), 1),
+                        new Date(d.getFullYear(), d.getMonth() + 1, 1)); })
                 .enter().append("rect")
                 .attr("class", (d) => { return "day "+d.toString();})
                 .attr("width", cellSize)
@@ -73,54 +81,53 @@ export default class Calendar {
                 .attr("x", function(d) {
                     return  d.getDay() * cellSize; })
                 .attr("y", function(d) {
-                    let firstOfMonth =
-                            new Date(d.getFullYear(), d.getMonth(), 1);
-                    // array of start of each week this month
-                    // d3.timeWeeks is exclusive on the second date
-                    let weekStarts = d3.timeWeeks(
-                        firstOfMonth,
-                        // first day of next month
-                        new Date(d.getFullYear(), d.getMonth() + 1, 1));
-
-                    let thisWeekStart = d3.timeWeek(d);
-
-                    // index of weekStarts is the zero based week of month num
-                    // -1 means the first week but this month started
-                    // after sunday
-                    let weekOfMonth = weekStarts.findIndex(
-                        function(ws){
-                            return ws.getDate() == this.getDate();},
-                        thisWeekStart) + 1;
-
-                    if(firstOfMonth.getDay() == 0){
-                        // shift the rows for months that start on sunday
-                        weekOfMonth = weekOfMonth - 1;
-                    }
-
-                    return  weekOfMonth * cellSize; })
+                    let wom = weekOfMonth(d);
+                    return  wom * cellSize; })
                 .datum(format);
 
         // rect.append("title")
         //     .text(function(d) { return d; });
 
-        // svg.selectAll(".month")
-        //     .data(function(d) { return d3.timeMonths(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
-        //     .enter().append("path")
-        //     .attr("class", "month")
-        //     .attr("d", monthPath);
+        rect.filter((d) => {
+            let day = new Date(d);
+            let tasks_on_day = timesheet_data.filter((task)=>{
+                task.start.setHours(0,0,0,0);
+                task.end.setHours(0,0,0,0);
+                day.setHours(0,0,0,0);
+                return( task.start.valueOf() <= day.valueOf() &&
+                        day.valueOf() <= task.end.valueOf());
+            });
+            return (tasks_on_day.length > 0);
+        })
+            .attr("class", function(d) { return "day " + color(0.7); });
 
-        // rect.filter((d) => {
-        //     let day = new Date(d);
-        //     let tasks_on_day = timesheet_data.filter((task)=>{
-        //         task.start.setHours(0,0,0,0);
-        //         task.end.setHours(0,0,0,0);
-        //         day.setHours(0,0,0,0)
-        //         return( task.start.valueOf() <= day.valueOf() &&
-        //                 day.valueOf() <= task.end.valueOf());
-        //     });
-        //     return (tasks_on_day.length > 0);
-        // })
-        //     .attr("class", function(d) { return "day " + color(0.7); });
+        function weekOfMonth(d){
+            let firstOfMonth =
+                    new Date(d.getFullYear(), d.getMonth(), 1);
+            // array of start of each week this month
+            // d3.timeWeeks is exclusive on the second date
+            let weekStarts = d3.timeWeeks(
+                firstOfMonth,
+                // first day of next month
+                new Date(d.getFullYear(), d.getMonth() + 1, 1));
+
+            let thisWeekStart = d3.timeWeek(d);
+
+            // index of weekStarts is the zero based week of month num
+            // -1 means the first week but this month started
+            // after sunday
+            let weekOfMonth = weekStarts.findIndex(
+                function(ws){
+                    return ws.getDate() == this.getDate();},
+                thisWeekStart) + 1;
+
+            if(firstOfMonth.getDay() == 0){
+                // shift the rows for months that start on sunday
+                weekOfMonth = weekOfMonth - 1;
+            }
+
+            return weekOfMonth;
+        }
 
     }
 }

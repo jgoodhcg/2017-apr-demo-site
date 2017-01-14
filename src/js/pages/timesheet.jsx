@@ -89,8 +89,8 @@ export default class Timesheet extends React.Component {
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
-                                    {this.listAllProjects().map((p) => {
-                                         return (<li>{p}</li>);
+                                    {this.listAllProjects().map((p,i) => {
+                                         return (<li key={i}>{p}</li>);
                                      })}
                                 </div>
                             </div>
