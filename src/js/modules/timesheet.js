@@ -36,9 +36,9 @@ export default class Calendar {
                 return total_time_ms;});
         var min_task_time_in_day = 0;
 
-        var taskDayScale = d3.scaleLinear()
+        var DayHeatScale = d3.scaleLinear()
                 .domain([min_task_time_in_day, max_task_time_in_day])
-                .range([0, cellSize]);
+                .range([0, 1]);
 
         var svg = d3.select("#"+div_id).selectAll("svg")
                 .data(d3.timeMonths(new Date(min_epoch), new Date(max_epoch)))
@@ -121,16 +121,20 @@ export default class Calendar {
             .attr("width", cellSize)
             .attr("height", (task)=>{
                 let val = task.end.valueOf() - task.start.valueOf();
-                let height = taskDayScale(val);
+                let height = task.ratio * cellSize;
                 return height;})
             .attr("x", 0)
             .attr("y", function(task){
                 let day = new Date(d3.select(this.parentNode).datum()),
                     all_tasks = tasksOnDay(day),
                     prev_tasks = previousTasks(all_tasks, task),
-                    prev_tasks_total_time = cumulativeTasksTime(prev_tasks);
+                    // prev_tasks_total_time = cumulativeTasksTime(prev_tasks);
+                    cumulative_prev_task_ratio = prev_tasks.reduce((a,b) => {
+                        return (a instanceof Object ? a.ratio : a)
+                            + b.ratio;
+                    },0);
 
-                return taskDayScale(prev_tasks_total_time);
+                return cumulative_prev_task_ratio * cellSize;
             });
 
         function cumulativeTasksTime(tasks){
@@ -147,18 +151,33 @@ export default class Calendar {
         }
 
         function tasksOnDay(day){
-            let tasks = timesheet_data.filter((task)=>{
-                let start = new Date(task.start);
-                let end = new Date(task.end);
-                let day_copy = new Date(day);
-                start.setHours(0,0,0,0);
-                end.setHours(0,0,0,0);
-                day_copy.setHours(0,0,0,0);
-                return( start.valueOf() <= day_copy.valueOf() &&
-                        day_copy.valueOf() <= end.valueOf());
+            let tasks = timesheet_data
+                    .filter((task)=>{
+                        // get all the tasks on this day
+                        let start = new Date(task.start);
+                        let end = new Date(task.end);
+                        let day_copy = new Date(day);
+                        start.setHours(0,0,0,0);
+                        end.setHours(0,0,0,0);
+                        day_copy.setHours(0,0,0,0);
+                        return( start.valueOf() <= day_copy.valueOf() &&
+                                day_copy.valueOf() <= end.valueOf());
+                    });
+
+            let tasks_total_time_ms = tasks.reduce((a, b) => {
+                let a_time_ms = a instanceof Date ?
+                        a.end.valueOf() - a.start.valueOf() : a;
+                let b_time_ms = b.end.valueOf() - b.start.valueOf();
+                return a_time_ms + b_time_ms;
+            }, 0);
+
+            let tasks_with_ratios = tasks.map((task)=>{
+                let task_time_ms = task.end.valueOf() - task.start.valueOf();
+                return Object.assign(
+                    {}, task, {ratio: (task_time_ms/tasks_total_time_ms)});
             });
 
-            return tasks;
+            return tasks_with_ratios;
         }
 
         function weekOfMonth(d){
