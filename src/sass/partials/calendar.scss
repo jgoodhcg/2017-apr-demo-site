@@ -1,15 +1,14 @@
-$cal-00: #e2e1e0;
-$cal-01: #fcfdfd;
-$cal-02: #dcdcdc;
-$cal-03: #cccdcd;
+$cal-body-bg: #e2e1e0;
+$cal-dark-body-bg: #d2d1d0;
+$cal-off-white: #fcfdfd;
 
-.day{fill: $cal-01; stroke: $cal-00;}
+.day{fill: $cal-dark-body-bg; stroke: $cal-off-white;}
 
-.day-bg{fill: $cal-02; stroke: $cal-00;}
+.day-bg{fill: $cal-body-bg; stroke: $cal-off-white;}
 
-.cal-bg {fill: $cal-03;}
+.cal-bg {fill: $cal-body-bg;}
 
-.svg-bg {fill: $cal-03;}
+.svg-bg {fill: $cal-body-bg;}
 
 #calendar{svg{margin: 0;}}
 

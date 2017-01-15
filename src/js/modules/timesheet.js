@@ -36,7 +36,7 @@ export default class Calendar {
                 return total_time_ms;});
         var min_task_time_in_day = 0;
 
-        var DayHeatScale = d3.scaleLinear()
+        var dayHeatScale = d3.scaleLinear()
                 .domain([min_task_time_in_day, max_task_time_in_day])
                 .range([0, 1]);
 
@@ -128,13 +128,19 @@ export default class Calendar {
                 let day = new Date(d3.select(this.parentNode).datum()),
                     all_tasks = tasksOnDay(day),
                     prev_tasks = previousTasks(all_tasks, task),
-                    // prev_tasks_total_time = cumulativeTasksTime(prev_tasks);
                     cumulative_prev_task_ratio = prev_tasks.reduce((a,b) => {
                         return (a instanceof Object ? a.ratio : a)
                             + b.ratio;
                     },0);
 
                 return cumulative_prev_task_ratio * cellSize;
+            })
+            .attr("opacity", function(){
+                let day = new Date(d3.select(this.parentNode).datum()),
+                    all_tasks = tasksOnDay(day),
+                    tasks_time_ms = cumulativeTasksTime(all_tasks);
+
+                return dayHeatScale(tasks_time_ms);
             });
 
         function cumulativeTasksTime(tasks){
