@@ -2,7 +2,6 @@ import * as d3 from "d3";
 
 export default class Calendar {
     constructor(div_id, timesheet_data, cal_width) {
-        console.log(cal_width);
         var margin = {
             top: 20,
             bottom: 0,

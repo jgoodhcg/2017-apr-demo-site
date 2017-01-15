@@ -16,7 +16,7 @@
     - [x] display stacked intervals as a ratio of the total time spent in the day
     - [x] day opacity scaled to all other days cumulative time spent
     - [ ] pretty up and alternate color of month headers
-    - [ ] true responsivenes 
+    - [ ] true responsivenes (figure out why navigating changes sizes derived)
     - [ ] day selection
     - [ ] parse sv into JSON
     - [ ] display tags
@@ -27,5 +27,6 @@
     - [ ] restyle close button on instructions
 - [ ] redo project icons in kursgesagt style/colors
   - [ ] add animation to hover/click on Name + pointer change
-- [ ] add google analytics
+- [ ] google analytics
+- [ ] project descriptions and bio
 

@@ -22,12 +22,39 @@ export default class Timesheet extends React.Component {
             start: "",
             end: "",
             projects: new Set(),
-            tags: new Set()
+            tags: new Set(),
+            calendar_width: 0,
+            calendar: null,
+            data: null
         };
+
+        window.addEventListener("resize", (e) => {
+            let calendar_width = this.calcCalendarWidth();
+            this.changeState({
+                calendar_width,
+                calendar: new Calendar(
+                    "calendar", this.state.data, calendar_width)});});
+    }
+
+    calcCalendarWidth(){
+        let viewport_width =
+            Math.min(document.documentElement.clientWidth,
+                     window.innerWidth || 0);
+        let calendar_container_width = viewport_width - 20;
+        let calendar_per_row = 6;
+
+        if(viewport_width <= 1200){calendar_per_row = 4;}
+        if(viewport_width <= 1024){calendar_per_row = 2;}
+        if(viewport_width <= 768){calendar_per_row = 1;}
+
+        let calendar_width = Math.floor(calendar_container_width/calendar_per_row);
+        return calendar_width;
     }
 
     changeState(keyval){
-        this.setState(Object.assign(this.state, keyval));
+        let newState = Object.assign({}, this.state, keyval); // immutable because why not
+        this.setState(newState);
+        console.log(newState);
     }
 
     setStart(s_date){
@@ -65,38 +92,29 @@ export default class Timesheet extends React.Component {
     }
 
     componentDidMount(){
-        let viewport_width =
-            Math.min(document.documentElement.clientWidth,
-                     window.innerWidth || 0);
-        let calendar_container_width = viewport_width - 20;
-        let calendar_per_row = 6;
-
-        if(viewport_width <= 1200){calendar_per_row = 4;}
-        if(viewport_width <= 1024){calendar_per_row = 2;}
-        if(viewport_width <= 768){calendar_per_row = 1;}
-
-        let calendar_width = Math.floor(calendar_container_width/calendar_per_row);
-
-        console.log(viewport_width, calendar_container_width, calendar_per_row, calendar_width);
-
-
         let data = timesheet_data.map(
             (d) => {
                 let s = new Date(parseInt(d.start*1000));
                 let random = Math.floor((Math.random() * 3600000) + 60000);
                 let e = new Date(s.valueOf() + random);
                 return(
-                    {
-                        start: s,
-                        end: e,
-                        project: d.project,
-                        tags: d.tags,
-                        color: this.colors[d.project]
-                    }
-                );
-            });
+                    {start: s,
+                     end: e,
+                     project: d.project,
+                     tags: d.tags,
+                     color: this.colors[d.project]});});
 
-        let cal = new Calendar("calendar", data, calendar_width);
+        let calendar_width = this.calcCalendarWidth();
+
+        this.changeState({
+            data,
+            calendar_width,
+            calendar: new Calendar(
+                "calendar", data, calendar_width)});
+    }
+
+    componentDidUpdate(){
+        // DO NOT CHANGE STATE HERE
     }
 
     render() {
