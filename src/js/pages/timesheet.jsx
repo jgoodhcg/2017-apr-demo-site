@@ -14,7 +14,8 @@ export default class Timesheet extends React.Component {
            "demo_site"  : '#9B351E',
            "yoga"       : '#0D308E',
            "dev_skills" : '#3D5B11',
-           "meditation" : '#85DA09'
+            /* "meditation" : '#85DA09'*/
+           "meditation" : '#9B7335'
         };
 
         this.state = {
@@ -64,7 +65,20 @@ export default class Timesheet extends React.Component {
     }
 
     componentDidMount(){
-        let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        let viewport_width =
+            Math.min(document.documentElement.clientWidth,
+                     window.innerWidth || 0);
+        let calendar_container_width = viewport_width - 20;
+        let calendar_per_row = 6;
+
+        if(viewport_width <= 1200){calendar_per_row = 4;}
+        if(viewport_width <= 1024){calendar_per_row = 2;}
+        if(viewport_width <= 768){calendar_per_row = 1;}
+
+        let calendar_width = Math.floor(calendar_container_width/calendar_per_row);
+
+        console.log(viewport_width, calendar_container_width, calendar_per_row, calendar_width);
+
 
         let data = timesheet_data.map(
             (d) => {
@@ -82,12 +96,12 @@ export default class Timesheet extends React.Component {
                 );
             });
 
-        let cal = new Calendar("calendar", data);
+        let cal = new Calendar("calendar", data, calendar_width);
     }
 
     render() {
         return(
-            <div class="container-fluid">
+            <div id="timesheet-page" class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="card card-1">
@@ -112,7 +126,7 @@ export default class Timesheet extends React.Component {
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <div id="calendar" class="card card-1"></div>
+                        <div id="calendar" class=""></div>
                     </div>
                 </div>
             </div>
