@@ -11,15 +11,16 @@
 - [x] import d3
 - [ ] new project pages
   - [ ] timesheets
-    - [ ] generic calendars
-      - [x] display calendar with grid
-      - [ ] pretty up margin so that there is a space for info row at top of calendar
-    - [ ] time interval selection
+    - [x] display calendar with grid
+    - [x] pretty up margin so that there is a space for info row at top of calendar
+    - [x] display stacked intervals as a ratio of the total time spent in the day
+    - [x] day opacity scaled to all other days cumulative time spent
+    - [ ] pretty up and alternate color of month headers
+    - [ ] true responsivenes 
+    - [ ] day selection
     - [ ] parse sv into JSON
-    - [ ] display stacked bar graph
     - [ ] display tags
     - [ ] filter projects + tags
-    - [ ] day selection
   - [ ] excercise data
   - [ ] chorechart
   - [ ] clicky
