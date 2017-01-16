@@ -39,6 +39,7 @@ export default class Calendar {
                 .domain([min_task_time_in_day, max_task_time_in_day])
                 .range([0, 1]);
 
+        d3.select("#"+div_id).selectAll("svg").remove();
         var svg = d3.select("#"+div_id).selectAll("svg")
                 .data(d3.timeMonths(new Date(min_epoch), new Date(max_epoch)))
                 .enter().append("svg")
