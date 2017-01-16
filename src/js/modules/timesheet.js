@@ -220,4 +220,15 @@ export default class Calendar {
         }
 
     }
+
+    setInterval(start, end){
+        // determine new min/max epoch
+        // reset range on svg's
+    }
+
+    filterProjects(projects){
+        // replace time sheet data with this.timesheet_data
+        // filter this.timesheet_data
+        // use .call() or something to force re-render
+    }
 }

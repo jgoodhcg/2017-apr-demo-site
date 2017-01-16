@@ -15,12 +15,13 @@
     - [x] pretty up margin so that there is a space for info row at top of calendar
     - [x] display stacked intervals as a ratio of the total time spent in the day
     - [x] day opacity scaled to all other days cumulative time spent
-    - [ ] pretty up and alternate color of month headers
-    - [ ] true responsivenes (figure out why navigating changes sizes derived)
-    - [ ] day selection
-    - [ ] parse sv into JSON
-    - [ ] display tags
+    - [x] pretty up and alternate color of month headers
+    - [x] true responsivenes (figure out why navigating changes sizes derived)
+    - [ ] interval selection
     - [ ] filter projects + tags
+    - [ ] display tags
+    - [ ] day selection
+    - [ ] parse csv into JSON
   - [ ] excercise data
   - [ ] chorechart
   - [ ] clicky
