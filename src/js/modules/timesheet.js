@@ -44,13 +44,14 @@ export default class Calendar {
                 .data(d3.timeMonths(new Date(min_epoch), new Date(max_epoch)))
                 .enter().append("svg")
                 .attr("width", width + (margin.left + margin.right))
-                .attr("height", height + (margin.top + margin.bottom + margin.header))
-                .attr("class", "RdYlGn");
+                .attr("height", height + (margin.top + margin.bottom + margin.header));
 
         svg.append("rect")
-                .attr("width", width + (margin.left + margin.right))
-                .attr("height", height + (margin.top + margin.bottom + margin.header))
-                .attr("class", "svg-bg");
+            .attr("width", width + (margin.left + margin.right))
+            .attr("height", height + (margin.top + margin.bottom + margin.header))
+            .attr("class", (d) => {
+                return "svg-bg "+(d.getMonth()%2==0? "odd" : "even");
+            });
 
         // picture text like bottom left origin
         // that grows downward its font-size
@@ -60,10 +61,14 @@ export default class Calendar {
                   "translate(" +
                   (margin.left + "," +
                    (margin.top) + ")"))
-            .attr("x", 0)
+            .attr("x", width/2)
+            .attr("text-anchor", "middle")
             .attr("y", 18)
             .attr("font-size", "18")
-            .text(function(d) { return (d.getMonth()+1) + " - " + d.getFullYear(); });
+            .text(function(d) {
+                let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                return monthNames[d.getMonth()] + " - " + d.getFullYear(); });
 
         var calendar = svg.append("g")
                 .attr("transform",
@@ -71,21 +76,21 @@ export default class Calendar {
                       (margin.left + "," +
                        (margin.top + margin.header) + ")"));
 
-        // calendar background
-        calendar.append("rect")
-            .attr("width", width)
-            .attr("height", height)
-            .attr("class", "cal-bg");
+        // // calendar background
+        // calendar.append("rect")
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .attr("class", "cal-bg");
 
-        // inactive/background days
-        calendar.selectAll(".day-bg")
-            .data(d3.range(0, 42))
-            .enter().append("rect")
-            .attr("class", "day-bg")
-            .attr("width", cellSize)
-            .attr("height", cellSize)
-            .attr("x", function(d){return (d%7)*cellSize;})
-            .attr("y", function(d){return (d%6)*cellSize;});
+        // // inactive/background days
+        // calendar.selectAll(".day-bg")
+        //     .data(d3.range(0, 42))
+        //     .enter().append("rect")
+        //     .attr("class", "day-bg")
+        //     .attr("width", cellSize)
+        //     .attr("height", cellSize)
+        //     .attr("x", function(d){return (d%7)*cellSize;})
+        //     .attr("y", function(d){return (d%6)*cellSize;});
 
         // active days
         var active = calendar.selectAll(".day-group")

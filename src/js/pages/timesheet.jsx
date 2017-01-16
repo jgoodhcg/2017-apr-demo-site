@@ -40,7 +40,7 @@ export default class Timesheet extends React.Component {
         let viewport_width =
             Math.min(document.documentElement.clientWidth,
                      window.innerWidth || 0);
-        let calendar_container_width = viewport_width - 20;
+        let calendar_container_width = viewport_width - 40;
         let calendar_per_row = 6;
 
         if(viewport_width <= 1200){calendar_per_row = 4;}
@@ -144,7 +144,7 @@ export default class Timesheet extends React.Component {
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <div id="calendar" class=""></div>
+                        <div id="calendar" class="card card-1"></div>
                     </div>
                 </div>
             </div>
