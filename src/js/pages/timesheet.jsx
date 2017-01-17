@@ -14,7 +14,6 @@ export default class Timesheet extends React.Component {
            "demo_site"  : '#9B351E',
            "yoga"       : '#0D308E',
            "dev_skills" : '#3D5B11',
-            /* "meditation" : '#85DA09'*/
            "meditation" : '#9B7335'
         };
 
@@ -66,13 +65,13 @@ export default class Timesheet extends React.Component {
     }
 
     addProject(project){
-        let current_projects = this.state.projects;
-        this.changeState({projects: new Set([...current_projects, project])});
+        this.state.projects.add(project);
+        this.changeState({projects: this.state.projects});
     }
 
     removeProject(project){
         this.state.projects.delete(project);
-        this.changeState({projects: this.state.projeccts});
+        this.changeState({projects: this.state.projects});
     }
 
     addTag(tag){
@@ -117,6 +116,47 @@ export default class Timesheet extends React.Component {
         // DO NOT CHANGE STATE HERE
     }
 
+    intervalChange(e){
+        // TODO error control here
+        // make sure to swap "-" for "/" when comparing Dates
+        console.log(e.target.value);
+        console.log(e.target.id);
+        switch(e.target.id){
+            case "start":
+                this.setStart(e.target.value);
+                break;
+            case "end":
+                this.setEnd(e.target.value);
+                break;
+        }
+    }
+
+    projectButton(project, i){
+        let selected = this.state.projects.has(project),
+            color = this.colors[project],
+            tmp = {backgroundColor: color,
+                   opacity: "0.45",
+                   color: "white"},
+            styleObj = selected ?
+                       Object.assign(tmp, {opacity: "1"}) : tmp;
+
+        return (
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2"
+                 key={i}>
+                <input
+                    type="button"
+                    class={(selected? "active" : "")+" button"}
+                    style={styleObj}
+                    value={project}
+                    onClick={selected?
+                             (e)=>{this.removeProject(project);}
+                        :
+                                 (e)=>{this.addProject(project);}}>
+                </input>
+            </div>
+        );
+    }
+
     render() {
         return(
             <div id="timesheet-page" class="container-fluid">
@@ -124,19 +164,27 @@ export default class Timesheet extends React.Component {
                     <div class="col-xs-12">
                         <div class="card card-1">
                             <div class="row">
-                                <div id="interval" class="col-xs-12 col-sm-6">
-                                    <input id="start" type="date"></input>
+                                <div class="interval col-xs-12 col-sm-6">
+                                    <input
+                                        id="start"
+                                        type="date"
+                                        onChange={this.intervalChange.bind(this)}
+                                    ></input>
                                 </div>
-                                <div class="col-xs-12 col-sm-6">
-                                    <input id="end" type="date"></input>
+                                <div class="interval col-xs-12 col-sm-6">
+                                    <input
+                                        id="end"
+                                        type="date"
+                                        onChange={this.intervalChange.bind(this)}
+                                    ></input>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
-                                    {this.listAllProjects().map((p,i) => {
-                                         return (
-                                             <input type="button" key={i} value={p}></input>);
-                                     })}
+                                    <div class="row">
+                                        {this.listAllProjects().map(
+                                             this.projectButton.bind(this))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
