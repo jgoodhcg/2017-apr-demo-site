@@ -9,6 +9,7 @@ import Index from "./pages/index.jsx";
 import Experience from "./pages/experience.jsx";
 import Clicky from "./pages/clicky-thing.jsx";
 import Timesheet from "./pages/timesheet.jsx";
+import ChartPage from "./pages/chartpage.jsx";
 
 var metaTag=document.createElement('meta');
 metaTag.name = "viewport";
@@ -28,6 +29,7 @@ ReactDOM.render(
             <Route path="experience" name="experience" component={Experience}></Route>
             <Route path="clicky" name="clicky" component={Clicky}></Route>
             <Route path="timesheet" name="timesheet" component={Timesheet}></Route>
+            <Route path="chart" name="chart" component={ChartPage}></Route>
         </Route>
     </Router>, app);
 
