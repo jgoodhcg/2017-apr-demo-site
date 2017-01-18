@@ -14,7 +14,11 @@
             width: 100%;
             font-size: 1em;
             border: none;
-            border-bottom: 1px solid grey;
+            border-bottom: 0.1em solid grey;
+
+            &.error{
+                border: 0.15em solid red;
+            }
 
         }
     }

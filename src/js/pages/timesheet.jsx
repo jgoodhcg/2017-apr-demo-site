@@ -18,8 +18,9 @@ export default class Timesheet extends React.Component {
         };
 
         this.state = {
-            start: "",
-            end: "",
+            start: null,
+            end: null,
+            intervalError: false,
             projects: new Set(),
             tags: new Set(),
             calendar_width: 0,
@@ -61,7 +62,8 @@ export default class Timesheet extends React.Component {
     }
 
     setEnd(e_date){
-        this.changeState({end: e_date});
+        this.state.calendar.setInterval(this.state.start, e_date);
+        this.changeState({end: e_date, intervalError: false});
     }
 
     addProject(project){
@@ -119,14 +121,17 @@ export default class Timesheet extends React.Component {
     intervalChange(e){
         // TODO error control here
         // make sure to swap "-" for "/" when comparing Dates
-        console.log(e.target.value);
-        console.log(e.target.id);
+        let date = new Date(e.target.value.replace(/-/g, "/"));
         switch(e.target.id){
             case "start":
-                this.setStart(e.target.value);
+                this.setStart(date);
                 break;
             case "end":
-                this.setEnd(e.target.value);
+                if(this.state.start.valueOf() < date.valueOf()){
+                    this.setEnd(date);
+                }else{
+                    this.changeState({intervalError: true});
+                }
                 break;
         }
     }
@@ -169,6 +174,7 @@ export default class Timesheet extends React.Component {
                                         id="start"
                                         type="date"
                                         onChange={this.intervalChange.bind(this)}
+                                        class={this.state.intervalError? "error" : ""}
                                     ></input>
                                 </div>
                                 <div class="interval col-xs-12 col-sm-6">
@@ -176,6 +182,7 @@ export default class Timesheet extends React.Component {
                                         id="end"
                                         type="date"
                                         onChange={this.intervalChange.bind(this)}
+                                        class={this.state.intervalError? "error" : ""}
                                     ></input>
                                 </div>
                             </div>

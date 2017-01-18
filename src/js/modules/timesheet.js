@@ -2,6 +2,8 @@ import * as d3 from "d3";
 
 export default class Calendar {
     constructor(div_id, timesheet_data, cal_width) {
+        this.timesheet_data = timesheet_data;
+        this.div_id = div_id;
         var margin = {
             top: 20,
             bottom: 0,
@@ -21,13 +23,13 @@ export default class Calendar {
                 .domain([0, 1])
                 .range(d3.range(11).map(function(d) { return "q" + d + "-11"; }));
 
-        var max_epoch = d3.max(timesheet_data, (d)=>{ return d.end.valueOf();});
-        var min_epoch = d3.min(timesheet_data, (d)=>{ return d.start.valueOf();});
+        var max_epoch = d3.max(this.timesheet_data, (d)=>{ return d.end.valueOf();});
+        var min_epoch = d3.min(this.timesheet_data, (d)=>{ return d.start.valueOf();});
 
         var max_task_time_in_day = d3.max(
             d3.timeDays(new Date(min_epoch), new Date(max_epoch)),
             (d)=>{
-                let tasks_on_day = tasksOnDay(d);
+                let tasks_on_day = this.tasksOnDay(d);
                 let total_time_ms = 0;
                 tasks_on_day.forEach((t)=>{
                     let milliseconds = t.end.valueOf() - t.start.valueOf();
@@ -119,9 +121,10 @@ export default class Calendar {
 
         // render task intervals over active days
         active.selectAll(".task")
-            .data((d)=>{return tasksOnDay(d);})
+            .data((d)=>{return this.tasksOnDay(d);})
             .enter().append("rect")
             .attr("class", "task")
+            .attr("id", (d,i)=>{return d.start.valueOf()+"-"+i;})
             .attr("fill", (task)=>{return task.color;})
             .attr("width", cellSize)
             .attr("height", (task)=>{
@@ -129,9 +132,10 @@ export default class Calendar {
                 let height = task.ratio * cellSize;
                 return height;})
             .attr("x", 0)
-            .attr("y", function(task){
-                let day = new Date(d3.select(this.parentNode).datum()),
-                    all_tasks = tasksOnDay(day),
+            .attr("y", (task,i) => {
+                let this_node = document.getElementById(task.start.valueOf()+"-"+i),
+                    day = new Date(d3.select(this_node.parentNode).datum()),
+                    all_tasks = this.tasksOnDay(day),
                     prev_tasks = previousTasks(all_tasks, task),
                     cumulative_prev_task_ratio = prev_tasks.reduce((a,b) => {
                         return (a instanceof Object ? a.ratio : a)
@@ -140,9 +144,10 @@ export default class Calendar {
 
                 return cumulative_prev_task_ratio * cellSize;
             })
-            .attr("opacity", function(){
-                let day = new Date(d3.select(this.parentNode).datum()),
-                    all_tasks = tasksOnDay(day),
+            .attr("opacity", (task,i)=>{
+                let this_node = document.getElementById(task.start.valueOf()+"-"+i),
+                    day = new Date(d3.select(this_node.parentNode).datum()),
+                    all_tasks = this.tasksOnDay(day),
                     tasks_time_ms = cumulativeTasksTime(all_tasks);
 
                 return dayHeatScale(tasks_time_ms);
@@ -160,36 +165,8 @@ export default class Calendar {
             return day_tasks.filter((t) => {
                 return t.end.valueOf() < task.start.valueOf();});
         }
+        
 
-        function tasksOnDay(day){
-            let tasks = timesheet_data
-                    .filter((task)=>{
-                        // get all the tasks on this day
-                        let start = new Date(task.start);
-                        let end = new Date(task.end);
-                        let day_copy = new Date(day);
-                        start.setHours(0,0,0,0);
-                        end.setHours(0,0,0,0);
-                        day_copy.setHours(0,0,0,0);
-                        return( start.valueOf() <= day_copy.valueOf() &&
-                                day_copy.valueOf() <= end.valueOf());
-                    });
-
-            let tasks_total_time_ms = tasks.reduce((a, b) => {
-                let a_time_ms = a instanceof Date ?
-                        a.end.valueOf() - a.start.valueOf() : a;
-                let b_time_ms = b.end.valueOf() - b.start.valueOf();
-                return a_time_ms + b_time_ms;
-            }, 0);
-
-            let tasks_with_ratios = tasks.map((task)=>{
-                let task_time_ms = task.end.valueOf() - task.start.valueOf();
-                return Object.assign(
-                    {}, task, {ratio: (task_time_ms/tasks_total_time_ms)});
-            });
-
-            return tasks_with_ratios;
-        }
 
         function weekOfMonth(d){
             let firstOfMonth =
@@ -218,17 +195,51 @@ export default class Calendar {
 
             return weekOfMonth;
         }
+    }
 
+    tasksOnDay(day){
+        let tasks = this.timesheet_data
+                .filter((task)=>{
+                    // get all the tasks on this day
+                    let start = new Date(task.start);
+                    let end = new Date(task.end);
+                    let day_copy = new Date(day);
+                    start.setHours(0,0,0,0);
+                    end.setHours(0,0,0,0);
+                    day_copy.setHours(0,0,0,0);
+                    return( start.valueOf() <= day_copy.valueOf() &&
+                            day_copy.valueOf() <= end.valueOf());
+                });
+
+        let tasks_total_time_ms = tasks.reduce((a, b) => {
+            let a_time_ms = a instanceof Date ?
+                    a.end.valueOf() - a.start.valueOf() : a;
+            let b_time_ms = b.end.valueOf() - b.start.valueOf();
+            return a_time_ms + b_time_ms;
+        }, 0);
+
+        let tasks_with_ratios = tasks.map((task)=>{
+            let task_time_ms = task.end.valueOf() - task.start.valueOf();
+            return Object.assign(
+                {}, task, {ratio: (task_time_ms/tasks_total_time_ms)});
+        });
+
+        return tasks_with_ratios;
     }
 
     setInterval(start, end){
         // determine new min/max epoch
         // reset range on svg's
+
+        let max_epoch = end.valueOf();
+        let min_epoch = start.valueOf();
+        d3.select("#"+this.div_id).selectAll("svg")
+            .data(d3.timeMonths(new Date(min_epoch), new Date(max_epoch)));
     }
 
     filterProjects(projects){
-        // replace time sheet data with this.timesheet_data
-        // filter this.timesheet_data
+        // replace time sheet data with this.this.timesheet_data
+        // filter this.this.timesheet_data
         // use .call() or something to force re-render
     }
 }
