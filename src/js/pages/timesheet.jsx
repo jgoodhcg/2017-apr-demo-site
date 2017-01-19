@@ -19,21 +19,54 @@ export default class Timesheet extends React.Component {
            "meditation" : '#9B7335'
         };
 
-        let data = _.groupBy(
-            timesheet_data.map(
-                (d) => {
-                    let s = new Date(parseInt(d.start*1000));
-                    let random = Math.floor((Math.random() * 3600000) + 60000);
-                    let e = new Date(s.valueOf() + random);
-                    return(
-                        {start: s,
-                         end: e,
-                         project: d.project,
-                         tags: d.tags,
-                         color: this.colors[d.project]});}),
-            (entry)=>{
-                return entry.end.getMonth()+"-"+entry.end.getFullYear();}
-        );
+        /*
+         * {mm-yyyy: {
+         *     dd: [{start: Date,
+         *           end: Date,
+         *           project: Str,
+         *           tags: [Str],
+         *           color: Str}]}}
+         */
+
+        let data = _(timesheet_data)
+                    .map((entry) => {
+                        let s = new Date(parseInt(entry.start*1000));
+                        let ms_in_day = 24 * 60 * 60 * 1000;
+                        let random_duration =
+                            Math.random() * (ms_in_day - 60000)
+                            + 60000; // between 1 minute and 24 hours
+                        let e = new Date(s.valueOf() + random_duration);
+
+                        let const_part = {project: entry.project,
+                                          tags: entry.tags,
+                                          color: this.colors[entry.project]};
+
+                        // split the entry if it spans 2 days
+                        if(s.getDate() != e.getDate()){
+                            return [
+                                Object.assign(
+                                    {start: s,
+                                     end: new Date(new Date(s).setHours(23, 59, 59, 999))},
+                                    const_part),
+                                Object.assign(
+                                    {start: new Date(new Date(e).setHours(0,0,0,0)),
+                                     end: e},
+                                    const_part)
+                            ];
+                        }else{
+                            return [Object.assign({start: s, end: e}, const_part)];}})
+                    .flattenDeep()
+                    .groupBy((entry)=>{
+                        return entry.end.getFullYear()+"-"+entry.end.getMonth();})
+                    .mapValues((month)=>{
+                        return _.groupBy(month, (entry)=>{
+                            return entry.start.getFullYear()+
+                                   "-"+entry.start.getMonth()+
+                                   "-"+entry.start.getDate();});
+                    })
+                    .value();
+
+        console.log(data);
 
         this.state = {
             start: null,
@@ -160,6 +193,10 @@ export default class Timesheet extends React.Component {
                 </svg>
             </div>
         );
+    }
+
+    day(intervals, day){
+        console.log("whatever");
     }
 
     render() {
