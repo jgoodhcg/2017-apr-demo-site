@@ -4,6 +4,8 @@ import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 
 import Calendar from "./../modules/timesheet.js";
 import { timesheet_data } from "./../modules/timesheet_mock.js";
+import _ from "lodash";
+import * as d3 from "d3";
 
 export default class Timesheet extends React.Component {
     constructor() {
@@ -17,38 +19,30 @@ export default class Timesheet extends React.Component {
            "meditation" : '#9B7335'
         };
 
+        let data = _.groupBy(
+            timesheet_data.map(
+                (d) => {
+                    let s = new Date(parseInt(d.start*1000));
+                    let random = Math.floor((Math.random() * 3600000) + 60000);
+                    let e = new Date(s.valueOf() + random);
+                    return(
+                        {start: s,
+                         end: e,
+                         project: d.project,
+                         tags: d.tags,
+                         color: this.colors[d.project]});}),
+            (entry)=>{
+                return entry.end.getMonth()+"-"+entry.end.getFullYear();}
+        );
+
         this.state = {
             start: null,
             end: null,
             intervalError: false,
             projects: new Set(),
             tags: new Set(),
-            calendar_width: 0,
-            calendar: null,
-            data: null
+            data
         };
-
-        window.addEventListener("resize", (e) => {
-            let calendar_width = this.calcCalendarWidth();
-            this.changeState({
-                calendar_width,
-                calendar: new Calendar(
-                    "calendar", this.state.data, calendar_width)});});
-    }
-
-    calcCalendarWidth(){
-        let viewport_width =
-            Math.min(document.documentElement.clientWidth,
-                     window.innerWidth || 0);
-        let calendar_container_width = viewport_width - 40;
-        let calendar_per_row = 6;
-
-        if(viewport_width <= 1200){calendar_per_row = 4;}
-        if(viewport_width <= 1024){calendar_per_row = 2;}
-        if(viewport_width <= 768){calendar_per_row = 1;}
-
-        let calendar_width = Math.floor(calendar_container_width/calendar_per_row);
-        return calendar_width;
     }
 
     changeState(keyval){
@@ -93,25 +87,6 @@ export default class Timesheet extends React.Component {
     }
 
     componentDidMount(){
-        let data = timesheet_data.map(
-            (d) => {
-                let s = new Date(parseInt(d.start*1000));
-                let random = Math.floor((Math.random() * 3600000) + 60000);
-                let e = new Date(s.valueOf() + random);
-                return(
-                    {start: s,
-                     end: e,
-                     project: d.project,
-                     tags: d.tags,
-                     color: this.colors[d.project]});});
-
-        let calendar_width = this.calcCalendarWidth();
-
-        this.changeState({
-            data,
-            calendar_width,
-            calendar: new Calendar(
-                "calendar", data, calendar_width)});
     }
 
     componentDidUpdate(){
@@ -162,6 +137,31 @@ export default class Timesheet extends React.Component {
         );
     }
 
+    month(tasks, month_year){
+        let date_arr = month_year
+            .split("-")
+            .map((str)=>{return parseInt(str);});
+
+        return (
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1"
+                 key={month_year}>
+                <svg
+                    class="month"
+                    viewBox="0 0 100 100"
+                    width="100%">
+                    <rect
+                        width="100%"
+                        height="100%"
+                        fill="steelblue"
+                        opacity="0.5">
+                    </rect>
+                    <g class="month-days">
+                    </g>
+                </svg>
+            </div>
+        );
+    }
+
     render() {
         return(
             <div id="timesheet-page" class="container-fluid">
@@ -199,7 +199,11 @@ export default class Timesheet extends React.Component {
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <div id="calendar" class="card card-1"></div>
+                        <div class="card card-1">
+                            <div class="row">
+                                {_.map(this.state.data, this.month.bind(this))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
