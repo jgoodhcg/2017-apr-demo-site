@@ -170,14 +170,14 @@ export default class Timesheet extends React.Component {
         );
     }
 
-    month(tasks, month_year){
-        let date_arr = month_year
+    month(month_obj, year_month_key){
+        let date_arr = year_month_key
             .split("-")
             .map((str)=>{return parseInt(str);});
 
         return (
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1"
-                 key={month_year}>
+                 key={year_month_key}>
                 <svg
                     class="month"
                     viewBox="0 0 100 100"
