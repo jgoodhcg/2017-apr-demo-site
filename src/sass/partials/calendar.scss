@@ -2,20 +2,6 @@ $cal-body-bg: #e2e1e0;
 $cal-dark-body-bg: #c0c0c0;
 $cal-off-white: #f9f9f9;
 
-.day{
-    fill: $cal-off-white;
-    stroke: $cal-body-bg;}
 
-/* .day-bg{fill: $cal-body-bg;} */
-/* .cal-bg {fill: $cal-body-bg;} */
-
-.svg-bg {
-    fill: $cal-dark-body-bg;
-    &.odd{ fill: $cal-body-bg;}}
-
-#calendar{svg{margin: 0;}}
-
-#calendar-page{
-}
 
 

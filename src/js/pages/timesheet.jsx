@@ -57,11 +57,11 @@ export default class Timesheet extends React.Component {
                             return [Object.assign({start: s, end: e}, const_part)];}})
                     .flattenDeep()
                     .groupBy((entry)=>{
-                        return entry.end.getFullYear()+"-"+entry.end.getMonth();})
+                        return entry.end.getFullYear()+"-"+(entry.end.getMonth()+1);})
                     .mapValues((month)=>{
                         return _.groupBy(month, (entry)=>{
                             return entry.start.getFullYear()+
-                                   "-"+entry.start.getMonth()+
+                                   "-"+(entry.start.getMonth()+1)+
                                    "-"+entry.start.getDate();});
                     })
                     .value();
@@ -174,30 +174,92 @@ export default class Timesheet extends React.Component {
         let date_arr = year_month_key
             .split("-")
             .map((str)=>{return parseInt(str);});
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let day_fn = (n,i)=>{return this.day(year_month_key, n);};
 
         return (
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1"
                  key={year_month_key}>
+                {date_arr[0]+" "+months[date_arr[1]]}
                 <svg
                     class="month"
                     viewBox="0 0 100 100"
                     width="100%">
                     <rect
-                        width="100%"
-                        height="100%"
-                        fill="steelblue"
-                        opacity="0.5">
+                        class="month-bg"
+                        width="100"
+                        height="100"
+                        fill="steelblue">
                     </rect>
-                    <g class="month-days">
+                    <g class="days">
+                        {d3.range(0,42).map(day_fn)}
                     </g>
                 </svg>
             </div>
         );
     }
 
-    day(intervals, day){
-        console.log("whatever");
+    day(year_month_key, day){
+
+        let width = 100/7,
+            height = 100/6;
+
+        let kebab_day = year_month_key+"-"+day,
+            date_obj = new Date(kebab_day.replace(/-/g,"/")),
+            valid_date = !isNaN(date_obj.valueOf()),
+            tasks = this.state.data[year_month_key][kebab_day];
+
+        if(valid_date){
+            let x = date_obj.getDay() * width,
+                y = this.weekOfMonth(date_obj) * height;
+
+            return(
+                <g class="day"
+                   transform={"translate("+x+","+y+")"}
+                   key={kebab_day}>
+                    <rect
+                        class="day-bg"
+                        width={width}
+                        height={height}
+                        fill="red"
+                        stroke="white">
+                    </rect>
+                    {/* {tasks.map((this.task.bind(this)))} */}
+                </g>
+            );
+        }else{
+            return(<g key={kebab_day}></g>);
+        }
     }
+
+    weekOfMonth(d){
+            let firstOfMonth =
+                    new Date(d.getFullYear(), d.getMonth(), 1);
+            // array of start of each week this month
+            // d3.timeWeeks is exclusive on the second date
+            let weekStarts = d3.timeWeeks(
+                firstOfMonth,
+                // first day of next month
+                new Date(d.getFullYear(), d.getMonth() + 1, 1));
+
+            let thisWeekStart = d3.timeWeek(d);
+
+            // index of weekStarts is the zero based week of month num
+            // -1 means the first week but this month started
+            // after sunday
+            let weekOfMonth = weekStarts.findIndex(
+                function(ws){
+                    return ws.getDate() == this.getDate();},
+                thisWeekStart) + 1;
+
+            if(firstOfMonth.getDay() == 0){
+                // shift the rows for months that start on sunday
+                weekOfMonth = weekOfMonth - 1;
+            }
+
+            return weekOfMonth;
+        }
 
     render() {
         return(
