@@ -208,11 +208,14 @@ export default class Timesheet extends React.Component {
         let kebab_day = year_month_key+"-"+day,
             date_obj = new Date(kebab_day.replace(/-/g,"/")),
             valid_date = !isNaN(date_obj.valueOf()),
-            tasks = this.state.data[year_month_key][kebab_day];
+            tasks = this.state.data[year_month_key][kebab_day],
+            has_tasks = typeof tasks !== "undefined";
 
         if(valid_date){
             let x = date_obj.getDay() * width,
                 y = this.weekOfMonth(date_obj) * height;
+            let task_fn = (task, i) => {return this.task(task, i, tasks, width, height);};
+            let tasks_rendered = has_tasks? tasks.map(task_fn) : function(){return(<g></g>);}();
 
             return(
                 <g class="day"
@@ -225,12 +228,63 @@ export default class Timesheet extends React.Component {
                         fill="red"
                         stroke="white">
                     </rect>
-                    {/* {tasks.map((this.task.bind(this)))} */}
+                    <g class="tasks">
+                        {tasks_rendered}
+                    </g>
                 </g>
             );
         }else{
             return(<g key={kebab_day}></g>);
         }
+    }
+
+    task(this_task, this_index, all_tasks_in_this_day, width, height){
+
+        let tasks_total_time_ms = all_tasks_in_this_day.reduce((a, b) => {
+            let a_time_ms = a instanceof Date ?
+                    a.end.valueOf() - a.start.valueOf() : a;
+            let b_time_ms = b.end.valueOf() - b.start.valueOf();
+            return a_time_ms + b_time_ms;
+        }, 0);
+        let task_time_ms = this_task.end.valueOf() - this_task.start.valueOf();
+        let this_task_ratio = task_time_ms/tasks_total_time_ms;
+        let prev_tasks = all_tasks_in_this_day
+            .filter((t,i)=>{
+                if(i == this_index){return false;} // don't count this task
+                if(t.end.valueOf() == this_task.end.valueOf){
+                    return t.end.valueOf() < this_task.end.valueOf();
+                }else{ // account for tasks that end at the cutoff
+                    return t.start.valueOf() < this_task.end.valueOf();}});
+        let cumulative_prev_task_ratio = prev_tasks
+            .reduce((a,b)=>{
+                let b_task_time_ms = b.end.valueOf() - b.start.valueOf();
+                let b_ratio = b_task_time_ms/tasks_total_time_ms;
+
+                if(a instanceof Object ){
+                    let a_task_time_ms = a.end.valueOf() - a.start.valueOf();
+                    let a_ratio = a_task_time_ms/tasks_total_time_ms;
+                    return a_ratio + b_ratio;
+                }else{
+                    return a + b_ratio; // a = 0 in this case (artifact of reduce)
+                }
+            }, 0);
+        let this_height = this_task_ratio * height;
+        let y = cumulative_prev_task_ratio * height;
+
+        console.log(this_task_ratio, cumulative_prev_task_ratio, height, y);
+
+        return (
+            <rect
+                class="task"
+                key={this_index}
+                width={width}
+                height={this_height}
+                y={y}
+                fill="grey"
+                stroke="black"
+            >
+            </rect>
+        );
     }
 
     weekOfMonth(d){
