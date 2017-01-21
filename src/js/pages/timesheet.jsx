@@ -190,7 +190,7 @@ export default class Timesheet extends React.Component {
                         class="month-bg"
                         width="100"
                         height="100"
-                        fill="steelblue">
+                        fill="grey">
                     </rect>
                     <g class="days">
                         {d3.range(0,42).map(day_fn)}
@@ -213,9 +213,11 @@ export default class Timesheet extends React.Component {
 
         if(valid_date){
             let x = date_obj.getDay() * width,
-                y = this.weekOfMonth(date_obj) * height;
-            let task_fn = (task, i) => {return this.task(task, i, tasks, width, height);};
-            let tasks_rendered = has_tasks? tasks.map(task_fn) : function(){return(<g></g>);}();
+                y = this.weekOfMonth(date_obj) * height,
+                task_fn = (task, i) => {
+                    return this.task(task, i, tasks, width, height);},
+                tasks_rendered = has_tasks? tasks.map(task_fn)
+                               : function(){return(<g></g>);}();
 
             return(
                 <g class="day"
@@ -225,8 +227,7 @@ export default class Timesheet extends React.Component {
                         class="day-bg"
                         width={width}
                         height={height}
-                        fill="red"
-                        stroke="white">
+                        fill="lightgrey">
                     </rect>
                     <g class="tasks">
                         {tasks_rendered}
@@ -238,54 +239,58 @@ export default class Timesheet extends React.Component {
         }
     }
 
-    task(this_task, this_index, all_tasks_in_this_day, width, height){
-
-        let tasks_total_time_ms = all_tasks_in_this_day.reduce((a, b) => {
+    tasksTime(tasks){
+        return tasks.reduce((a, b) => {
             let a_time_ms = a instanceof Date ?
                     a.end.valueOf() - a.start.valueOf() : a;
             let b_time_ms = b.end.valueOf() - b.start.valueOf();
             return a_time_ms + b_time_ms;
         }, 0);
-        let task_time_ms = this_task.end.valueOf() - this_task.start.valueOf();
-        let this_task_ratio = task_time_ms/tasks_total_time_ms;
-        let prev_tasks = all_tasks_in_this_day
-            .filter((t,i)=>{
-                if(i == this_index){return false;} // don't count this task
-                let t_end = t.end.valueOf(),
-                    t_start = t.start.valueOf(),
-                    this_end = this_task.end.valueOf(),
-                    this_start = this_task.start.valueOf();
+    }
+    prevTasks(a_task, all_tasks){
+        return all_tasks.filter((t,i)=>{
+            let t_end = t.end.valueOf(),
+                t_start = t.start.valueOf(),
+                a_end = a_task.end.valueOf(),
+                a_start = a_task.start.valueOf();
 
-                if( t_end != this_end ){
-                    return t_end < this_end;
-                }else{
-                    return t_start < this_start;}});
-        let cumulative_prev_task_ratio = prev_tasks
-            .reduce((a,b)=>{
-                let b_task_time_ms = b.end.valueOf() - b.start.valueOf();
-                let b_ratio = b_task_time_ms/tasks_total_time_ms;
+            if( t_end != a_end ){
+                return t_end < a_end;
+            }else{
+                return t_start < a_start;}});
+    }
+    combPrevTasksRatios(prev_tasks, tasks_total_time_ms){
+        return prev_tasks.reduce((a,b)=>{
+            let b_task_time_ms = b.end.valueOf() - b.start.valueOf();
+            let b_ratio = b_task_time_ms/tasks_total_time_ms;
 
-                if(a instanceof Object ){
-                    let a_task_time_ms = a.end.valueOf() - a.start.valueOf();
-                    let a_ratio = a_task_time_ms/tasks_total_time_ms;
-                    return a_ratio + b_ratio;
-                }else{
-                    return a + b_ratio; // a = 0 in this case (artifact of reduce)
-                }
-            }, 0);
-        let this_height = this_task_ratio * height;
-        let y = cumulative_prev_task_ratio * height;
+            if(a instanceof Object ){
+                let a_task_time_ms = a.end.valueOf() - a.start.valueOf();
+                let a_ratio = a_task_time_ms/tasks_total_time_ms;
+                return a_ratio + b_ratio;
+            }else{
+                return a + b_ratio;
+            }
+        }, 0);
+    }
+    task(the_task, the_index, day_tasks, width, height){
+
+        let day_time_ms = this.tasksTime(day_tasks),
+            task_time_ms = the_task.end.valueOf() - the_task.start.valueOf(),
+            the_task_ratio = task_time_ms/day_time_ms,
+            prev_tasks = this.prevTasks(the_task, day_tasks),
+            comb_ratios = this.combPrevTasksRatios(prev_tasks, day_time_ms),
+            this_height = the_task_ratio * height,
+            y = comb_ratios * height;
 
         return (
             <rect
                 class="task"
-                key={this_index}
+                key={the_index}
                 width={width}
                 height={this_height}
                 y={y}
-                fill="grey"
-                stroke="black"
-            >
+                fill={this.colors[the_task.project]}>
             </rect>
         );
     }
@@ -324,14 +329,13 @@ export default class Timesheet extends React.Component {
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="card card-1">
-                            <div class="row">
+                            <div class="row intervals">
                                 <div class="interval col-xs-12 col-sm-6">
                                     <input
-                                        id="start"
-                                        type="date"
+                                        id="start" type="date"
                                         onChange={this.intervalChange.bind(this)}
-                                        class={this.state.intervalError? "error" : ""}
-                                    ></input>
+                                        class={this.state.intervalError? "error" : ""}>
+                                    </input>
                                 </div>
                                 <div class="interval col-xs-12 col-sm-6">
                                     <input
@@ -343,12 +347,8 @@ export default class Timesheet extends React.Component {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="row">
-                                        {this.listAllProjects().map(
-                                             this.projectButton.bind(this))}
-                                    </div>
-                                </div>
+                                {this.listAllProjects().map(
+                                     this.projectButton.bind(this))}
                             </div>
                         </div>
                     </div>
