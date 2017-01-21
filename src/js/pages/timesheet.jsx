@@ -154,46 +154,53 @@ export default class Timesheet extends React.Component {
     }
 
     filterData(start, end, projects){
-         return this.betaFormatStep(
+         let new_data = this.betaFormatStep(
                 this.alphaFormatStep(timesheet_data)
                     .filter((task)=>{
                         return projects.has(task.project) &&
                                task.start.valueOf() > start.valueOf() &&
                                task.end.valueOf() < end.valueOf();
-                    }));
+                    })),
+             new_opacity_scale = this.opacityScale(new_data);
+
+        return {data: new_data, opacityScale: new_opacity_scale};
     }
     setStart(s_date){
         let end = (this.state.end instanceof Date? this.state.end : new Date()),
-            new_data = this.filterData(s_date, end, this.state.projects);
+            n = this.filterData(s_date, end, this.state.projects);
 
-        this.changeState({start: s_date, intervalError: false, data: new_data});
+        this.changeState({start: s_date, intervalError: false,
+                          data: n.data, opacityScale: n.opacityScale});
     }
 
     setEnd(e_date){
         let start = (this.state.start instanceof Date? this.state.start : new Date()),
-            new_data = this.filterData(start, e_date, this.state.projects);
+            n = this.filterData(start, e_date, this.state.projects);
 
-        this.changeState({end: e_date, intervalError: false, data: new_data});
+        this.changeState({end: e_date, intervalError: false,
+                          data: n.data, opacityScale: n.opacityScale});
     }
 
     addProject(project){
         this.state.projects.add(project);
-        let new_data = this.filterData(
+        let n = this.filterData(
             this.state.start,
             this.state.end,
             this.state.projects);
 
-        this.changeState({projects: this.state.projects, data: new_data});
+        this.changeState({projects: this.state.projects,
+                          data: n.data, opacityScale: n.opacityScale});
     }
 
     removeProject(project){
         this.state.projects.delete(project);
-        let new_data = this.filterData(
+        let n = this.filterData(
             this.state.start,
             this.state.end,
             this.state.projects);
 
-        this.changeState({projects: this.state.projects, data: new_data});
+        this.changeState({projects: this.state.projects,
+                          data: n.data, opacityScale: n.opacityScale});
     }
 
     addTag(tag){
