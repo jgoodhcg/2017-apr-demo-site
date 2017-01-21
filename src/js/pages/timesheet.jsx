@@ -19,77 +19,13 @@ export default class Timesheet extends React.Component {
            "meditation" : '#9B7335'
         };
 
-        /*
-         * an array of objects keyed by year-month value of an array of objects
-         * keyed by year-month-day value of an array of task objects
-         * [{
-         *     yyyy-mm: {
-         *         yyyy-mm-dd: [{
-         *           start: Date,
-         *           end: Date,
-         *           project: Str,
-         *           tags: [Str],
-         *           color: Str}]}}]
-         */
-        let getMonthPrependZero = (date)=>{
-            let tmp_num = (date.getMonth()+1).toString(),
-                month_num = (tmp_num.length == 1? "0"+tmp_num : ""+tmp_num);
-            return month_num;};
-
-        let data = _(timesheet_data)
-                    .map((entry) => {
-                        let s = new Date(parseInt(entry.start*1000));
-                        let ms_in_day = 24 * 60 * 60 * 1000;
-                        let random_duration =
-                            Math.random() * (ms_in_day - 60000)
-                            + 60000; // between 1 minute and 24 hours
-                        let e = new Date(s.valueOf() + random_duration);
-
-                        let const_part = {project: entry.project,
-                                          tags: entry.tags,
-                                          color: this.colors[entry.project]};
-
-                        // split the entry if it spans 2 days
-                        if(s.getDate() != e.getDate()){
-                            return [
-                                Object.assign(
-                                    {start: s,
-                                     end: new Date(new Date(s).setHours(23, 59, 59, 999))},
-                                    const_part),
-                                Object.assign(
-                                    {start: new Date(new Date(e).setHours(0,0,0,0)),
-                                     end: e},
-                                    const_part)
-                            ];
-                        }else{
-                            return [Object.assign({start: s, end: e}, const_part)];}})
-                    .flattenDeep()
-                    .groupBy((entry)=>{
-                        return entry.end.getFullYear()+"-"+
-                               getMonthPrependZero(entry.end);})
-                    .mapValues((month)=>{
-                        return _.groupBy(month, (entry)=>{
-                            return entry.start.getFullYear()+
-                                   "-"+getMonthPrependZero(entry.start)+
-                                   "-"+entry.start.getDate();});
-                    })
-                    .map((days, month_key)=>{
-                        let obj = {};
-                        obj[month_key] = days;
-                        return obj;
-                    })
-                    .sortBy(([(month_obj)=>{
-                        return Object.keys(month_obj)[0];
-                    }]))
-                    .value();
-
-        console.log(data);
+        let data = this.formatTimesheetData(timesheet_data);
 
         let opacity_scale = this.opacityScale(data);
 
         this.state = {
-            start: null,
-            end: null,
+            start: new Date(0),
+            end: new Date(),
             intervalError: false,
             projects: new Set(),
             tags: new Set(),
@@ -102,6 +38,83 @@ export default class Timesheet extends React.Component {
         let newState = Object.assign({}, this.state, keyval); // immutable because why not
         this.setState(newState);
         console.log(newState);
+    }
+
+    alphaFormatStep(timesheet_data){
+        return _(timesheet_data)
+            .map((entry) => {
+                let s = new Date(parseInt(entry.start*1000));
+                let ms_in_day = 24 * 60 * 60 * 1000;
+                let random_duration =
+                    Math.random() * (ms_in_day - 60000)
+                    + 60000; // between 1 minute and 24 hours
+                let e = new Date(s.valueOf() + random_duration);
+
+                let const_part = {project: entry.project,
+                                  tags: entry.tags,
+                                  color: this.colors[entry.project]};
+
+                // split the entry if it spans 2 days
+                if(s.getDate() != e.getDate()){
+                    return [
+                        Object.assign(
+                            {start: s,
+                             end: new Date(new Date(s).setHours(23, 59, 59, 999))},
+                            const_part),
+                        Object.assign(
+                            {start: new Date(new Date(e).setHours(0,0,0,0)),
+                             end: e},
+                            const_part)
+                    ];
+                }else{
+                    return [Object.assign({start: s, end: e}, const_part)];}})
+            .flattenDeep()
+            .value();
+    }
+    betaFormatStep(timesheet_data){
+        let getMonthPrependZero = (date)=>{
+            let tmp_num = (date.getMonth()+1).toString(),
+                month_num = (tmp_num.length == 1? "0"+tmp_num : ""+tmp_num);
+            return month_num;};
+
+        return _(timesheet_data)
+            .groupBy((entry)=>{
+                return entry.end.getFullYear()+"-"+
+                       getMonthPrependZero(entry.end);})
+            .mapValues((month)=>{
+                return _.groupBy(month, (entry)=>{
+                    return entry.start.getFullYear()+
+                           "-"+getMonthPrependZero(entry.start)+
+                           "-"+entry.start.getDate();});
+            })
+            .map((days, month_key)=>{
+                let obj = {};
+                obj[month_key] = days;
+                return obj;
+            })
+            .sortBy(([(month_obj)=>{
+                return Object.keys(month_obj)[0];
+            }]))
+            .value();
+    }
+    formatTimesheetData(timesheet_data){
+        /*
+         * an array of objects keyed by year-month value of an array of objects
+         * keyed by year-month-day value of an array of task objects
+         * [{
+         *     yyyy-mm: {
+         *         yyyy-mm-dd: [{
+         *           start: Date,
+         *           end: Date,
+         *           project: Str,
+         *           tags: [Str],
+         *           color: Str}]}}]
+         */
+
+        // TODO chaining for the format steps
+        return this
+            .betaFormatStep(this
+            .alphaFormatStep(timesheet_data));
     }
 
     opacityScale(data){
@@ -131,8 +144,6 @@ export default class Timesheet extends React.Component {
                             day_arr = day[d_key];
                         return this.tasksTime(day_arr);});});
 
-        console.log(min_global_task_time_ms, max_global_task_time_ms);
-
         let opacityScale = d3.scaleLinear()
                                 .domain([
                                     min_global_task_time_ms,
@@ -142,23 +153,47 @@ export default class Timesheet extends React.Component {
         return opacityScale;
     }
 
+    filterData(start, end, projects){
+         return this.betaFormatStep(
+                this.alphaFormatStep(timesheet_data)
+                    .filter((task)=>{
+                        return projects.has(task.project) &&
+                               task.start.valueOf() > start.valueOf() &&
+                               task.end.valueOf() < end.valueOf();
+                    }));
+    }
     setStart(s_date){
-        this.changeState({start: s_date});
+        let end = (this.state.end instanceof Date? this.state.end : new Date()),
+            new_data = this.filterData(s_date, end, this.state.projects);
+
+        this.changeState({start: s_date, intervalError: false, data: new_data});
     }
 
     setEnd(e_date){
-        this.state.calendar.setInterval(this.state.start, e_date);
-        this.changeState({end: e_date, intervalError: false});
+        let start = (this.state.start instanceof Date? this.state.start : new Date()),
+            new_data = this.intervalFilterData(start, e_date, this.state.projects);
+
+        this.changeState({end: e_date, intervalError: false, data: new_data});
     }
 
     addProject(project){
         this.state.projects.add(project);
-        this.changeState({projects: this.state.projects});
+        let new_data = this.filterData(
+            this.state.start,
+            this.state.end,
+            this.state.projects);
+
+        this.changeState({projects: this.state.projects, data: new_data});
     }
 
     removeProject(project){
         this.state.projects.delete(project);
-        this.changeState({projects: this.state.projects});
+        let new_data = this.filterData(
+            this.state.start,
+            this.state.end,
+            this.state.projects);
+
+        this.changeState({projects: this.state.projects, data: new_data});
     }
 
     addTag(tag){
@@ -212,11 +247,11 @@ export default class Timesheet extends React.Component {
                        Object.assign(tmp, {opacity: "1"}) : tmp;
 
         return (
-            <div class="col-xs-12 col-sm-6 col-md-3"
+            <div class="project-button-container"
                  key={i}>
                 <input
                     type="button"
-                    class={(selected? "active" : "")+" button"}
+                    class={(selected? "active" : "")+" project-button"}
                     style={styleObj}
                     value={project}
                     onClick={selected?
@@ -238,9 +273,11 @@ export default class Timesheet extends React.Component {
         let day_fn = (n,i)=>{return this.day(month_obj, year_month_key, n);};
 
         return (
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2"
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
                  key={year_month_key}>
-                {date_arr[0]+" "+months[date_arr[1]-1]}
+                <div class="month-title">
+                    {date_arr[0]+" "+months[date_arr[1]-1]}
+                </div>
                 <svg
                     class="month"
                     viewBox="0 0 100 100"
@@ -249,12 +286,13 @@ export default class Timesheet extends React.Component {
                         class="month-bg"
                         width="100"
                         height="100"
-                        fill="grey">
+                        rx="2"
+                        ry="2">
                     </rect>
                     <g class="days">
                         {
                             // use d3 and some maps to return an array
-                            // of valid date day numbers
+                            // of valid date day numbers for each month
                             // ex:
                             // [1, ... ,28]
                             // [1, ... ,29]
@@ -299,7 +337,7 @@ export default class Timesheet extends React.Component {
                         class="day-bg"
                         width={width}
                         height={height}
-                        fill="lightgrey">
+                    >
                     </rect>
                     <g class="tasks">
                         {tasks_rendered}
@@ -366,6 +404,7 @@ export default class Timesheet extends React.Component {
             let a_time_ms = a instanceof Date ?
                     a.end.valueOf() - a.start.valueOf() : a;
             let b_time_ms = b.end.valueOf() - b.start.valueOf();
+
             return a_time_ms + b_time_ms;
         }, 0);
     }
@@ -402,6 +441,12 @@ export default class Timesheet extends React.Component {
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="card card-1">
+                            <div class="row buttons">
+                                <div class="col-xs-12">
+                                    {this.listAllProjects().map(
+                                         this.projectButton.bind(this))}
+                                </div>
+                            </div>
                             <div class="row intervals">
                                 <div class="interval col-xs-12 col-sm-6">
                                     <input
@@ -418,10 +463,6 @@ export default class Timesheet extends React.Component {
                                         class={this.state.intervalError? "error" : ""}
                                     ></input>
                                 </div>
-                            </div>
-                            <div class="row">
-                                {this.listAllProjects().map(
-                                     this.projectButton.bind(this))}
                             </div>
                         </div>
                     </div>
