@@ -7,20 +7,22 @@
         border-radius: 0.1em;
         border: none;
     }
-    .interval{
+    .intervals{
         margin-bottom: 1em;
 
-        input{
+        .interval{
             width: 100%;
-            font-size: 1em;
-            border: none;
-            border-bottom: 0.1em solid grey;
 
-            &.error{
-                border: 0.15em solid red;
+            input{
+                width: 100%;
+                font-size: 1em;
+                border: none;
+                border-bottom: 0.1em solid grey;
+
+                &.error{
+                    border: 0.15em solid red;
+                }
             }
-
         }
     }
-
 }
