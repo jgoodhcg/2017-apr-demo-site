@@ -171,7 +171,7 @@ export default class Timesheet extends React.Component {
 
     setEnd(e_date){
         let start = (this.state.start instanceof Date? this.state.start : new Date()),
-            new_data = this.intervalFilterData(start, e_date, this.state.projects);
+            new_data = this.filterData(start, e_date, this.state.projects);
 
         this.changeState({end: e_date, intervalError: false, data: new_data});
     }
@@ -240,11 +240,15 @@ export default class Timesheet extends React.Component {
     projectButton(project, i){
         let selected = this.state.projects.has(project),
             color = this.colors[project],
-            tmp = {backgroundColor: color,
-                   opacity: "0.45",
-                   color: "white"},
+            tmp = {backgroundColor: "white",
+                   color: "black",
+                   boxSizing: "border-box",
+                   border: "0.25em "+color+" solid"
+            },
             styleObj = selected ?
-                       Object.assign(tmp, {opacity: "1"}) : tmp;
+                       Object.assign(tmp, {backgroundColor: color,
+                                           color: "white",
+                                           border: "none"}) : tmp;
 
         return (
             <div class="project-button-container"
