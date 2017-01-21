@@ -251,10 +251,15 @@ export default class Timesheet extends React.Component {
         let prev_tasks = all_tasks_in_this_day
             .filter((t,i)=>{
                 if(i == this_index){return false;} // don't count this task
-                if(t.end.valueOf() == this_task.end.valueOf){
-                    return t.end.valueOf() < this_task.end.valueOf();
-                }else{ // account for tasks that end at the cutoff
-                    return t.start.valueOf() < this_task.end.valueOf();}});
+                let t_end = t.end.valueOf(),
+                    t_start = t.start.valueOf(),
+                    this_end = this_task.end.valueOf(),
+                    this_start = this_task.start.valueOf();
+
+                if( t_end != this_end ){
+                    return t_end < this_end;
+                }else{
+                    return t_start < this_start;}});
         let cumulative_prev_task_ratio = prev_tasks
             .reduce((a,b)=>{
                 let b_task_time_ms = b.end.valueOf() - b.start.valueOf();
@@ -270,8 +275,6 @@ export default class Timesheet extends React.Component {
             }, 0);
         let this_height = this_task_ratio * height;
         let y = cumulative_prev_task_ratio * height;
-
-        console.log(this_task_ratio, cumulative_prev_task_ratio, height, y);
 
         return (
             <rect
