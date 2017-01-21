@@ -20,12 +20,16 @@ export default class Timesheet extends React.Component {
         };
 
         /*
-         * {mm-yyyy: {
-         *     dd: [{start: Date,
+         * an array of objects keyed by year-month value of an array of objects
+         * keyed by year-month-day value of an array of task objects
+         * [{
+         *     yyyy-mm: {
+         *         yyyy-mm-dd: [{
+         *           start: Date,
          *           end: Date,
          *           project: Str,
          *           tags: [Str],
-         *           color: Str}]}}
+         *           color: Str}]}}]
          */
         let getMonthPrependZero = (date)=>{
             let tmp_num = (date.getMonth()+1).toString(),
@@ -81,12 +85,15 @@ export default class Timesheet extends React.Component {
 
         console.log(data);
 
+        let opacity_scale = this.opacityScale(data);
+
         this.state = {
             start: null,
             end: null,
             intervalError: false,
             projects: new Set(),
             tags: new Set(),
+            opacityScale: opacity_scale,
             data
         };
     }
@@ -95,6 +102,44 @@ export default class Timesheet extends React.Component {
         let newState = Object.assign({}, this.state, keyval); // immutable because why not
         this.setState(newState);
         console.log(newState);
+    }
+
+    opacityScale(data){
+        let max_global_task_time_ms =
+            d3.max(data, (month)=>{
+                let m_key = Object.keys(month)[0],
+                    month_arr = _.map(month[m_key], (days, key)=>{
+                        let obj = {};
+                        obj[key] = days;
+                        return obj;
+                    });
+                return d3.max(month_arr,(day)=>{
+                    let d_key = Object.keys(day)[0],
+                        day_arr = day[d_key];
+                    return this.tasksTime(day_arr);});}),
+
+            min_global_task_time_ms =
+                d3.min(data, (month)=>{
+                    let m_key = Object.keys(month)[0],
+                        month_arr = _.map(month[m_key], (days, key)=>{
+                            let obj = {};
+                            obj[key] = days;
+                            return obj;
+                        });
+                    return d3.min(month_arr,(day)=>{
+                        let d_key = Object.keys(day)[0],
+                            day_arr = day[d_key];
+                        return this.tasksTime(day_arr);});});
+
+        console.log(min_global_task_time_ms, max_global_task_time_ms);
+
+        let opacityScale = d3.scaleLinear()
+                                .domain([
+                                    min_global_task_time_ms,
+                                    max_global_task_time_ms])
+                                .range([0, 1]);
+
+        return opacityScale;
     }
 
     setStart(s_date){
@@ -266,6 +311,56 @@ export default class Timesheet extends React.Component {
         }
     }
 
+    task(the_task, the_index, day_tasks, width, height){
+
+        let day_time_ms = this.tasksTime(day_tasks),
+            task_time_ms = the_task.end.valueOf() - the_task.start.valueOf(),
+            the_task_ratio = task_time_ms/day_time_ms,
+            prev_tasks = this.prevTasks(the_task, day_tasks),
+            comb_ratios = this.combPrevTasksRatios(prev_tasks, day_time_ms),
+            this_height = the_task_ratio * height,
+            y = comb_ratios * height;
+
+        return (
+            <rect
+                class="task"
+                key={the_index}
+                width={width}
+                height={this_height}
+                opacity={this.state.opacityScale(day_time_ms)}
+                y={y}
+                fill={this.colors[the_task.project]}>
+            </rect>
+        );
+    }
+
+    weekOfMonth(d){
+            let firstOfMonth =
+                    new Date(d.getFullYear(), d.getMonth(), 1);
+            // array of start of each week this month
+            // d3.timeWeeks is exclusive on the second date
+            let weekStarts = d3.timeWeeks(
+                firstOfMonth,
+                // first day of next month
+                new Date(d.getFullYear(), d.getMonth() + 1, 1));
+
+            let thisWeekStart = d3.timeWeek(d);
+
+            // index of weekStarts is the zero based week of month num
+            // -1 means the first week but this month started
+            // after sunday
+            let weekOfMonth = weekStarts.findIndex(
+                function(ws){
+                    return ws.getDate() == this.getDate();},
+                thisWeekStart) + 1;
+
+            if(firstOfMonth.getDay() == 0){
+                // shift the rows for months that start on sunday
+                weekOfMonth = weekOfMonth - 1;
+            }
+
+            return weekOfMonth;
+        }
     tasksTime(tasks){
         return tasks.reduce((a, b) => {
             let a_time_ms = a instanceof Date ?
@@ -300,55 +395,6 @@ export default class Timesheet extends React.Component {
             }
         }, 0);
     }
-    task(the_task, the_index, day_tasks, width, height){
-
-        let day_time_ms = this.tasksTime(day_tasks),
-            task_time_ms = the_task.end.valueOf() - the_task.start.valueOf(),
-            the_task_ratio = task_time_ms/day_time_ms,
-            prev_tasks = this.prevTasks(the_task, day_tasks),
-            comb_ratios = this.combPrevTasksRatios(prev_tasks, day_time_ms),
-            this_height = the_task_ratio * height,
-            y = comb_ratios * height;
-
-        return (
-            <rect
-                class="task"
-                key={the_index}
-                width={width}
-                height={this_height}
-                y={y}
-                fill={this.colors[the_task.project]}>
-            </rect>
-        );
-    }
-
-    weekOfMonth(d){
-            let firstOfMonth =
-                    new Date(d.getFullYear(), d.getMonth(), 1);
-            // array of start of each week this month
-            // d3.timeWeeks is exclusive on the second date
-            let weekStarts = d3.timeWeeks(
-                firstOfMonth,
-                // first day of next month
-                new Date(d.getFullYear(), d.getMonth() + 1, 1));
-
-            let thisWeekStart = d3.timeWeek(d);
-
-            // index of weekStarts is the zero based week of month num
-            // -1 means the first week but this month started
-            // after sunday
-            let weekOfMonth = weekStarts.findIndex(
-                function(ws){
-                    return ws.getDate() == this.getDate();},
-                thisWeekStart) + 1;
-
-            if(firstOfMonth.getDay() == 0){
-                // shift the rows for months that start on sunday
-                weekOfMonth = weekOfMonth - 1;
-            }
-
-            return weekOfMonth;
-        }
 
     render() {
         return(
