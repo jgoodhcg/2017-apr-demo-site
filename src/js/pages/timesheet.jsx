@@ -27,6 +27,10 @@ export default class Timesheet extends React.Component {
          *           tags: [Str],
          *           color: Str}]}}
          */
+        let getMonthPrependZero = (date)=>{
+            let tmp_num = (date.getMonth()+1).toString(),
+                month_num = (tmp_num.length == 1? "0"+tmp_num : ""+tmp_num);
+            return month_num;};
 
         let data = _(timesheet_data)
                     .map((entry) => {
@@ -57,13 +61,22 @@ export default class Timesheet extends React.Component {
                             return [Object.assign({start: s, end: e}, const_part)];}})
                     .flattenDeep()
                     .groupBy((entry)=>{
-                        return entry.end.getFullYear()+"-"+(entry.end.getMonth()+1);})
+                        return entry.end.getFullYear()+"-"+
+                               getMonthPrependZero(entry.end);})
                     .mapValues((month)=>{
                         return _.groupBy(month, (entry)=>{
                             return entry.start.getFullYear()+
-                                   "-"+(entry.start.getMonth()+1)+
+                                   "-"+getMonthPrependZero(entry.start)+
                                    "-"+entry.start.getDate();});
                     })
+                    .map((days, month_key)=>{
+                        let obj = {};
+                        obj[month_key] = days;
+                        return obj;
+                    })
+                    .sortBy(([(month_obj)=>{
+                        return Object.keys(month_obj)[0];
+                    }]))
                     .value();
 
         console.log(data);
@@ -154,7 +167,7 @@ export default class Timesheet extends React.Component {
                        Object.assign(tmp, {opacity: "1"}) : tmp;
 
         return (
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2"
+            <div class="col-xs-12 col-sm-6 col-md-3"
                  key={i}>
                 <input
                     type="button"
@@ -170,18 +183,19 @@ export default class Timesheet extends React.Component {
         );
     }
 
-    month(month_obj, year_month_key){
-        let date_arr = year_month_key
+    month(month_obj){
+        let year_month_key = Object.keys(month_obj)[0],
+            date_arr = year_month_key
             .split("-")
             .map((str)=>{return parseInt(str);});
         let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let day_fn = (n,i)=>{return this.day(year_month_key, n);};
+        let day_fn = (n,i)=>{return this.day(month_obj, year_month_key, n);};
 
         return (
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-1"
+            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2"
                  key={year_month_key}>
-                {date_arr[0]+" "+months[date_arr[1]]}
+                {date_arr[0]+" "+months[date_arr[1]-1]}
                 <svg
                     class="month"
                     viewBox="0 0 100 100"
@@ -193,14 +207,27 @@ export default class Timesheet extends React.Component {
                         fill="grey">
                     </rect>
                     <g class="days">
-                        {d3.range(0,42).map(day_fn)}
+                        {
+                            // use d3 and some maps to return an array
+                            // of valid date day numbers
+                            // ex:
+                            // [1, ... ,28]
+                            // [1, ... ,29]
+                            // [1, ... ,30]
+                            // [1, ... ,31]
+                            d3.timeDays(
+                                new Date(date_arr[0], date_arr[1]-1, 1),
+                                new Date(date_arr[0], date_arr[1], 1))
+                              .map((val,i)=>{return i+1;})
+                              .map(day_fn)
+                        }
                     </g>
                 </svg>
             </div>
         );
     }
 
-    day(year_month_key, day){
+    day(month_obj, year_month_key, day){
 
         let width = 100/7,
             height = 100/6;
@@ -208,7 +235,7 @@ export default class Timesheet extends React.Component {
         let kebab_day = year_month_key+"-"+day,
             date_obj = new Date(kebab_day.replace(/-/g,"/")),
             valid_date = !isNaN(date_obj.valueOf()),
-            tasks = this.state.data[year_month_key][kebab_day],
+            tasks = month_obj[year_month_key][kebab_day],
             has_tasks = typeof tasks !== "undefined";
 
         if(valid_date){
