@@ -1,15 +1,8 @@
 #timesheet-page{
     .card{
     }
-    .buttons{
-    }
-
-    .project-button-container{
-        margin: 0.5em;
-        display: inline-block;
-    }
-    .project-button{
-        width: 10em;
+   .project-button{
+        width: 100%;
         padding: 1.5em;
         font-size: 1em;
         border-radius: 0.1em;
@@ -31,22 +24,15 @@
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
     }
-    .intervals{
+    .interval{
+        width: 100%;
+        font-size: 1em;
+        border: none;
+        border-bottom: 0.1em solid grey;
         margin-top: 1em;
 
-        .interval{
-            width: 100%;
-
-            input{
-                width: 100%;
-                font-size: 1em;
-                border: none;
-                border-bottom: 0.1em solid grey;
-
-                &.error{
-                    border: 0.15em solid red;
-                }
-            }
+        &.error{
+            border: 0.15em solid red;
         }
     }
 }

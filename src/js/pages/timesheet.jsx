@@ -29,7 +29,7 @@ export default class Timesheet extends React.Component {
             start: new Date(0),
             end: new Date(),
             intervalError: false,
-            projects: new Set(),
+            projects: new Set(Object.keys(this.colors)),
             tags: new Set(),
             opacityScale: opacity_scale,
             selected: null,
@@ -166,22 +166,22 @@ export default class Timesheet extends React.Component {
                     })),
              new_opacity_scale = this.opacityScale(new_data);
 
-        return {data: new_data, opacityScale: new_opacity_scale};
+        return {data: new_data, opacityScale: new_opacity_scale, selected: null};
     }
     setStart(s_date){
         let end = (this.state.end instanceof Date? this.state.end : new Date()),
             n = this.filterData(s_date, end, this.state.projects);
 
-        this.changeState({start: s_date, intervalError: false,
-                          data: n.data, opacityScale: n.opacityScale});
+        this.changeState(
+            Object.assign({start: s_date, intervalError: false}, n));
     }
 
     setEnd(e_date){
         let start = (this.state.start instanceof Date? this.state.start : new Date()),
             n = this.filterData(start, e_date, this.state.projects);
 
-        this.changeState({end: e_date, intervalError: false,
-                          data: n.data, opacityScale: n.opacityScale});
+        this.changeState(
+            Object.assign({end: e_date, intervalError: false}, n));
     }
 
     addProject(project){
@@ -191,8 +191,8 @@ export default class Timesheet extends React.Component {
             this.state.end,
             this.state.projects);
 
-        this.changeState({projects: this.state.projects,
-                          data: n.data, opacityScale: n.opacityScale});
+        this.changeState(
+            Object.assign({projects: this.state.projects}, n));
     }
 
     removeProject(project){
@@ -202,8 +202,8 @@ export default class Timesheet extends React.Component {
             this.state.end,
             this.state.projects);
 
-        this.changeState({projects: this.state.projects,
-                          data: n.data, opacityScale: n.opacityScale});
+        this.changeState(
+            Object.assign({projects: this.state.projects}, n));
     }
 
     addTag(tag){
@@ -235,7 +235,11 @@ export default class Timesheet extends React.Component {
         let date = new Date(e.target.value.replace(/-/g, "/"));
         switch(e.target.id){
             case "start":
-                this.setStart(date);
+                if(date.valueOf() < this.state.end.valueOf()){
+                    this.setStart(date);
+                }else{
+                    this.changeState({intervalError: true});
+                }
                 break;
             case "end":
                 if(this.state.start.valueOf() < date.valueOf()){
@@ -261,8 +265,7 @@ export default class Timesheet extends React.Component {
                                            border: "none"}) : tmp;
 
         return (
-            <div class="project-button-container"
-                 key={i}>
+            <div class="col-xs" key={i}>
                 <input
                     type="button"
                     class={(selected? "active" : "")+" project-button"}
@@ -286,8 +289,13 @@ export default class Timesheet extends React.Component {
                       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let day_fn = (n,i)=>{return this.day(month_obj, year_month_key, n);};
 
+        let sizing_class = "col-xs-12 " +
+                           (this.state.data.length > 1 ? "col-sm-6 " : "") +
+                           (this.state.data.length > 2 ? "col-md-4 " : "") +
+                           (this.state.data.length > 5 ? "col-lg-2 " : "");
+
         return (
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
+            <div class={sizing_class}
                  key={year_month_key}>
                 <div class="month-title">
                     {date_arr[0]+" "+months[date_arr[1]-1]}
@@ -334,13 +342,37 @@ export default class Timesheet extends React.Component {
                 return this.task(task, i, tasks, 100, 100, kebab_day);},
             tasks_rendered = tasks.map(task_fn);
 
+        console.log(tasks);
+
         return (
-            <svg
-                width="100%"
-                viewBox="0 0 100 100"
-            >
-                {tasks_rendered}
-            </svg>
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="month-title">
+                            {kebab_day}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <svg
+                            width="100%"
+                            viewBox="0 0 100 100">
+                            {tasks_rendered}
+                        </svg>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        {tasks.map(this.taskInfo.bind(this))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    taskInfo(task, i){
+        return (
+            <p key={i}>
+                {task.project}
+            </p>
         );
     }
     day(month_obj, year_month_key, day){
@@ -369,8 +401,7 @@ export default class Timesheet extends React.Component {
                     <rect
                         class="day-bg"
                         width={width}
-                        height={height}
-                    >
+                        height={height}>
                     </rect>
                     <g class="tasks">
                         {tasks_rendered}
@@ -390,7 +421,10 @@ export default class Timesheet extends React.Component {
             prev_tasks = this.prevTasks(the_task, day_tasks),
             comb_ratios = this.combPrevTasksRatios(prev_tasks, day_time_ms),
             this_height = the_task_ratio * height,
-            y = comb_ratios * height;
+            y = comb_ratios * height,
+            opacity = (this.state.selected == null?
+                       this.state.opacityScale(day_time_ms) :
+                       1);
 
         return (
             <rect
@@ -398,7 +432,7 @@ export default class Timesheet extends React.Component {
                 key={the_index}
                 width={width}
                 height={this_height}
-                opacity={this.state.opacityScale(day_time_ms)}
+                opacity={opacity}
                 y={y}
                 onClick={(e)=>{
                         if(this.state.selected == kebab_day){
@@ -490,28 +524,25 @@ export default class Timesheet extends React.Component {
                     <div class="col-xs-12">
                         <div class="card card-1">
                             <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="buttons">
-                                        {this.listAllProjects().map(
-                                             this.projectButton.bind(this))}
-                                    </div>
-                                </div>
+                                {this.listAllProjects().map(
+                                     this.projectButton.bind(this))}
                             </div>
-                            <div class="row intervals">
-                                <div class="interval col-xs-12 col-sm-6">
-                                    <input
-                                        id="start" type="date"
-                                        onChange={this.intervalChange.bind(this)}
-                                        class={this.state.intervalError? "error" : ""}>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6">
+                                    <input id="start" type="date"
+                                           onChange={this.intervalChange.bind(this)}
+                                           class={
+                                               "interval "
+                                                + (this.state.intervalError? "error" : "")}>
                                     </input>
                                 </div>
-                                <div class="interval col-xs-12 col-sm-6">
-                                    <input
-                                        id="end"
-                                        type="date"
-                                        onChange={this.intervalChange.bind(this)}
-                                        class={this.state.intervalError? "error" : ""}
-                                    ></input>
+                                <div class="col-xs-12 col-sm-6">
+                                    <input id="end" type="date"
+                                           onChange={this.intervalChange.bind(this)}
+                                           class={
+                                               "interval "
+                                                + (this.state.intervalError? "error" : "")}>
+                                    </input>
                                 </div>
                             </div>
                         </div>
