@@ -55,7 +55,9 @@ export default class Timesheet extends React.Component {
 
                 let const_part = {project: entry.project,
                                   tags: entry.tags,
-                                  color: this.colors[entry.project]};
+                                  color: this.colors[entry.project],
+                                  description: "description text goes here and hopefully I don't forget to replacce this with actual data."
+                };
 
                 // split the entry if it spans 2 days
                 if(s.getDate() != e.getDate()){
@@ -256,13 +258,11 @@ export default class Timesheet extends React.Component {
             color = this.colors[project],
             tmp = {backgroundColor: "white",
                    color: "black",
-                   boxSizing: "border-box",
                    border: "0.25em "+color+" solid"
             },
             styleObj = selected ?
                        Object.assign(tmp, {backgroundColor: color,
-                                           color: "white",
-                                           border: "none"}) : tmp;
+                                           color: "white"}) : tmp;
 
         return (
             <div class="col-xs" key={i}>
@@ -333,11 +333,12 @@ export default class Timesheet extends React.Component {
     }
     selectedDay(){
         let kebab_day = this.state.selected,
+            date_obj = new Date(kebab_day.replace(/-/g,"/")),
             tmp = kebab_day.split("-"),
             month_key = tmp.splice(0,2).join("-"),
             month = _(this.state.data)
                 .find((month)=>{return Object.keys(month)[0] == month_key;}),
-            tasks = month[month_key][kebab_day],
+            tasks = _.orderBy(month[month_key][kebab_day], ["end", "start"]),
             task_fn = (task, i) => {
                 return this.task(task, i, tasks, 100, 100, kebab_day);},
             tasks_rendered = tasks.map(task_fn);
@@ -349,7 +350,7 @@ export default class Timesheet extends React.Component {
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="month-title">
-                            {kebab_day}
+                            {date_obj.toString().split(" ").splice(0,4)}
                         </div>
                     </div>
                 </div>
@@ -360,6 +361,7 @@ export default class Timesheet extends React.Component {
                             viewBox="0 0 100 100">
                             {tasks_rendered}
                         </svg>
+                        <span>click on any task to go back!</span>
                     </div>
                     <div class="col-xs-12 col-sm-6">
                         {tasks.map(this.taskInfo.bind(this))}
@@ -369,10 +371,23 @@ export default class Timesheet extends React.Component {
         );
     }
     taskInfo(task, i){
+        let header_style = {
+            backgroundColor: task.color,
+            color: "white",
+            textAlign: "center"
+        },
+            interval_string =
+                task.start.toTimeString().split(" ").splice(0,1)+" - "+
+                task.end.toTimeString().split(" ").splice(0,1);
+
         return (
-            <p key={i}>
-                {task.project}
-            </p>
+            <div key={i}>
+                <div style={header_style}>
+                    {task.project}
+                </div>
+                <p>{interval_string}</p>
+                <p>{task.description}</p>
+            </div>
         );
     }
     day(month_obj, year_month_key, day){
