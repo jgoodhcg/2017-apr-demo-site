@@ -17,11 +17,12 @@
     - [x] day opacity scaled to all other days cumulative time spent
     - [x] pretty up and alternate color of month headers
     - [x] true responsivenes (figure out why navigating changes sizes derived)
-    - [ ] interval selection
-    - [ ] filter projects + tags
-    - [ ] display tags
+    - [x] interval selection
+    - [x] filter projects
     - [ ] day selection
     - [ ] parse csv into JSON
+    - [ ] display tags
+    - [ ] filter tags
   - [ ] excercise data
   - [ ] chorechart
   - [ ] clicky

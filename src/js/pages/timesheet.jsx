@@ -21,6 +21,8 @@ export default class Timesheet extends React.Component {
 
         let data = this.formatTimesheetData(timesheet_data);
 
+        console.log(data);
+
         let opacity_scale = this.opacityScale(data);
 
         this.state = {
@@ -30,6 +32,7 @@ export default class Timesheet extends React.Component {
             projects: new Set(),
             tags: new Set(),
             opacityScale: opacity_scale,
+            selected: null,
             data
         };
     }
@@ -320,7 +323,26 @@ export default class Timesheet extends React.Component {
             </div>
         );
     }
+    selectedDay(){
+        let kebab_day = this.state.selected,
+            tmp = kebab_day.split("-"),
+            month_key = tmp.splice(0,2).join("-"),
+            month = _(this.state.data)
+                .find((month)=>{return Object.keys(month)[0] == month_key;}),
+            tasks = month[month_key][kebab_day],
+            task_fn = (task, i) => {
+                return this.task(task, i, tasks, 100, 100, kebab_day);},
+            tasks_rendered = tasks.map(task_fn);
 
+        return (
+            <svg
+                width="100%"
+                viewBox="0 0 100 100"
+            >
+                {tasks_rendered}
+            </svg>
+        );
+    }
     day(month_obj, year_month_key, day){
 
         let width = 100/7,
@@ -336,7 +358,7 @@ export default class Timesheet extends React.Component {
             let x = date_obj.getDay() * width,
                 y = this.weekOfMonth(date_obj) * height,
                 task_fn = (task, i) => {
-                    return this.task(task, i, tasks, width, height);},
+                    return this.task(task, i, tasks, width, height, kebab_day);},
                 tasks_rendered = has_tasks? tasks.map(task_fn)
                                : function(){return(<g></g>);}();
 
@@ -360,7 +382,7 @@ export default class Timesheet extends React.Component {
         }
     }
 
-    task(the_task, the_index, day_tasks, width, height){
+    task(the_task, the_index, day_tasks, width, height, kebab_day){
 
         let day_time_ms = this.tasksTime(day_tasks),
             task_time_ms = the_task.end.valueOf() - the_task.start.valueOf(),
@@ -378,6 +400,13 @@ export default class Timesheet extends React.Component {
                 height={this_height}
                 opacity={this.state.opacityScale(day_time_ms)}
                 y={y}
+                onClick={(e)=>{
+                        if(this.state.selected == kebab_day){
+                            this.changeState({selected: null});
+                        }else{
+                            this.changeState({selected: kebab_day});
+                        }
+                    }}
                 fill={this.colors[the_task.project]}>
             </rect>
         );
@@ -446,16 +475,26 @@ export default class Timesheet extends React.Component {
         }, 0);
     }
 
+    renderAllOrSelected(){
+        if(this.state.selected == null){
+            return _.map(this.state.data, this.month.bind(this));
+        }else{
+            return this.selectedDay();
+        }
+    }
+
     render() {
         return(
             <div id="timesheet-page" class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="card card-1">
-                            <div class="row buttons">
+                            <div class="row">
                                 <div class="col-xs-12">
-                                    {this.listAllProjects().map(
-                                         this.projectButton.bind(this))}
+                                    <div class="buttons">
+                                        {this.listAllProjects().map(
+                                             this.projectButton.bind(this))}
+                                    </div>
                                 </div>
                             </div>
                             <div class="row intervals">
@@ -482,7 +521,7 @@ export default class Timesheet extends React.Component {
                     <div class="col-xs-12">
                         <div class="card card-1">
                             <div class="row">
-                                {_.map(this.state.data, this.month.bind(this))}
+                                {this.renderAllOrSelected()}
                             </div>
                         </div>
                     </div>
