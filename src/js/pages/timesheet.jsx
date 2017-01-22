@@ -350,7 +350,7 @@ export default class Timesheet extends React.Component {
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="month-title">
-                            {date_obj.toString().split(" ").splice(0,4)}
+                            {date_obj.toString().split(" ").splice(0,4).join(" ")}
                         </div>
                     </div>
                 </div>
@@ -377,8 +377,8 @@ export default class Timesheet extends React.Component {
             textAlign: "center"
         },
             interval_string =
-                task.start.toTimeString().split(" ").splice(0,1)+" - "+
-                task.end.toTimeString().split(" ").splice(0,1);
+                task.start.toTimeString().split(" ").splice(0,1).join(" ")+" - "+
+                task.end.toTimeString().split(" ").splice(0,1).join(" ");
 
         return (
             <div key={i}>
