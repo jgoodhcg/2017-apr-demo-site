@@ -3,7 +3,7 @@ import InlineSVG from 'svg-inline-react';
 import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 
 import Calendar from "./../modules/timesheet.js";
-import { timesheet_data } from "./../modules/timesheet_mock.js";
+import { timesheet_data } from "./../modules/timesheet_real.js";
 import _ from "lodash";
 import * as d3 from "d3";
 
@@ -12,11 +12,14 @@ export default class Timesheet extends React.Component {
         super();
 
         this.colors = {
-           "timetracker": '#0D1B41',
-           "demo_site"  : '#9B351E',
-           "yoga"       : '#0D308E',
-           "dev_skills" : '#3D5B11',
-           "meditation" : '#9B7335'
+           "Dev Skills"    : '#0D1B41',
+           "Demo Website"  : '#9B351E',
+           "Onestop"       : '#0D308E',
+           "Sketchbook"    : '#3D5B11',
+           "Music Lessons" : '#9B7335',
+           "Meditation"    : '#5BAA35',
+           "Ta-done"       : '#0B73AA',
+           "Art"           : '#222335'
         };
 
         let data = this.formatTimesheetData(timesheet_data);
@@ -46,33 +49,17 @@ export default class Timesheet extends React.Component {
     alphaFormatStep(timesheet_data){
         return _(timesheet_data)
             .map((entry) => {
-                let s = new Date(parseInt(entry.start*1000));
-                let ms_in_day = 24 * 60 * 60 * 1000;
-                let random_duration =
-                    Math.random() * (ms_in_day - 60000)
-                    + 60000; // between 1 minute and 24 hours
-                let e = new Date(s.valueOf() + random_duration);
+                let s_tmp = new Date(entry.start),
+                    s = new Date(s_tmp.setHours(s_tmp.getHours() + 4)); // time zone hand wavy stuff
+                let e_tmp = new Date(entry.end),
+                    e = new Date(e_tmp.setHours(e_tmp.getHours() + 4));
 
                 let const_part = {project: entry.project,
                                   tags: entry.tags,
                                   color: this.colors[entry.project],
-                                  description: "description text goes here and hopefully I don't forget to replacce this with actual data."
-                };
+                                  description: entry.description};
 
-                // split the entry if it spans 2 days
-                if(s.getDate() != e.getDate()){
-                    return [
-                        Object.assign(
-                            {start: s,
-                             end: new Date(new Date(s).setHours(23, 59, 59, 999))},
-                            const_part),
-                        Object.assign(
-                            {start: new Date(new Date(e).setHours(0,0,0,0)),
-                             end: e},
-                            const_part)
-                    ];
-                }else{
-                    return [Object.assign({start: s, end: e}, const_part)];}})
+                return [Object.assign({start: s, end: e}, const_part)];})
             .flattenDeep()
             .value();
     }
@@ -355,7 +342,7 @@ export default class Timesheet extends React.Component {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 col-sm-4">
                         <svg
                             width="100%"
                             viewBox="0 0 100 100">
@@ -363,7 +350,7 @@ export default class Timesheet extends React.Component {
                         </svg>
                         <span>click on any task to go back!</span>
                     </div>
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 col-sm-8">
                         {tasks.map(this.taskInfo.bind(this))}
                     </div>
                 </div>

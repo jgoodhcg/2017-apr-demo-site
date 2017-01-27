@@ -10,7 +10,7 @@ export default class Activities extends React.Component {
 
         this.state = {
             activities: [
-                {id: "chorechart", resource: "chorechart", ext: true, route: "http://chorechart.jgoodhcg.com",
+                {id: "chorechart", resource: "chorechart", ext: true, route: "http://chorechart.jgoodhcg.com/signup",
                  description: "Some text about this thing. Should not be long. There should be enough here for someone to want to click the link. Four or five sentences is fine."
                 },
 
