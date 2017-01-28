@@ -24,8 +24,6 @@ export default class Timesheet extends React.Component {
 
         let data = this.formatTimesheetData(timesheet_data);
 
-        console.log(data);
-
         let opacity_scale = this.opacityScale(data);
 
         this.state = {
@@ -109,7 +107,7 @@ export default class Timesheet extends React.Component {
             .alphaFormatStep(timesheet_data));
     }
 
-    opacityScale(data){
+    getMinMax(data){
         let max_global_task_time_ms =
             d3.max(data, (month)=>{
                 let m_key = Object.keys(month)[0],
@@ -136,11 +134,17 @@ export default class Timesheet extends React.Component {
                             day_arr = day[d_key];
                         return this.tasksTime(day_arr);});});
 
+        return {min: min_global_task_time_ms, max: max_global_task_time_ms};
+
+    }
+
+    opacityScale(data){
+        let minMax = this.getMinMax(data);
         let opacityScale = d3.scaleLinear()
-                                .domain([
-                                    min_global_task_time_ms,
-                                    max_global_task_time_ms])
-                                .range([0, 1]);
+                             .domain([
+                                 minMax.min,
+                                 minMax.max])
+                             .range([0, 1]);
 
         return opacityScale;
     }
@@ -252,7 +256,7 @@ export default class Timesheet extends React.Component {
                                            color: "white"}) : tmp;
 
         return (
-            <div class="col-xs" key={i}>
+            <div class="col-xs-12 col-sm-6 col-md-2" key={i}>
                 <input
                     type="button"
                     class={(selected? "active" : "")+" project-button"}
