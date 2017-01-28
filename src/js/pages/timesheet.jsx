@@ -67,7 +67,7 @@ export default class Timesheet extends React.Component {
                 month_num = (tmp_num.length == 1? "0"+tmp_num : ""+tmp_num);
             return month_num;};
 
-        return _(timesheet_data)
+        let formatted_data = _(timesheet_data)
             .groupBy((entry)=>{
                 return entry.end.getFullYear()+"-"+
                        getMonthPrependZero(entry.end);})
@@ -85,6 +85,64 @@ export default class Timesheet extends React.Component {
             .sortBy(([(month_obj)=>{
                 return Object.keys(month_obj)[0];
             }]))
+            .value();
+
+        // start of filling in any blank months
+        // this whole thing is ugly and smells terrible
+        // eventually I will redo this entire project
+        // this is not an example of my best coding practices
+        // this is an example of me trying to finish something
+        // as quickly as possible with little regard for
+        // code simplicity and readability
+        let year_month_keys = _(formatted_data)
+            .map((year_month)=>{
+                return _.keys(year_month)[0];})
+            .value();
+
+        console.log(year_month_keys);
+
+        let min_year_month_tmp = d3
+            .min(year_month_keys, (mk)=>{
+                return parseInt(mk.split("-").join(""));})
+            .toString();
+        let max_year_month_tmp = d3
+            .max(year_month_keys, (mk)=>{
+                return parseInt(mk.split("-").join(""));})
+            .toString();
+        let min_year_month = min_year_month_tmp.slice(0, 4)
+                          + "/" + min_year_month_tmp.slice(4);
+        let max_year_month = max_year_month_tmp.slice(0, 4)
+                          + "/" + max_year_month_tmp.slice(4);
+
+        console.log(min_year_month, max_year_month);
+
+        let year_month_all = d3.timeMonths(
+            new Date(min_year_month+"/1"),
+            new Date(max_year_month+"/1")
+        ).map((date)=>{
+            let key = date.getFullYear() + "-" + getMonthPrependZero(date);
+            let obj = {};
+            obj[key] = {};
+            return obj;
+        });
+
+        console.log(year_month_all);
+
+        let missing_year_months = _(year_month_all)
+            .filter((ym_obj)=>{
+                let key = _.keys(ym_obj)[0];
+                let index = _.findIndex(formatted_data, (fd_ym_obj)=>{
+                    let fd_key = _.keys(fd_ym_obj)[0];
+                    return fd_key == key;});
+                return index == -1;
+            })
+            .value();
+
+        console.log(missing_year_months);
+
+        return _(formatted_data.concat(missing_year_months))
+            .sortBy((year_month_obj)=>{
+                return _.keys(year_month_obj)[0];})
             .value();
     }
     formatTimesheetData(timesheet_data){
