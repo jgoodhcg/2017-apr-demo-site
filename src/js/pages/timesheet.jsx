@@ -99,8 +99,6 @@ export default class Timesheet extends React.Component {
                 return _.keys(year_month)[0];})
             .value();
 
-        console.log(year_month_keys);
-
         let min_year_month_tmp = d3
             .min(year_month_keys, (mk)=>{
                 return parseInt(mk.split("-").join(""));})
@@ -114,8 +112,6 @@ export default class Timesheet extends React.Component {
         let max_year_month = max_year_month_tmp.slice(0, 4)
                           + "/" + max_year_month_tmp.slice(4);
 
-        console.log(min_year_month, max_year_month);
-
         let year_month_all = d3.timeMonths(
             new Date(min_year_month+"/1"),
             new Date(max_year_month+"/1")
@@ -126,8 +122,6 @@ export default class Timesheet extends React.Component {
             return obj;
         });
 
-        console.log(year_month_all);
-
         let missing_year_months = _(year_month_all)
             .filter((ym_obj)=>{
                 let key = _.keys(ym_obj)[0];
@@ -137,8 +131,6 @@ export default class Timesheet extends React.Component {
                 return index == -1;
             })
             .value();
-
-        console.log(missing_year_months);
 
         return _(formatted_data.concat(missing_year_months))
             .sortBy((year_month_obj)=>{
@@ -314,7 +306,7 @@ export default class Timesheet extends React.Component {
                                            color: "white"}) : tmp;
 
         return (
-            <div class="col-xs-12 col-sm-6 col-md-2" key={i}>
+            <div class="" key={i}>
                 <input
                     type="button"
                     class={(selected? "active" : "")+" project-button"}
