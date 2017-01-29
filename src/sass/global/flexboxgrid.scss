@@ -1,3 +1,8 @@
+// breakpoints (still hardcoded in flexgrid)
+$sm: 48em;
+$md: 64em;
+$lg: 75em;
+
 .container-fluid,
 .container {
   margin-right: auto;
@@ -5,8 +10,8 @@
 }
 
 .container-fluid {
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
 }
 
 .row {
@@ -266,7 +271,7 @@
   order: 1;
 }
 
-@media only screen and (min-width: 48em) {
+@media only screen and (min-width: $sm) {
   .container {
     width: 49rem;
   }
@@ -497,7 +502,7 @@
   }
 }
 
-@media only screen and (min-width: 64em) {
+@media only screen and (min-width: $md) {
   .container {
     width: 65rem;
   }
@@ -728,7 +733,7 @@
   }
 }
 
-@media only screen and (min-width: 75em) {
+@media only screen and (min-width: $lg) {
   .container {
     width: 76rem;
   }

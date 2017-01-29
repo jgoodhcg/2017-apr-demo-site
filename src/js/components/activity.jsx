@@ -10,9 +10,9 @@ export default class Activity extends React.Component {
     render(){
         return (
             <div class="col-xs-12 col-sm-6">
-                <div id={this.props.id} class="activity-container card card-1 " >
+                <div id={this.props.id} class="activity-container card card-1" >
                     <div class="row middle-xs">
-                        <div  class={"activity-image col-xs-12 col-sm-3 "}>
+                        <div  class="activity-image col-xs-12 col-sm-3">
                             <div >
                                 {!this.props.ext ?
 

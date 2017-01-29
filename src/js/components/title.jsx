@@ -12,7 +12,7 @@ export default class Activities extends React.Component {
             <div class="row">
                 <div class="col-xs-12">
                     <div id="title" class="card card-1">
-                        <div class="row around-xs middle-xs">
+                        <div class="row around-xs middle-sm">
                             <div id="portrait" class="col-xs-12 col-sm-3">
                                 <InlineSVG src={require("./../../resources/justin.svg")}/>
                             </div>
@@ -26,7 +26,6 @@ export default class Activities extends React.Component {
                                     Seven sentences is fine.
                                 </p>
                             </div>
-
                         </div>
                     </div>
                 </div>

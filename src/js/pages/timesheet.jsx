@@ -306,18 +306,17 @@ export default class Timesheet extends React.Component {
                                            color: "white"}) : tmp;
 
         return (
-            <div class="" key={i}>
-                <input
-                    type="button"
-                    class={(selected? "active" : "")+" project-button"}
-                    style={styleObj}
-                    value={project}
-                    onClick={selected?
-                             (e)=>{this.removeProject(project);}
-                        :
-                                 (e)=>{this.addProject(project);}}>
-                </input>
-            </div>
+            <input
+                key={i}
+                type="button"
+                class="project-button"
+                style={styleObj}
+                value={project}
+                onClick={selected?
+                         (e)=>{this.removeProject(project);}
+                    :
+                             (e)=>{this.addProject(project);}}>
+            </input>
         );
     }
 
@@ -576,10 +575,10 @@ export default class Timesheet extends React.Component {
     render() {
         return(
             <div id="timesheet-page" class="container-fluid">
-                <div class="row">
+                <div class="row around-xs">
                     <div class="col-xs-12">
                         <div class="card card-1">
-                            <div class="row">
+                            <div class="project-buttons">
                                 {this.listAllProjects().map(
                                      this.projectButton.bind(this))}
                             </div>
