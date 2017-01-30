@@ -4,10 +4,11 @@
 - use **docker** and **docker-compose** `$ docker-compse up --build`
 
 ## Production Setup
+- attach to docker container with `docker exec -i container-name /bin/bash`
 - compile project with `webpack` and scp the static files from docker container to vps
 
 ## Todo 
-#### refactor
+### refactor
 - [x] alter docker-compose and get running
 - [x] strip out all uneccessary stuff
 - [x] folder hiearchy
@@ -27,18 +28,24 @@
     - [x] interval selection
     - [x] filter projects
     - [x] day selection
-    - [ ] parse csv into JSON
-    - [ ] refactor timesheet to reduce complexity
-    - [ ] display tags
-    - [ ] filter tags
+    - [x] parse csv into JSON
   - [ ] excercise data
+    - [ ] parse csv into JSON
+    - [ ] basic bar chart
+    - [ ] body heat map
   - [ ] chorechart
   - [ ] clicky
     - [ ] restyle close button on instructions
-- [ ] redo project icons in kursgesagt style/colors
-  - [ ] add animation to hover/click on Name + pointer change
+- [ ] card alignment issues with grid system
+- [ ] activity/project component animation slide icon (see sketchbook)
+- [ ] color scheme decision
+- [ ] Name pointer change
 - [ ] google analytics
 - [ ] project descriptions and bio
 - [ ] favicon
-- [ ] better deployment (use create-react app template)
 
+### eventually
+- [ ] refactor timesheet to reduce complexity
+- [ ] display tags
+- [ ] filter tags
+- [ ] better deployment (use create-react app template)
