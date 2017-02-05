@@ -18,7 +18,7 @@
   - [x] nav
 - [x] import d3
 - [ ] new project pages
-  - [ ] timesheets
+  - [x] timesheets
     - [x] display calendar with grid
     - [x] pretty up margin so that there is a space for info row at top of calendar
     - [x] display stacked intervals as a ratio of the total time spent in the day
@@ -29,10 +29,18 @@
     - [x] filter projects
     - [x] day selection
     - [x] parse csv into JSON
+    - [ ] add date selection component
   - [ ] excercise data
-    - [ ] parse csv into JSON
+    - [x] parse csv into JSON
+    - [ ] data selection component
     - [ ] basic bar chart
+      - [ ] shows bar space for each day in selection
+      - [ ] stacks bars for all excercises
+      - [ ] day selection
+      - [ ] runs
+      - [ ] non runs
     - [ ] body heat map
+      - [ ] non runs only
   - [ ] chorechart
   - [ ] clicky
     - [ ] restyle close button on instructions
