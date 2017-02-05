@@ -17,6 +17,7 @@ export default class Exercise extends React.Component {
             <div>
                 hello world
                 <DateRange
+                    idprefix="date-range"
                     range="#68DADA" inactive="#989A9B"
                     min={new Date(2013, 1, 1)} max={Date.now()}
                     startUpdate={(t)=>{console.log("start is: "+t);}}
