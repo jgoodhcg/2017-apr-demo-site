@@ -15,7 +15,8 @@ export default class DateRange extends React.Component {
             startUpdate: this.props.startUpdate,
             endUpdate: this.props.endUpdate,
             start: 10, end: 30,
-            prevMouse: null
+            prevMouse: null,
+            selected: null
         };
     }
 
@@ -26,16 +27,18 @@ export default class DateRange extends React.Component {
     }
 
     updateCircle(e){
-        let tmp = e.target.id.split("-"),
-            id = tmp[tmp.length - 1],
-            prevMouse =
+        let prevMouse =
                 (this.state.prevMouse !== null? this.state.prevMouse : e),
-            movementX = e.screenX - prevMouse.screenX;
+            movementX = e.screenX - prevMouse.screenX,
+            translation = 0;
+
+        if(movementX > 0){translation = 1;}
+        if(movementX < 0){translation = -1;}
 
         console.log("moving");
         console.log(movementX);
 
-        this.state[id] += movementX;
+        this.state[this.state.selected] += translation;
         this.setState(this.state);
 
         this.state.prevMouse = e;
@@ -48,18 +51,22 @@ export default class DateRange extends React.Component {
         start.addEventListener('mousedown', (e)=>{
             console.log("down");
             console.log(e);
-            start.addEventListener('mousemove',
+
+            this.state.selected = "start";
+            window.addEventListener('mousemove',
                                    this.updateCircle.bind(this));
         });
 
-        start.addEventListener('mouseup', (e)=>{
+        // TODO REMOVE ON COMPONENT DESTRUCTION
+        window.addEventListener('mouseup', (e)=>{
             console.log("up");
             console.log(e);
-            start.removeEventListener('mousemove',
+            window.removeEventListener('mousemove',
                                       this.updateCircle.bind(this));
+
+            this.state.selected = null;
             this.state.prevMouse = null;
         });
-
     }
 
     render() {
