@@ -6,6 +6,9 @@ export default class DateRange extends React.Component {
     constructor(props) {
         super(props);
 
+        this.radius = 2.5;
+        this.cushion = 3 * this.radius;
+
         this.state = {
             id: this.props.idprefix,
             inactive: this.props.inactive,
@@ -32,15 +35,20 @@ export default class DateRange extends React.Component {
             movementX = e.clientX - prevMouse.clientX,
             translation = movementX * this.state.scale;
 
-        /* if(movementX > 0){translation = 1;}
-         * if(movementX < 0){translation = -1;}*/
+        switch (this.state.selected){
+            case "start":
+                let translated = this.state.start + translation;
+                if (translated < this.state.end - this.cushion &&
+                    translated > 0)
+                    {
+                        this.setState(Object.assign(
+                            this.state, {start: translated}));
+                    }
+                break;
 
-        console.log("moving");
-        console.log(movementX);
-        console.log(translation);
-
-        this.state[this.state.selected] += translation;
-        this.setState(this.state);
+            case "end":
+                break;
+        }
 
         this.state.prevMouse = e;
     }
@@ -54,19 +62,14 @@ export default class DateRange extends React.Component {
         this.state.scale = scale;
 
         start.addEventListener('mousedown', (e)=>{
-            console.log("down");
-            console.log(e);
-
             this.state.selected = "start";
-            window.addEventListener('mousemove',
+            svg.addEventListener('mousemove',
                                    this.updateCircle.bind(this));
         });
 
-        // TODO REMOVE ON COMPONENT DESTRUCTION
-        window.addEventListener('mouseup', (e)=>{
-            console.log("up");
-            console.log(e);
-            window.removeEventListener('mousemove',
+        // TODO remove on component unmount
+        svg.addEventListener('mouseup', (e)=>{
+            svg.removeEventListener('mousemove',
                                       this.updateCircle.bind(this));
 
             this.state.selected = null;
@@ -87,17 +90,18 @@ export default class DateRange extends React.Component {
                 <line
                     id={this.state.id + "-active"}
                     strokeLinecap="round"
-                    x1="10"  x2="30" y1="5" y2="5"
+                    x1={this.state.start}  x2={this.state.end}
+                    y1="5" y2="5"
                     stroke={this.state.range} strokeWidth="1"/>
 
                 <circle
                     id={this.state.id + "-start"}
                     cx={this.state.start}
-                    cy="5" r="2.5" fill={this.state.range}/>
+                    cy="5" r={this.radius} fill={this.state.range}/>
                 <circle
                     id={this.state.id + "-end"}
                     cx={this.state.end}
-                    cy="5" r="2.5" fill={this.state.range}/>
+                    cy="5" r={this.radius} fill={this.state.range}/>
             </svg>
         );
     }
