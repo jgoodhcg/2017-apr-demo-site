@@ -37,16 +37,23 @@ export default class DateRange extends React.Component {
 
         switch (this.state.selected){
             case "start":
-                let translated = this.state.start + translation;
-                if (translated < this.state.end - this.cushion &&
-                    translated > 0)
+                let translated_s = this.state.start + translation;
+                if (translated_s < this.state.end - this.cushion &&
+                    translated_s > 0)
                     {
                         this.setState(Object.assign(
-                            this.state, {start: translated}));
+                            this.state, {start: translated_s}));
                     }
                 break;
 
             case "end":
+                let translated_e = this.state.end + translation;
+                if (translated_e > this.state.start + this.cushion &&
+                    translated_e < 100)
+                    {
+                        this.setState(Object.assign(
+                            this.state, {end: translated_e}));
+                    }
                 break;
         }
 
@@ -67,7 +74,14 @@ export default class DateRange extends React.Component {
                                    this.updateCircle.bind(this));
         });
 
-        // TODO remove on component unmount
+        end.addEventListener('mousedown', (e)=>{
+            this.state.selected = "end";
+            svg.addEventListener('mousemove',
+                                   this.updateCircle.bind(this));
+        });
+
+
+        // TODO remove on component unmount?
         svg.addEventListener('mouseup', (e)=>{
             svg.removeEventListener('mousemove',
                                       this.updateCircle.bind(this));
