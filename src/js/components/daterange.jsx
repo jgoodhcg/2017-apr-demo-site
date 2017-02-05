@@ -29,14 +29,15 @@ export default class DateRange extends React.Component {
     updateCircle(e){
         let prevMouse =
                 (this.state.prevMouse !== null? this.state.prevMouse : e),
-            movementX = e.screenX - prevMouse.screenX,
-            translation = 0;
+            movementX = e.clientX - prevMouse.clientX,
+            translation = movementX * this.state.scale;
 
-        if(movementX > 0){translation = 1;}
-        if(movementX < 0){translation = -1;}
+        /* if(movementX > 0){translation = 1;}
+         * if(movementX < 0){translation = -1;}*/
 
         console.log("moving");
         console.log(movementX);
+        console.log(translation);
 
         this.state[this.state.selected] += translation;
         this.setState(this.state);
@@ -45,8 +46,12 @@ export default class DateRange extends React.Component {
     }
 
     componentDidMount(){
-        let start = document.getElementById(this.state.id+"-start");
-        let end   = document.getElementById(this.state.id+"-end");
+        let svg = document.getElementById(this.state.id+"-svg"),
+            start = document.getElementById(this.state.id+"-start"),
+            end   = document.getElementById(this.state.id+"-end"),
+            scale = 100/svg.clientWidth;
+
+        this.state.scale = scale;
 
         start.addEventListener('mousedown', (e)=>{
             console.log("down");
@@ -72,7 +77,7 @@ export default class DateRange extends React.Component {
     render() {
 
         return(
-            <svg class="skill" width="100%" height="100%" viewBox="-10 0 120 10">
+            <svg id={this.state.id+"-svg"} width="100%" height="100%" viewBox="-10 0 120 10">
                 <line
                     id={this.state.id + "-inactive"}
                     strokeLinecap="round"
