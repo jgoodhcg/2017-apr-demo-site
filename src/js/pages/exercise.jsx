@@ -15,7 +15,6 @@ export default class Exercise extends React.Component {
     render(){
         return (
             <div>
-                hello world
                 <DateRange
                     idprefix="date-range"
                     range="#68DADA" inactive="#989A9B"
