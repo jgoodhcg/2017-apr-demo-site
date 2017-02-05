@@ -14,22 +14,31 @@ export default class DateRange extends React.Component {
             max: this.props.max,
             startUpdate: this.props.startUpdate,
             endUpdate: this.props.endUpdate,
-            sx: 10, ex: 30
+            start: 10, end: 30
         };
+    }
+
+    updateCircle(e){
+        /* this.state[id] += change;
+         * this.setState(this.state);*/
+        console.log("moving");
+        console.log(e);
     }
 
     componentDidMount(){
         let start = document.getElementById(this.state.id+"-start");
         let end   = document.getElementById(this.state.id+"-end");
 
-        start.addEventListener('mousedown',function(e){
+        start.addEventListener('mousedown', (e)=>{
             console.log("down");
             console.log(e);
+            start.addEventListener('mousemove', this.updateCircle);
         });
 
-        start.addEventListener('mouseup',function(e){
+        start.addEventListener('mouseup', (e)=>{
             console.log("up");
             console.log(e);
+            start.removeEventListener('mousemove', this.updateCircle);
         });
 
     }
@@ -52,11 +61,11 @@ export default class DateRange extends React.Component {
 
                 <circle
                     id={this.state.id + "-start"}
-                    cx={this.state.sx}
+                    cx={this.state.start}
                     cy="5" r="5" fill={this.state.range}/>
                 <circle
                     id={this.state.id + "-end"}
-                    cx={this.state.ex}
+                    cx={this.state.end}
                     cy="5" r="5" fill={this.state.range}/>
             </svg>
         );
