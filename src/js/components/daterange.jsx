@@ -1,6 +1,4 @@
 import React from "react";
-import InlineSVG from 'svg-inline-react';
-import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 
 export default class DateRange extends React.Component {
     constructor(props) {
@@ -18,7 +16,7 @@ export default class DateRange extends React.Component {
             startUpdate: this.props.startUpdate,
             endUpdate: this.props.endUpdate,
             start: 10, end: 30,
-            prevMouse: null,
+            prevEvent: null,
             selected: null
         };
     }
@@ -30,9 +28,14 @@ export default class DateRange extends React.Component {
     }
 
     updateCircle(e){
-        let prevMouse =
-                (this.state.prevMouse !== null? this.state.prevMouse : e),
-            movementX = e.clientX - prevMouse.clientX,
+        let e_type = e.type,
+            prevEvent =
+                (this.state.prevEvent !== null? this.state.prevEvent : e),
+            cur_clientX = (e_type === 'touchmove'?
+                           e.touches[0].clientX : e.clientX),
+            last_clientX = (e_type === 'touchmove'?
+                           prevEvent.touches[0].clientX : prevEvent.clientX),
+            movementX = cur_clientX - last_clientX,
             translation = movementX * this.state.scale;
 
         switch (this.state.selected){
@@ -43,6 +46,8 @@ export default class DateRange extends React.Component {
                     {
                         this.setState(Object.assign(
                             this.state, {start: translated_s}));
+
+                        console.log("moved start " + translated_s);
                     }
                 break;
 
@@ -53,11 +58,13 @@ export default class DateRange extends React.Component {
                     {
                         this.setState(Object.assign(
                             this.state, {end: translated_e}));
+
+                        console.log("moved end " + translated_e);
                     }
                 break;
         }
 
-        this.state.prevMouse = e;
+        this.state.prevEvent = e;
     }
 
     componentDidMount(){
@@ -70,25 +77,40 @@ export default class DateRange extends React.Component {
 
         start.addEventListener('mousedown', (e)=>{
             this.state.selected = "start";
-            svg.addEventListener('mousemove',
-                                   this.updateCircle.bind(this));
-        });
+            svg.addEventListener('mousemove', this.updateCircle.bind(this));});
 
         end.addEventListener('mousedown', (e)=>{
             this.state.selected = "end";
-            svg.addEventListener('mousemove',
-                                   this.updateCircle.bind(this));
-        });
+            svg.addEventListener('mousemove',this.updateCircle.bind(this));});
 
+        start.addEventListener('touchstart', (e)=>{
+            console.log("start");
+            this.state.selected = "start";
+            svg.addEventListener('touchmove', this.updateCircle.bind(this));});
+
+        end.addEventListener('touchstart', (e)=>{
+            console.log("end");
+            this.state.selected = "end";
+            svg.addEventListener('touchmove',this.updateCircle.bind(this));});
 
         // TODO remove on component unmount?
         svg.addEventListener('mouseup', (e)=>{
-            svg.removeEventListener('mousemove',
-                                      this.updateCircle.bind(this));
-
+            svg.removeEventListener('mousemove', this.updateCircle.bind(this));
             this.state.selected = null;
-            this.state.prevMouse = null;
-        });
+            this.state.prevEvent = null;});
+        svg.addEventListener('touchend', (e)=>{
+            svg.removeEventListener('touchmove', this.updateCircle.bind(this));
+            this.state.selected = null;
+            this.state.prevEvent = null;});
+    }
+
+    componentDidUpdate(){
+        let svg = document.getElementById(this.state.id+"-svg"),
+            start = document.getElementById(this.state.id+"-start"),
+            end   = document.getElementById(this.state.id+"-end"),
+            scale = 100/svg.clientWidth;
+
+        this.state.scale = scale;
     }
 
     render() {
