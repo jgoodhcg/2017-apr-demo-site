@@ -7,30 +7,31 @@ export default class DateRange extends React.Component {
         this.radius = 2.5;
         this.cushion = 3 * this.radius;
 
+        this.min = props.min;
+        let duration = props.max - props.min;
+        this.tick_val = duration/100;
+
+        this.startUpdate = props.startUpdate;
+        this.endUpdate = props.endUpdate;
+
         this.state = {
             id: this.props.idprefix,
             inactive: this.props.inactive,
             range: this.props.range,
-            min: this.props.min,
-            max: this.props.max,
-            startUpdate: this.props.startUpdate,
-            endUpdate: this.props.endUpdate,
             start: 10, end: 30,
             prevEvent: null,
             selected: null
         };
     }
 
-    translateX(clientX){
-        let screen_width = window.screen.width;
-
-
-    }
+    getStartTime(){return new Date(this.min + (this.state.start * this.tick_val));}
+    getEndTime(){return new Date(this.min + (this.state.end * this.tick_val));}
 
     updateCircle(e){
         let e_type = e.type,
             prevEvent =
                 (this.state.prevEvent !== null? this.state.prevEvent : e),
+            // handles detecting mouse/touch events
             cur_clientX = (e_type === 'touchmove'?
                            e.touches[0].clientX : e.clientX),
             last_clientX = (e_type === 'touchmove'?
@@ -46,8 +47,7 @@ export default class DateRange extends React.Component {
                     {
                         this.setState(Object.assign(
                             this.state, {start: translated_s}));
-
-                        console.log("moved start " + translated_s);
+                        this.startUpdate(this.getStartTime());
                     }
                 break;
 
@@ -58,8 +58,7 @@ export default class DateRange extends React.Component {
                     {
                         this.setState(Object.assign(
                             this.state, {end: translated_e}));
-
-                        console.log("moved end " + translated_e);
+                        this.endUpdate(this.getEndTime());
                     }
                 break;
         }
@@ -105,6 +104,7 @@ export default class DateRange extends React.Component {
     }
 
     componentDidUpdate(){
+        // rescales when the component resizes
         let svg = document.getElementById(this.state.id+"-svg"),
             start = document.getElementById(this.state.id+"-start"),
             end   = document.getElementById(this.state.id+"-end"),

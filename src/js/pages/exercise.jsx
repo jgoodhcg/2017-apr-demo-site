@@ -13,14 +13,15 @@ export default class Exercise extends React.Component {
     }
 
     render(){
+        let min = new Date(2013, 1, 1);
         return (
             <div>
                 <DateRange
                     idprefix="date-range"
                     range="#68DADA" inactive="#989A9B"
-                    min={new Date(2013, 1, 1)} max={Date.now()}
+                    min={min.valueOf()} max={Date.now()}
                     startUpdate={(t)=>{console.log("start is: "+t);}}
-                    endUpdate={(t)=>{console.log("start is: "+t);}}
+                    endUpdate={(t)=>{console.log("end is: "+t);}}
                 />
             </div>
         );
