@@ -4,6 +4,7 @@ import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 
 import Calendar from "./../modules/timesheet.js";
 import { timesheet_data } from "./../modules/timesheet_real.js";
+import DateRange from "./../components/daterange.jsx";
 import _ from "lodash";
 import * as d3 from "d3";
 
@@ -21,6 +22,11 @@ export default class Timesheet extends React.Component {
            "Ta-done"       : '#0B73AA',
            "Art"           : '#222335'
         };
+
+        this.globalMax = d3.max(timesheet_data, (entry)=>{
+            return entry.start;});
+        this.globalMin = d3.min(timesheet_data, (entry)=>{
+            return entry.end;});
 
         let data = this.formatTimesheetData(timesheet_data);
 
@@ -185,7 +191,6 @@ export default class Timesheet extends React.Component {
                         return this.tasksTime(day_arr);});});
 
         return {min: min_global_task_time_ms, max: max_global_task_time_ms};
-
     }
 
     opacityScale(data){
@@ -583,22 +588,13 @@ export default class Timesheet extends React.Component {
                                      this.projectButton.bind(this))}
                             </div>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-6">
-                                    <input id="start" type="date"
-                                           onChange={this.intervalChange.bind(this)}
-                                           class={
-                                               "interval "
-                                                + (this.state.intervalError? "error" : "")}>
-                                    </input>
-                                </div>
-                                <div class="col-xs-12 col-sm-6">
-                                    <input id="end" type="date"
-                                           onChange={this.intervalChange.bind(this)}
-                                           class={
-                                               "interval "
-                                                + (this.state.intervalError? "error" : "")}>
-                                    </input>
-                                </div>
+                                <DateRange
+                                    idprefix="date-range"
+                                    range="#68DADA" inactive="#989A9B"
+                                    min={this.globalMin} max={this.globalMax}
+                                    startUpdate={this.setStart.bind(this)}
+                                    endUpdate={this.setEnd.bind(this)}
+                                />
                             </div>
                         </div>
                     </div>

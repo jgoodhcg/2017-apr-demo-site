@@ -4,8 +4,8 @@ export default class DateRange extends React.Component {
     constructor(props) {
         super(props);
 
-        this.radius = 5;
-        this.stroke = 2.5;
+        this.radius = 4;
+        this.stroke = 1.75;
         this.cushion = 3 * this.radius;
 
         this.min = props.min;
@@ -19,7 +19,7 @@ export default class DateRange extends React.Component {
             id: this.props.idprefix,
             inactive: this.props.inactive,
             range: this.props.range,
-            start: 10, end: 30,
+            start: 0, end: 100,
             prevEvent: null,
             selected: null
         };
@@ -98,6 +98,10 @@ export default class DateRange extends React.Component {
             svg.removeEventListener('mousemove', this.updateCircle.bind(this));
             this.state.selected = null;
             this.state.prevEvent = null;});
+        /* svg.addEventListener('mouseleave', (e)=>{
+         *     svg.removeEventListener('mousemove', this.updateCircle.bind(this));
+         *     this.state.selected = null;
+         *     this.state.prevEvent = null;});*/
         svg.addEventListener('touchend', (e)=>{
             svg.removeEventListener('touchmove', this.updateCircle.bind(this));
             this.state.selected = null;
@@ -117,28 +121,28 @@ export default class DateRange extends React.Component {
     render() {
 
         return(
-            <svg id={this.state.id+"-svg"} width="100%" height="100%" viewBox="-10 -10 120 20">
+            <svg id={this.state.id+"-svg"} width="100%" height="100%" viewBox="-10 0 120 10">
                 <line
                     id={this.state.id + "-inactive"}
                     strokeLinecap="round"
-                    x1="0" x2="100" y1="5" y2="5"
+                    x1="0" x2="100" y1="6" y2="6"
                     stroke={this.state.inactive} strokeWidth={this.stroke}/>
 
                 <line
                     id={this.state.id + "-active"}
                     strokeLinecap="round"
                     x1={this.state.start}  x2={this.state.end}
-                    y1="5" y2="5"
+                    y1="6" y2="6"
                     stroke={this.state.range} strokeWidth={this.stroke}/>
 
                 <circle
                     id={this.state.id + "-start"}
                     cx={this.state.start}
-                    cy="5" r={this.radius} fill={this.state.range}/>
+                    cy="6" r={this.radius} fill={this.state.range}/>
                 <circle
                     id={this.state.id + "-end"}
                     cx={this.state.end}
-                    cy="5" r={this.radius} fill={this.state.range}/>
+                    cy="6" r={this.radius} fill={this.state.range}/>
             </svg>
         );
     }
