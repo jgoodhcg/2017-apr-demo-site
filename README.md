@@ -30,15 +30,15 @@
     - [x] day selection
     - [x] parse csv into JSON
     - [ ] add date selection component
+  - [x] data selection component
+    - [x] create basic svg design
+    - [x] sliding interaction with bounds
+      - [x] mouse events
+      - [x] touch events
+    - [x] bind dates to x positions
   - [ ] excercise data
     - [x] parse csv into JSON
-    - [ ] data selection component
-      - [x] create basic svg design
-      - [x] sliding interaction with bounds
-        - [x] mouse events
-        - [x] touch events
-      - [ ] bind dates to x positions
-    - [ ] basic bar chart
+        - [ ] basic bar chart
       - [ ] shows bar space for each day in selection
       - [ ] stacks bars for all excercises
       - [ ] day selection

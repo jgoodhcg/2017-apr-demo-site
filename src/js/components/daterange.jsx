@@ -4,7 +4,8 @@ export default class DateRange extends React.Component {
     constructor(props) {
         super(props);
 
-        this.radius = 2.5;
+        this.radius = 5;
+        this.stroke = 2.5;
         this.cushion = 3 * this.radius;
 
         this.min = props.min;
@@ -116,19 +117,19 @@ export default class DateRange extends React.Component {
     render() {
 
         return(
-            <svg id={this.state.id+"-svg"} width="100%" height="100%" viewBox="-10 0 120 10">
+            <svg id={this.state.id+"-svg"} width="100%" height="100%" viewBox="-10 -10 120 20">
                 <line
                     id={this.state.id + "-inactive"}
                     strokeLinecap="round"
                     x1="0" x2="100" y1="5" y2="5"
-                    stroke={this.state.inactive} strokeWidth="1"/>
+                    stroke={this.state.inactive} strokeWidth={this.stroke}/>
 
                 <line
                     id={this.state.id + "-active"}
                     strokeLinecap="round"
                     x1={this.state.start}  x2={this.state.end}
                     y1="5" y2="5"
-                    stroke={this.state.range} strokeWidth="1"/>
+                    stroke={this.state.range} strokeWidth={this.stroke}/>
 
                 <circle
                     id={this.state.id + "-start"}
