@@ -124,23 +124,25 @@ export default class DateRange extends React.Component {
             <svg id={this.state.id+"-svg"} width="100%" height="100%" viewBox="-10 0 120 10">
                 <line
                     id={this.state.id + "-inactive"}
+                    class="date-line"
                     strokeLinecap="round"
                     x1="0" x2="100" y1="6" y2="6"
                     stroke={this.state.inactive} strokeWidth={this.stroke}/>
-
                 <line
                     id={this.state.id + "-active"}
+                    class="date-line"
                     strokeLinecap="round"
                     x1={this.state.start}  x2={this.state.end}
                     y1="6" y2="6"
                     stroke={this.state.range} strokeWidth={this.stroke}/>
-
                 <circle
                     id={this.state.id + "-start"}
+                    class="date-circle"
                     cx={this.state.start}
                     cy="6" r={this.radius} fill={this.state.range}/>
                 <circle
                     id={this.state.id + "-end"}
+                    class="date-circle"
                     cx={this.state.end}
                     cy="6" r={this.radius} fill={this.state.range}/>
             </svg>
