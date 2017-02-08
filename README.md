@@ -29,13 +29,14 @@
     - [x] filter projects
     - [x] day selection
     - [x] parse csv into JSON
-    - [ ] add date selection component
-  - [x] data selection component
+  - [x] date selection component
     - [x] create basic svg design
     - [x] sliding interaction with bounds
       - [x] mouse events
       - [x] touch events
     - [x] bind dates to x positions
+    - [x] add date selection component to timesheets
+    - [x] responsive sizing
   - [ ] excercise data
     - [x] parse csv into JSON
         - [ ] basic bar chart

@@ -334,10 +334,13 @@ export default class Timesheet extends React.Component {
                       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let day_fn = (n,i)=>{return this.day(month_obj, year_month_key, n);};
 
-        let sizing_class = "col-xs-12 " +
-                           (this.state.data.length > 1 ? "col-sm-6 " : "") +
-                           (this.state.data.length > 2 ? "col-md-4 " : "") +
-                           (this.state.data.length > 5 ? "col-lg-2 " : "");
+        /* let sizing_class = "col-xs-12 " +
+         *                    (this.state.data.length > 1 ? "col-sm-6 " : "") +
+         *                    (this.state.data.length > 2 ? "col-md-4 " : "") +
+         *                    (this.state.data.length > 5 ? "col-lg-2 " : "");
+         */
+
+        let sizing_class = "col-xs-12 col-sm-6 col-md-4 col-lg-2";
 
         return (
             <div class={sizing_class}
@@ -587,7 +590,7 @@ export default class Timesheet extends React.Component {
                                 {this.listAllProjects().map(
                                      this.projectButton.bind(this))}
                             </div>
-                            <div class="row">
+                            <div class="date-range-container">
                                 <DateRange
                                     idprefix="date-range"
                                     range="#68DADA" inactive="#989A9B"

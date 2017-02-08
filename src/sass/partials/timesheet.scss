@@ -3,14 +3,14 @@
     }
     .project-buttons{
         display: flex;
-        justify-content: space-around;
         flex-wrap: wrap;
+        justify-content: center;
 
         .project-button{
             width: 12em;
             height: 3em;
-            margin: 0.5em;
             font-size: 1em;
+            margin: 0em;
         }
     }
     .month-bg{
@@ -40,11 +40,29 @@
         }
     }
 
-    .date-line{
-        stroke-width: 0.5px;
+    @media only screen and (min-width: $lg) {
+        .date-line{
+            stroke-width: 0.5px;
+        }
+        
+        .date-circle{
+            r: 1px;
+        }
     }
 
-    .date-circle{
-        r: 1px;
+    @media only screen and (max-width: $md) {
+        .date-range-container{
+            height: 6em;
+        }
+
+        .date-line{
+            stroke-width: 2.5px;
+        }
+        
+        .date-circle{
+            r: 7px;
+        }   
+
+
     }
 }
