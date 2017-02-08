@@ -12,6 +12,9 @@ export default class Exercise extends React.Component {
     constructor() {
         super();
 
+        this.min = d3.min(exercise_data, (day)=>{return day.start;});
+        this.max = d3.max(exercise_data, (day)=>{return day.stop;});
+
         console.log(exercise_data);
     }
 
@@ -22,7 +25,7 @@ export default class Exercise extends React.Component {
                 <DateRange
                     idprefix="date-range"
                     range="#68DADA" inactive="#989A9B"
-                    min={min.valueOf()} max={Date.now()}
+                    min={this.min} max={this.max}
                     startUpdate={(t)=>{console.log("start is: "+t);}}
                     endUpdate={(t)=>{console.log("end is: "+t);}}
                 />
