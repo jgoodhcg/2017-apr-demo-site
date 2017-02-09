@@ -40,6 +40,14 @@
   - [ ] excercise data
     - [x] parse csv into JSON
         - [ ] basic bar chart
+          - [ ] x-axis
+            - [x] render bar
+            - [ ] render ticks
+              - [x] 20 max
+              - [ ] < 20
+            - [ ] tie date range selector to x axis
+          - [ ] y-axis
+            - [x] render bar
       - [ ] shows bar space for each day in selection
       - [ ] stacks bars for all excercises
       - [ ] day selection
