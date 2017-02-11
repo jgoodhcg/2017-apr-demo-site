@@ -54,7 +54,12 @@ export default class Exercise extends React.Component {
             .map((entry)=>{
                 let exercises = Object.keys(entry.data.exercises),
                     workout = entry.data.exercises,
-                    total_reps = 0;
+                    total_reps = 0,
+                    date_tmp = new Date(entry.start),
+                    date_str = date_tmp.getFullYear()+"-"+
+                               (date_tmp.getMonth()+1)+"-"+
+                               date_tmp.getDate(),
+                    return_val = {};
 
                 exercises.forEach((e)=>{
                     let sets = parseInt(workout[e].sets),
@@ -62,7 +67,8 @@ export default class Exercise extends React.Component {
                     total_reps += (sets * reps);
                 });
 
-                return total_reps;
+                return_val[date_str] = total_reps;
+                return return_val;
             })
             .value();
 
