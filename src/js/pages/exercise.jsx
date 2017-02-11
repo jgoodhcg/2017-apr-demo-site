@@ -22,7 +22,6 @@ export default class Exercise extends React.Component {
             range: exercise_data
         };
 
-        console.log(this.xTicks(this.state.data));
     }
 
     xTicks(data){
@@ -48,6 +47,26 @@ export default class Exercise extends React.Component {
                 .value();
 
         return values;
+    }
+
+    yTicks(data){
+        let pre_values = _(data)
+            .map((entry)=>{
+                let exercises = Object.keys(entry.data.exercises),
+                    workout = entry.data.exercises,
+                    total_reps = 0;
+
+                exercises.forEach((e)=>{
+                    let sets = parseInt(workout[e].sets),
+                        reps = parseInt(workout[e].reps);
+                    total_reps += (sets * reps);
+                });
+
+                return total_reps;
+            })
+            .value();
+
+        console.log(pre_values);
     }
 
     renderXTick(x_t, index){
@@ -92,6 +111,8 @@ export default class Exercise extends React.Component {
     }
 
     render(){
+        this.yTicks(this.state.range);
+
         return (
             <div>
                 <DateRange
@@ -116,6 +137,8 @@ export default class Exercise extends React.Component {
                         strokeLinecap="round"
                         x1="0"  x2="0" y1="0" y2="62.5"
                         stroke="black" strokeWidth="0.25"/>
+
+                    {/* {this.yTicks(this.state.range).map(this.renderYTick.bind(this))} */}
 
                 </svg>
             </div>
