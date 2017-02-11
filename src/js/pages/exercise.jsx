@@ -33,19 +33,10 @@ export default class Exercise extends React.Component {
         // return at most twenty dates to use as ticks
         // bundled with the increment along x axis to render at
 
-        let days = d3.timeDays(this.state.start, this.state.end);
-
-        let pre_values = _(days)
-            .map((day)=>{
-                return day.getFullYear()+"-"
-                      +(day.getMonth()+1)+"-"
-                      +day.getDate();})
-            .value(),
-
-            max = 20,
-            num = (pre_values.length > max? max : pre_values.length),
-            increment = (num > max? 100/max : 100/num),
-            mod = Math.ceil(pre_values.length/num),
+        let days = d3.timeDays(this.state.start, this.state.end),
+            max = 7,
+            num = (days.length > max? max : days.length),
+            mod = Math.ceil(days.length/num),
 
             values = _(days)
                 .filter((v,i)=>{return i % mod === 0;})
@@ -56,10 +47,6 @@ export default class Exercise extends React.Component {
                     x: this.state.scale(day.valueOf())
                 };})
                 .value();
-
-        console.log(pre_values);
-        console.log(num,increment,mod);
-        console.log(values);
 
         return values;
     }
@@ -91,14 +78,20 @@ export default class Exercise extends React.Component {
     renderXTick(x_t, index){
         // expects x_t to be obj {value: val, increment: inc}
         let x = x_t.x,
-            y = 70;
+            y = 65;
         return (
-            <text x={x} y={y}
-                  fontFamily="Verdana" fontSize="1.5"
-                  key={x_t.value}
-                  transform={"rotate(-45,"+x+","+y+")"}>
-                {x_t.value}
-            </text>
+            <g key={x_t.value}>
+                <line x1={x} x2={x}
+                      y1={64.5} y2={62.5}
+                      class="x-axis-tick"
+                      stroke="black" strokeWidth="0.1"
+                />
+                <text x={x} y={y}
+                      fontFamily="Verdana" fontSize="1.5"
+                      transform={"rotate(45,"+x+","+y+")"}>
+                    {x_t.value}
+                </text>
+            </g>
         );
     }
 
