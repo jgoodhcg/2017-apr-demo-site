@@ -16,7 +16,10 @@ export default class Exercise extends React.Component {
         this.max = d3.max(exercise_data, (day)=>{return day.stop;});
 
         this.state = {
-            data: exercise_data
+            data: exercise_data,
+            start: new Date(this.min),
+            end: new Date(this.max),
+            range: exercise_data
         };
 
         console.log(this.xTicks(this.state.data));
@@ -61,6 +64,33 @@ export default class Exercise extends React.Component {
         );
     }
 
+    changeState(keyval){
+        let newState = Object.assign({}, this.state, keyval);
+        this.setState(newState);
+        console.log(newState);
+    }
+
+    calcRange(s,e){
+        // s,e (start,stop) are a js Date
+        let new_range = this.state.data
+                            .filter((entry)=>{
+                                return entry.start >= s.valueOf()
+                                     && entry.stop <= e.valueOf();});
+        return new_range;
+    }
+
+    updateStart(t){
+        this.state.start = t;
+        this.changeState(
+            {range: this.calcRange(this.state.start, this.state.end)});
+    }
+
+    updateEnd(t){
+        this.state.end = t;
+        this.changeState(
+            {range: this.calcRange(this.state.start, this.state.end)});
+    }
+
     render(){
         return (
             <div>
@@ -68,8 +98,8 @@ export default class Exercise extends React.Component {
                     idprefix="date-range"
                     range="#68DADA" inactive="#989A9B"
                     min={this.min} max={this.max}
-                    startUpdate={(t)=>{console.log("start is: "+t);}}
-                    endUpdate={(t)=>{console.log("end is: "+t);}}
+                    startUpdate={this.updateStart.bind(this)}
+                    endUpdate={this.updateEnd.bind(this)}
                 />
                 <svg width="100%" height="100%" viewBox="-10 -10 120 82.6">
 
@@ -79,7 +109,7 @@ export default class Exercise extends React.Component {
                         x1="0" x2="100" y1="62.5" y2="62.5"
                         stroke="black" strokeWidth="0.25"/>
 
-                    {this.xTicks(this.state.data).map(this.renderXTick.bind(this))}
+                    {this.xTicks(this.state.range).map(this.renderXTick.bind(this))}
 
                     <line
                         class="y-axis"

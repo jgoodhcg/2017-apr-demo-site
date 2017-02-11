@@ -45,7 +45,7 @@ export default class Timesheet extends React.Component {
     }
 
     changeState(keyval){
-        let newState = Object.assign({}, this.state, keyval); // immutable because why not
+        let newState = Object.assign({}, this.state, keyval);
         this.setState(newState);
         console.log(newState);
     }
