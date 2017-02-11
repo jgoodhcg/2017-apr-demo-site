@@ -15,25 +15,31 @@ export default class Exercise extends React.Component {
         this.min = d3.min(exercise_data, (day)=>{return day.start;});
         this.max = d3.max(exercise_data, (day)=>{return day.stop;});
 
+        let min_date = new Date(this.min),
+            max_date = new Date(this.max);
+
         this.state = {
             data: exercise_data,
-            start: new Date(this.min),
-            end: new Date(this.max),
-            range: exercise_data
+            start: min_date,
+            end: max_date,
+            range: exercise_data,
+            scale: d3.scaleLinear()
+                     .domain([this.min, this.max])
+                     .range([0,100])
         };
-
     }
 
     xTicks(data){
         // return at most twenty dates to use as ticks
         // bundled with the increment along x axis to render at
-        let pre_values = _(data)
-            .map((entry)=>{
-                let day = new Date(entry.start);
+
+        let days = d3.timeDays(this.state.start, this.state.end);
+
+        let pre_values = _(days)
+            .map((day)=>{
                 return day.getFullYear()+"-"
                       +(day.getMonth()+1)+"-"
                       +day.getDate();})
-            .uniq()
             .value(),
 
             max = 20,
@@ -41,10 +47,19 @@ export default class Exercise extends React.Component {
             increment = (num > max? 100/max : 100/num),
             mod = Math.ceil(pre_values.length/num),
 
-            values = _(pre_values)
+            values = _(days)
                 .filter((v,i)=>{return i % mod === 0;})
-                .map((value)=>{return {value, increment};})
+                .map((day)=>{return {
+                    value: day.getFullYear()+"-"
+                          +(day.getMonth()+1)+"-"
+                          +day.getDate(),
+                    x: this.state.scale(day.valueOf())
+                };})
                 .value();
+
+        console.log(pre_values);
+        console.log(num,increment,mod);
+        console.log(values);
 
         return values;
     }
@@ -71,13 +86,11 @@ export default class Exercise extends React.Component {
                 return return_val;
             })
             .value();
-
-        console.log(pre_values);
     }
 
     renderXTick(x_t, index){
         // expects x_t to be obj {value: val, increment: inc}
-        let x = x_t.increment * index,
+        let x = x_t.x,
             y = 70;
         return (
             <text x={x} y={y}
@@ -90,9 +103,13 @@ export default class Exercise extends React.Component {
     }
 
     changeState(keyval){
+        this.state.scale.domain([
+            this.state.start.valueOf(),
+             this.state.end.valueOf()]);
+
         let newState = Object.assign({}, this.state, keyval);
         this.setState(newState);
-        console.log(newState);
+        /* console.log(newState);*/
     }
 
     calcRange(s,e){

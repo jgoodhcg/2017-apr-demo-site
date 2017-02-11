@@ -48,6 +48,9 @@
             - [ ] tie date range selector to x axis
           - [ ] y-axis
             - [x] render bar
+            - [ ] render ticks
+              - [x] get total reps per entry keyed by date
+              - [ ] squash dates and add rep values
       - [ ] shows bar space for each day in selection
       - [ ] stacks bars for all excercises
       - [ ] day selection
