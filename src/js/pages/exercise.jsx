@@ -184,16 +184,15 @@ export default class Exercise extends React.Component {
             {range: this.calcRange(this.state.start, this.state.end)});
     }
 
-    renderSegment(srw, label, x, y){
-        let total_reps_for_day = 0;
+    renderSegment(name, label, x, y, height){
         return(
             <rect
-                key={label}
+                key={label+"-"+name}
                 x={x}
-                y={this.scale_y(total_reps_for_day)}
+                y={y}
                 width={this.state.width}
-                height={62.5 - this.scale_y(total_reps_for_day)}
-            >
+                height={height}
+                fill={this.color(name)}>
             </rect>
         );
     }
@@ -202,19 +201,32 @@ export default class Exercise extends React.Component {
         let workout = entry.data.exercises,
             names   = Object.keys(entry.data.exercises),
             x       = this.state.scale_x(entry.start.valueOf()),
-            y       = 62.5,
+            stacker = 62.5,
             label   = entry.start +"-"+ entry.stop;
 
         return (
             <g key={label}
                class="bar">
+                {names.map((name)=>{
+                     let srw_array = workout[name],
+                         seg_reps  =  _(srw_array)
+                                       .reduce((total, srw)=>{
+                                           let sets = parseInt(srw.sets),
+                                               reps = parseInt(srw.reps);
+
+                                           return total + (sets * reps);}, 0),
+                         height    = (62.5 - this.scale_y(seg_reps)),
+                         y         = stacker - height;
+
+                     stacker = y;
+
+                     return this.renderSegment(name, label, x, y, height);
+                 })}
             </g>
         );
     }
 
     render(){
-        this.yTicks(this.state.range);
-
         return (
             <div>
                 <DateRange
@@ -244,7 +256,7 @@ export default class Exercise extends React.Component {
                     {this.yTicks(this.state.range)
                          .map(this.renderYTick.bind(this))}
 
-                    {/* {this.state.range.map(this.renderBar.bind(this))} */}
+                    {this.state.range.map(this.renderBar.bind(this))}
 
                 </svg>
             </div>
