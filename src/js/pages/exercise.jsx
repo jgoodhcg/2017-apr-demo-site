@@ -42,7 +42,7 @@ export default class Exercise extends React.Component {
             scale_x: d3.scaleLinear()
                        .domain([this.min, this.max])
                        .range([0,100]),
-            width: 100/exercise_data.length
+            width: 100/d3.timeDays(min_date, max_date).length
         };
 
         console.log(exercise_data);
@@ -151,13 +151,14 @@ export default class Exercise extends React.Component {
     }
 
     changeState(keyval){
-        let new_state = Object.assign({}, this.state, keyval);
+        let new_state = Object.assign({}, this.state, keyval),
+            days_in_new_range = d3.timeDays(new_state.start, new_state.end);
 
         new_state.scale_x.domain([
             new_state.start.valueOf(),
              new_state.end.valueOf()]);
 
-        new_state.width = 100/new_state.range.length;
+        new_state.width = 100/days_in_new_range.length;
 
         this.setState(new_state);
         /* console.log(new_state);*/

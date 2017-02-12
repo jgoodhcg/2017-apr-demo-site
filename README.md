@@ -50,13 +50,19 @@
           - [x] y-axis
             - [x] render bar
             - [x] render ticks
-      - [x] shows bar space for each day in selection
-      - [ ] stacks bars for all excercises
-      - [ ] day selection
-      - [ ] runs
-      - [ ] non runs
-    - [ ] body heat map
-      - [ ] non runs only
+      - [ ] bar graph non runs
+          - [x] shows bar space for each day in selection
+          - [x] stacks bars for all excercises
+          - [ ] fix width on bars
+          - [ ] day selection
+      - [ ] runs visualization/info ???
+      - [ ] all stats
+      - [ ] style with cards
+      - [ ] body heat map
+          - [ ] body svg
+          - [ ] group exercises
+          - [ ] total reps per exercise in date range
+          - [ ] chroma scale each body segment by total reps
   - [ ] chorechart
   - [ ] clicky
     - [ ] restyle close button on instructions
