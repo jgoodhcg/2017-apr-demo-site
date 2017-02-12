@@ -40,12 +40,12 @@
   - [ ] excercise data
     - [x] parse csv into JSON
         - [ ] basic bar chart
-          - [ ] x-axis
+          - [x] x-axis
             - [x] render bar
-            - [ ] render ticks
-              - [x] 20 max
-              - [ ] < 20
-            - [ ] tie date range selector to x axis
+            - [x] render ticks
+              - [x] add d3 scales
+              - [x] re-orient labels
+            - [x] tie date range selector to x axis
           - [ ] y-axis
             - [x] render bar
             - [ ] render ticks

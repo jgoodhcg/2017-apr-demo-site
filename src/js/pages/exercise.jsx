@@ -12,20 +12,28 @@ export default class Exercise extends React.Component {
     constructor() {
         super();
 
+        // global min max for DateRange component
         this.min = d3.min(exercise_data, (day)=>{return day.start;});
         this.max = d3.max(exercise_data, (day)=>{return day.stop;});
 
         let min_date = new Date(this.min),
-            max_date = new Date(this.max);
+            max_date = new Date(this.max),
+            min_reps = d3.min(exercise_data,(entry)=>{
+                return this.getTotalRepsDay(entry).reps;}),
+            max_reps = d3.max(exercise_data,(entry)=>{
+                return this.getTotalRepsDay(entry).reps;});
 
         this.state = {
             data: exercise_data,
             start: min_date,
             end: max_date,
             range: exercise_data,
-            scale: d3.scaleLinear()
-                     .domain([this.min, this.max])
-                     .range([0,100])
+            scale_x: d3.scaleLinear()
+                       .domain([this.min, this.max])
+                       .range([0,100]),
+            scale_y: d3.scaleLinear()
+                       .domain([min_reps, max_reps])
+                       .range([0, 62.5])
         };
     }
 
@@ -44,35 +52,39 @@ export default class Exercise extends React.Component {
                     value: day.getFullYear()+"-"
                           +(day.getMonth()+1)+"-"
                           +day.getDate(),
-                    x: this.state.scale(day.valueOf())
+                    x: this.state.scale_x(day.valueOf())
                 };})
                 .value();
 
         return values;
     }
 
+    getTotalRepsDay(day){
+        let exercises = Object.keys(day.data.exercises),
+            workout = day.data.exercises,
+            total_reps = 0,
+            date = new Date(day.start);
+
+        exercises.forEach((e)=>{
+            let sets = parseInt(workout[e].sets),
+                reps = parseInt(workout[e].reps);
+            total_reps += (sets * reps);
+        });
+
+        return {date: date, reps: total_reps};
+    }
+
     yTicks(data){
-        let pre_values = _(data)
+        let values = _(data)
             .map((entry)=>{
-                let exercises = Object.keys(entry.data.exercises),
-                    workout = entry.data.exercises,
-                    total_reps = 0,
-                    date_tmp = new Date(entry.start),
-                    date_str = date_tmp.getFullYear()+"-"+
-                               (date_tmp.getMonth()+1)+"-"+
-                               date_tmp.getDate(),
-                    return_val = {};
-
-                exercises.forEach((e)=>{
-                    let sets = parseInt(workout[e].sets),
-                        reps = parseInt(workout[e].reps);
-                    total_reps += (sets * reps);
-                });
-
-                return_val[date_str] = total_reps;
-                return return_val;
-            })
+                let date_and_reps = this.getTotalRepsDay(entry);
+                return Object
+                    .assign(date_and_reps,
+                            {y: this.state.scale_y(date_and_reps.reps)});})
+        
             .value();
+
+        return values;
     }
 
     renderXTick(x_t, index){
@@ -80,7 +92,7 @@ export default class Exercise extends React.Component {
         let x = x_t.x,
             y = 65;
         return (
-            <g key={x_t.value}>
+            <g key={x_t.value+"-y"}>
                 <line x1={x} x2={x}
                       y1={64.5} y2={62.5}
                       class="x-axis-tick"
@@ -95,8 +107,32 @@ export default class Exercise extends React.Component {
         );
     }
 
+    renderYTick(y_t, index){
+        // expects y_t to be obj {date: Date, reps: int, y: position}
+        let x = 0,
+            y = y_t.y,
+            day = y_t.date,
+            label = day.getFullYear()+"-"
+                   +(day.getMonth()+1)+"-"
+                   +day.getDate();
+        return (
+            <g key={label+"-y"}>
+                <line x1={x} x2={x - 0.1}
+                      y1={y} y2={y}
+                      class="x-axis-tick"
+                      stroke="black" strokeWidth="0.1"
+                />
+                <text x={x} y={y}
+                      fontFamily="Verdana" fontSize="1.5"
+                      transform={"rotate(45,"+x+","+y+")"}>
+                    {y_t.value}
+                </text>
+            </g>
+        );
+    }
+
     changeState(keyval){
-        this.state.scale.domain([
+        this.state.scale_x.domain([
             this.state.start.valueOf(),
              this.state.end.valueOf()]);
 
@@ -154,7 +190,7 @@ export default class Exercise extends React.Component {
                         x1="0"  x2="0" y1="0" y2="62.5"
                         stroke="black" strokeWidth="0.25"/>
 
-                    {/* {this.yTicks(this.state.range).map(this.renderYTick.bind(this))} */}
+                    {this.yTicks(this.state.range).map(this.renderYTick.bind(this))}
 
                 </svg>
             </div>
