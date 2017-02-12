@@ -34,7 +34,8 @@ export default class Exercise extends React.Component {
             range: exercise_data,
             scale_x: d3.scaleLinear()
                        .domain([this.min, this.max])
-                       .range([0,100])
+                       .range([0,100]),
+            width: 100/exercise_data.length
         };
     }
 
@@ -129,13 +130,16 @@ export default class Exercise extends React.Component {
     }
 
     changeState(keyval){
-        this.state.scale_x.domain([
-            this.state.start.valueOf(),
-             this.state.end.valueOf()]);
+        let new_state = Object.assign({}, this.state, keyval);
 
-        let newState = Object.assign({}, this.state, keyval);
-        this.setState(newState);
-        /* console.log(newState);*/
+        new_state.scale_x.domain([
+            new_state.start.valueOf(),
+             new_state.end.valueOf()]);
+
+        new_state.width = 100/new_state.range.length;
+
+        this.setState(new_state);
+        /* console.log(new_state);*/
     }
 
     calcRange(s,e){
@@ -159,6 +163,27 @@ export default class Exercise extends React.Component {
             {range: this.calcRange(this.state.start, this.state.end)});
     }
 
+    renderSegment(workout){
+    }
+
+    renderBar(entry){
+        let workout = entry.data.exercises,
+            x = this.state.scale_x(entry.start.valueOf());
+
+        return (
+            <g key={entry.start +"-"+ entry.stop}
+               class="bar">
+                <rect
+                    x={x}
+                    y="52.5"
+                    width={this.state.width}
+                    height="10"
+                >
+                </rect>
+            </g>
+        );
+    }
+
     render(){
         this.yTicks(this.state.range);
 
@@ -179,7 +204,8 @@ export default class Exercise extends React.Component {
                         x1="0" x2="100" y1="62.5" y2="62.5"
                         stroke="black" strokeWidth="0.25"/>
 
-                    {this.xTicks(this.state.range).map(this.renderXTick.bind(this))}
+                    {this.xTicks(this.state.range)
+                         .map(this.renderXTick.bind(this))}
 
                     <line
                         class="y-axis"
@@ -187,7 +213,10 @@ export default class Exercise extends React.Component {
                         x1="0"  x2="0" y1="0" y2="62.5"
                         stroke="black" strokeWidth="0.25"/>
 
-                    {this.yTicks(this.state.range).map(this.renderYTick.bind(this))}
+                    {this.yTicks(this.state.range)
+                         .map(this.renderYTick.bind(this))}
+
+                    {this.state.range.map(this.renderBar.bind(this))}
 
                 </svg>
             </div>
