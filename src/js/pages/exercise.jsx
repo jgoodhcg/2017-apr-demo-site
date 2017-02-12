@@ -33,12 +33,6 @@ export default class Exercise extends React.Component {
             .uniq()
             .value();
 
-        console.log(this.workout_names)
-        this.workout_names.forEach((name)=>{
-            console.log(name);
-            console.log(this.color(name));
-        });
-
         // state is only for things that change
         this.state = {
             data: exercise_data,
@@ -50,6 +44,8 @@ export default class Exercise extends React.Component {
                        .range([0,100]),
             width: 100/exercise_data.length
         };
+
+        console.log(exercise_data);
     }
 
     color(name){
@@ -88,9 +84,14 @@ export default class Exercise extends React.Component {
             date = new Date(day.start);
 
         exercises.forEach((e)=>{
-            let sets = parseInt(workout[e].sets),
-                reps = parseInt(workout[e].reps);
-            total_reps += (sets * reps);
+            let srw_arr = workout[e];
+
+            srw_arr.forEach((srw)=>{
+                let sets = parseInt(srw.sets),
+                    reps = parseInt(srw.reps);
+
+                total_reps += (sets * reps);
+            });
         });
 
         return {date: date, reps: total_reps};
@@ -183,14 +184,15 @@ export default class Exercise extends React.Component {
             {range: this.calcRange(this.state.start, this.state.end)});
     }
 
-    renderSegment(name, y, height, x, label){
+    renderSegment(srw, label, x, y){
+        let total_reps_for_day = 0;
         return(
             <rect
-                key={name+"-"+label}
+                key={label}
                 x={x}
-                y={y}
+                y={this.scale_y(total_reps_for_day)}
                 width={this.state.width}
-                height={height}
+                height={62.5 - this.scale_y(total_reps_for_day)}
             >
             </rect>
         );
@@ -201,25 +203,11 @@ export default class Exercise extends React.Component {
             names   = Object.keys(entry.data.exercises),
             x       = this.state.scale_x(entry.start.valueOf()),
             y       = 62.5,
-            label   = entry.start +"-"+ entry.stop,
-
-            total_reps_for_day = _(names)
-                .reduce((total, name)=>{
-                    let srw = workout[name],
-                        reps = parseInt(srw.sets) * parseInt(srw.reps);
-
-                    return total + reps;}, 0);
+            label   = entry.start +"-"+ entry.stop;
 
         return (
             <g key={label}
                class="bar">
-                <rect
-                    x={x}
-                    y={this.scale_y(total_reps_for_day)}
-                    width={this.state.width}
-                    height={62.5 - this.scale_y(total_reps_for_day)}
-                >
-                </rect>
             </g>
         );
     }
@@ -256,7 +244,7 @@ export default class Exercise extends React.Component {
                     {this.yTicks(this.state.range)
                          .map(this.renderYTick.bind(this))}
 
-                    {this.state.range.map(this.renderBar.bind(this))}
+                    {/* {this.state.range.map(this.renderBar.bind(this))} */}
 
                 </svg>
             </div>
