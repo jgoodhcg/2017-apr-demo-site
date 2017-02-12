@@ -163,21 +163,41 @@ export default class Exercise extends React.Component {
             {range: this.calcRange(this.state.start, this.state.end)});
     }
 
-    renderSegment(workout){
+    renderSegment(name, y, height, x, label){
+        return(
+            <rect
+                key={name+"-"+label}
+                x={x}
+                y={y}
+                width={this.state.width}
+                height={height}
+            >
+            </rect>
+        );
     }
 
     renderBar(entry){
         let workout = entry.data.exercises,
-            x = this.state.scale_x(entry.start.valueOf());
+            names   = Object.keys(entry.data.exercises),
+            x       = this.state.scale_x(entry.start.valueOf()),
+            y       = 62.5,
+            label   = entry.start +"-"+ entry.stop,
+
+            total_reps_for_day = _(names)
+                .reduce((total, name)=>{
+                    let srw = workout[name],
+                        reps = parseInt(srw.sets) * parseInt(srw.reps);
+
+                    return total + reps;}, 0);
 
         return (
-            <g key={entry.start +"-"+ entry.stop}
+            <g key={label}
                class="bar">
                 <rect
                     x={x}
-                    y="52.5"
+                    y={this.scale_y(total_reps_for_day)}
                     width={this.state.width}
-                    height="10"
+                    height={62.5 - this.scale_y(total_reps_for_day)}
                 >
                 </rect>
             </g>

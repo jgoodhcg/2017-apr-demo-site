@@ -45,13 +45,12 @@
             - [x] render ticks
               - [x] add d3 scales
               - [x] re-orient labels
+              - [ ] push last tick (get max on range)
             - [x] tie date range selector to x axis
-          - [ ] y-axis
+          - [x] y-axis
             - [x] render bar
-            - [ ] render ticks
-              - [x] get total reps per entry keyed by date
-              - [ ] squash dates and add rep values
-      - [ ] shows bar space for each day in selection
+            - [x] render ticks
+      - [x] shows bar space for each day in selection
       - [ ] stacks bars for all excercises
       - [ ] day selection
       - [ ] runs
