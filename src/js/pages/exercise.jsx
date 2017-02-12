@@ -17,12 +17,16 @@ export default class Exercise extends React.Component {
         this.max = d3.max(exercise_data, (day)=>{return day.stop;});
 
         let min_date = new Date(this.min),
-            max_date = new Date(this.max),
-            min_reps = d3.min(exercise_data,(entry)=>{
-                return this.getTotalRepsDay(entry).reps;}),
-            max_reps = d3.max(exercise_data,(entry)=>{
-                return this.getTotalRepsDay(entry).reps;});
+            max_date = new Date(this.max);
 
+        // all instance properties are for unchanging things
+        this.max_reps = d3.max(exercise_data,(entry)=>{
+            return this.getTotalRepsDay(entry).reps;});
+        this.scale_y = d3.scaleLinear()
+                         .domain([0, this.max_reps])
+                         .range([62.5, 0])
+
+        // state is only for things that change
         this.state = {
             data: exercise_data,
             start: min_date,
@@ -30,10 +34,7 @@ export default class Exercise extends React.Component {
             range: exercise_data,
             scale_x: d3.scaleLinear()
                        .domain([this.min, this.max])
-                       .range([0,100]),
-            scale_y: d3.scaleLinear()
-                       .domain([min_reps, max_reps])
-                       .range([0, 62.5])
+                       .range([0,100])
         };
     }
 
@@ -74,17 +75,17 @@ export default class Exercise extends React.Component {
         return {date: date, reps: total_reps};
     }
 
-    yTicks(data){
-        let values = _(data)
-            .map((entry)=>{
-                let date_and_reps = this.getTotalRepsDay(entry);
-                return Object
-                    .assign(date_and_reps,
-                            {y: this.state.scale_y(date_and_reps.reps)});})
-        
+    yTicks(){
+        let ticks = _(
+            _.range(0, this.max_reps,
+                    Math.ceil(this.max_reps/7)))
+            .map((rep)=>{ return {rep: rep, y: this.scale_y(rep)};})
             .value();
 
-        return values;
+        ticks.push({rep: this.max_reps,
+                    y: this.scale_y(this.max_reps)});
+
+        return ticks;
     }
 
     renderXTick(x_t, index){
@@ -94,7 +95,7 @@ export default class Exercise extends React.Component {
         return (
             <g key={x_t.value+"-y"}>
                 <line x1={x} x2={x}
-                      y1={64.5} y2={62.5}
+                      y1={63.5} y2={62.5}
                       class="x-axis-tick"
                       stroke="black" strokeWidth="0.1"
                 />
@@ -108,24 +109,20 @@ export default class Exercise extends React.Component {
     }
 
     renderYTick(y_t, index){
-        // expects y_t to be obj {date: Date, reps: int, y: position}
+        // expects y_t to be obj {rep: rep_number, y: position}
         let x = 0,
-            y = y_t.y,
-            day = y_t.date,
-            label = day.getFullYear()+"-"
-                   +(day.getMonth()+1)+"-"
-                   +day.getDate();
+            y = y_t.y;
+
         return (
-            <g key={label+"-y"}>
-                <line x1={x} x2={x - 0.1}
+            <g key={y_t.rep}>
+                <line x1={x - 1} x2={x}
                       y1={y} y2={y}
                       class="x-axis-tick"
                       stroke="black" strokeWidth="0.1"
                 />
-                <text x={x} y={y}
-                      fontFamily="Verdana" fontSize="1.5"
-                      transform={"rotate(45,"+x+","+y+")"}>
-                    {y_t.value}
+                <text x={x - (3 * 1.5)} y={y}
+                      fontFamily="Verdana" fontSize="1.5">
+                    {y_t.rep}
                 </text>
             </g>
         );
