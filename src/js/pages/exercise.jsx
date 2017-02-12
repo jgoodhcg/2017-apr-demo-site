@@ -5,7 +5,8 @@ import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 import DateRange from "./../components/daterange.jsx";
 import { exercise_data } from "./../modules/exercise_real.js";
 import _ from "lodash";
-import * as d3 from "d3";
+import * as d3 from "d3"
+import * as chroma from "d3-scale-chromatic";
 
 
 export default class Exercise extends React.Component {
@@ -24,7 +25,19 @@ export default class Exercise extends React.Component {
             return this.getTotalRepsDay(entry).reps;});
         this.scale_y = d3.scaleLinear()
                          .domain([0, this.max_reps])
-                         .range([62.5, 0])
+                         .range([62.5, 0]);
+
+        this.workout_names = _(exercise_data)
+            .map((entry)=>{return Object.keys(entry.data.exercises);})
+            .flatten()
+            .uniq()
+            .value();
+
+        console.log(this.workout_names)
+        this.workout_names.forEach((name)=>{
+            console.log(name);
+            console.log(this.color(name));
+        });
 
         // state is only for things that change
         this.state = {
@@ -37,6 +50,13 @@ export default class Exercise extends React.Component {
                        .range([0,100]),
             width: 100/exercise_data.length
         };
+    }
+
+    color(name){
+        let index = this.workout_names.indexOf(name),
+            interpolate_index = index/(this.workout_names.length - 1);
+
+        return chroma.interpolateSpectral(interpolate_index);
     }
 
     xTicks(data){
