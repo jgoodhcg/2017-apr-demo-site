@@ -63,6 +63,7 @@ export default class Exercise extends React.Component {
             max = 7,
             num = (days.length > max? max : days.length),
             mod = Math.ceil(days.length/num),
+            end = this.state.end,
 
             values = _(days)
                 .filter((v,i)=>{return i % mod === 0;})
@@ -73,6 +74,14 @@ export default class Exercise extends React.Component {
                     x: this.state.scale_x(day.valueOf())
                 };})
                 .value();
+
+        // end cap
+        values.push({
+            value: end.getFullYear()+"-"
+                  +(end.getMonth()+1)+"-"
+                  +end.getDate(),
+            x: this.state.scale_x(end.valueOf())
+        });
 
         return values;
     }

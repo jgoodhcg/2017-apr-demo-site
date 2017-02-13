@@ -39,31 +39,33 @@
     - [x] responsive sizing
   - [ ] excercise data
     - [x] parse csv into JSON
-        - [ ] basic bar chart
-          - [x] x-axis
-            - [x] render bar
-            - [x] render ticks
-              - [x] add d3 scales
-              - [x] re-orient labels
-              - [ ] push last tick (get max on range)
-            - [x] tie date range selector to x axis
-          - [x] y-axis
-            - [x] render bar
-            - [x] render ticks
+      - [ ] basic bar chart
+        - [x] x-axis
+          - [x] render bar
+          - [x] render ticks
+          - [x] add d3 scales
+          - [x] re-orient labels
+          - [x] tie date range selector to x axis
+          - [x] push last tick (get max on range)
+        - [x] y-axis
+          - [x] render bar
+          - [x] render ticks
       - [ ] bar graph non runs
           - [x] shows bar space for each day in selection
           - [x] stacks bars for all excercises
           - [ ] fix width on bars
           - [ ] day selection
-      - [ ] runs visualization/info ???
-      - [ ] all stats
-      - [ ] style with cards
-      - [ ] body heat map
+      - [ ] bar graph runs
+          - [ ] duplicate x axis
+          - [ ] runs sepcific y axis (distance)
+    - [ ] body heat map
           - [ ] body svg
           - [ ] group exercises
           - [ ] total reps per exercise in date range
           - [ ] chroma scale each body segment by total reps
-  - [ ] chorechart
+      - [ ] global stats near top
+      - [ ] style with cards
+        - [ ] chorechart
   - [ ] clicky
     - [ ] restyle close button on instructions
 - [ ] card alignment issues with grid system
