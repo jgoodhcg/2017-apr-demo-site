@@ -39,9 +39,11 @@ export default class Exercise extends React.Component {
             start: min_date,
             end: max_date,
             range: exercise_data,
-            scale_x: d3.scaleLinear()
-                       .domain([this.min, this.max])
-                       .range([0,100]),
+            scale_x: d3.scaleQuantile()
+                       .domain(d3.timeDays(min_date, max_date)
+                                 .map((d)=>{
+                                     return this.dateString(d);}))
+                       .range(_.range(0,101,1)),
             width: 100/d3.timeDays(min_date, max_date).length
         };
 
@@ -67,20 +69,18 @@ export default class Exercise extends React.Component {
 
             values = _(days)
                 .filter((v,i)=>{return i % mod === 0;})
-                .map((day)=>{return {
-                    value: day.getFullYear()+"-"
-                          +(day.getMonth()+1)+"-"
-                          +day.getDate(),
-                    x: this.state.scale_x(day.valueOf())
-                };})
+                .map((day)=>{
+                    let day_str = this.dateString(day);
+                    return {
+                        value: day_str,
+                        x: this.state.scale_x(day_str)};})
                 .value();
 
+        let end_str = this.dateString(end);
         // end cap
         values.push({
-            value: end.getFullYear()+"-"
-                  +(end.getMonth()+1)+"-"
-                  +end.getDate(),
-            x: this.state.scale_x(end.valueOf())
+            value: end_str,
+            x: this.state.scale_x(end_str)
         });
 
         return values;
@@ -163,9 +163,10 @@ export default class Exercise extends React.Component {
         let new_state = Object.assign({}, this.state, keyval),
             days_in_new_range = d3.timeDays(new_state.start, new_state.end);
 
-        new_state.scale_x.domain([
-            new_state.start.valueOf(),
-             new_state.end.valueOf()]);
+        new_state.scale_x.domain(
+            days_in_new_range
+                .map((d)=>{
+                    return this.dateString(d);}));
 
         new_state.width = 100/days_in_new_range.length;
 
@@ -198,19 +199,28 @@ export default class Exercise extends React.Component {
         return(
             <rect
                 key={label+"-"+name}
-                x={x}
+                x={x - (this.state.width/2)}
                 y={y}
                 width={this.state.width}
                 height={height}
-                fill={this.color(name)}>
+                fill={this.color(name)}
+                strokeWidth="0"
+            >
             </rect>
         );
+    }
+
+    dateString(d){
+        return parseInt((d.getFullYear()+"-"
+              +(d.getMonth()+1)+"-"
+              +d.getDate()).split("-").join(""));
     }
 
     renderBar(entry){
         let workout = entry.data.exercises,
             names   = Object.keys(entry.data.exercises),
-            x       = this.state.scale_x(entry.start.valueOf()),
+            x_date  = new Date(entry.start),
+            x       = this.state.scale_x(this.dateString(x_date)),
             stacker = 62.5,
             label   = entry.start +"-"+ entry.stop;
 
@@ -248,10 +258,15 @@ export default class Exercise extends React.Component {
                 />
                 <svg width="100%" height="100%" viewBox="-10 -10 120 82.6">
 
+                    {this.yTicks(this.state.range)
+                         .map(this.renderYTick.bind(this))}
+
+                    {this.state.range.map(this.renderBar.bind(this))}
+
                     <line
                         class="x-axis"
                         strokeLinecap="round"
-                        x1="0" x2="100" y1="62.5" y2="62.5"
+                        x1="-0.25" x2="100.25" y1="62.5" y2="62.5"
                         stroke="black" strokeWidth="0.25"/>
 
                     {this.xTicks(this.state.range)
@@ -260,14 +275,8 @@ export default class Exercise extends React.Component {
                     <line
                         class="y-axis"
                         strokeLinecap="round"
-                        x1="0"  x2="0" y1="0" y2="62.5"
+                        x1="0"  x2="0" y1="-0.25" y2="62.75"
                         stroke="black" strokeWidth="0.25"/>
-
-                    {this.yTicks(this.state.range)
-                         .map(this.renderYTick.bind(this))}
-
-                    {this.state.range.map(this.renderBar.bind(this))}
-
                 </svg>
             </div>
         );
