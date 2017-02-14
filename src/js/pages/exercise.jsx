@@ -5,7 +5,7 @@ import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 import DateRange from "./../components/daterange.jsx";
 import { exercise_data } from "./../modules/exercise_real.js";
 import _ from "lodash";
-import * as d3 from "d3"
+import * as d3 from "d3";
 import * as chroma from "d3-scale-chromatic";
 
 
