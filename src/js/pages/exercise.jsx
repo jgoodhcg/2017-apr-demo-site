@@ -40,12 +40,25 @@ export default class Exercise extends React.Component {
             end: max_date,
             range: exercise_data,
             scale_x: d3.scaleLinear()
-                       .domain([this.min, this.max])
+                       .domain([this.roundDown(this.min),
+                                this.roundDown(this.max)])
                        .range([0,100]),
             width: 100/d3.timeDays(min_date, max_date).length
         };
 
         console.log(exercise_data);
+    }
+
+    roundDown(day){
+        // takes anything that can be given to Date()
+        // returns timestamp
+        var d = new Date(day);
+        d.setHours(0);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        d.setMilliseconds(0);
+
+        return d.valueOf();
     }
 
     color(name){
@@ -71,7 +84,7 @@ export default class Exercise extends React.Component {
                     value: day.getFullYear()+"-"
                           +(day.getMonth()+1)+"-"
                           +day.getDate(),
-                    x: this.state.scale_x(day.valueOf())
+                    x: this.state.scale_x(this.roundDown(day.valueOf()))
                 };})
                 .value();
 
@@ -164,8 +177,8 @@ export default class Exercise extends React.Component {
             days_in_new_range = d3.timeDays(new_state.start, new_state.end);
 
         new_state.scale_x.domain([
-            new_state.start.valueOf(),
-             new_state.end.valueOf()]);
+            this.roundDown(new_state.start.valueOf()),
+            this.roundDown(new_state.end.valueOf())]);
 
         new_state.width = 100/days_in_new_range.length;
 
@@ -210,7 +223,7 @@ export default class Exercise extends React.Component {
     renderBar(entry){
         let workout = entry.data.exercises,
             names   = Object.keys(entry.data.exercises),
-            x       = this.state.scale_x(entry.start.valueOf()),
+            x       = this.state.scale_x(this.roundDown(entry.start.valueOf())),
             stacker = 62.5,
             label   = entry.start +"-"+ entry.stop;
 
@@ -248,6 +261,8 @@ export default class Exercise extends React.Component {
                 />
                 <svg width="100%" height="100%" viewBox="-10 -10 120 82.6">
 
+                    {this.state.range.map(this.renderBar.bind(this))}
+
                     <line
                         class="x-axis"
                         strokeLinecap="round"
@@ -265,9 +280,6 @@ export default class Exercise extends React.Component {
 
                     {this.yTicks(this.state.range)
                          .map(this.renderYTick.bind(this))}
-
-                    {this.state.range.map(this.renderBar.bind(this))}
-
                 </svg>
             </div>
         );
