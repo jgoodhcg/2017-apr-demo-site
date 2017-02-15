@@ -53,11 +53,12 @@
       - [ ] bar graph non runs
           - [x] shows bar space for each day in selection
           - [x] stacks bars for all excercises
-          - [ ] fix width on bars
+          - [x] fix width on bars
           - [ ] day selection
       - [ ] bar graph runs
           - [ ] duplicate x axis
           - [ ] runs sepcific y axis (distance)
+          - [ ] render bars
     - [ ] body heat map
           - [ ] body svg
           - [ ] group exercises
@@ -68,6 +69,7 @@
         - [ ] chorechart
   - [ ] clicky
     - [ ] restyle close button on instructions
+  - [ ] chorecchart to alpha_v003
 - [ ] card alignment issues with grid system
 - [ ] activity/project component animation slide icon (see sketchbook)
 - [ ] color scheme decision
@@ -75,6 +77,7 @@
 - [ ] google analytics
 - [ ] project descriptions and bio
 - [ ] favicon
+- [ ] update readme
 
 ### eventually
 - [ ] refactor timesheet to reduce complexity
