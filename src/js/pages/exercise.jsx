@@ -88,12 +88,11 @@ export default class Exercise extends React.Component {
                 };})
                 .value();
 
+        let end_str = this.dateString(end);
         // end cap
         values.push({
-            value: end.getFullYear()+"-"
-                  +(end.getMonth()+1)+"-"
-                  +end.getDate(),
-            x: this.state.scale_x(end.valueOf())
+            value: end_str,
+            x: this.state.scale_x(end_str)
         });
 
         return values;
@@ -211,13 +210,21 @@ export default class Exercise extends React.Component {
         return(
             <rect
                 key={label+"-"+name}
-                x={x}
+                x={x - (this.state.width/2)}
                 y={y}
                 width={this.state.width}
                 height={height}
-                fill={this.color(name)}>
+                fill={this.color(name)}
+                strokeWidth="0"
+            >
             </rect>
         );
+    }
+
+    dateString(d){
+        return parseInt((d.getFullYear()+"-"
+              +(d.getMonth()+1)+"-"
+              +d.getDate()).split("-").join(""));
     }
 
     renderBar(entry){
@@ -266,7 +273,7 @@ export default class Exercise extends React.Component {
                     <line
                         class="x-axis"
                         strokeLinecap="round"
-                        x1="0" x2="100" y1="62.5" y2="62.5"
+                        x1="-0.25" x2="100.25" y1="62.5" y2="62.5"
                         stroke="black" strokeWidth="0.25"/>
 
                     {this.xTicks(this.state.range)
@@ -275,7 +282,7 @@ export default class Exercise extends React.Component {
                     <line
                         class="y-axis"
                         strokeLinecap="round"
-                        x1="0"  x2="0" y1="0" y2="62.5"
+                        x1="0"  x2="0" y1="-0.25" y2="62.75"
                         stroke="black" strokeWidth="0.25"/>
 
                     {this.yTicks(this.state.range)
