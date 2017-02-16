@@ -50,11 +50,10 @@
         - [x] y-axis
           - [x] render bar
           - [x] render ticks
-      - [ ] bar graph non runs
+      - [x] bar graph non runs
           - [x] shows bar space for each day in selection
           - [x] stacks bars for all excercises
           - [x] fix width on bars
-          - [ ] day selection
       - [ ] bar graph runs
           - [ ] duplicate x axis
           - [ ] runs sepcific y axis (distance)
@@ -84,3 +83,4 @@
 - [ ] display tags
 - [ ] filter tags
 - [ ] better deployment (use create-react app template)
+- [ ] day selection on exercise bar chart(s)
