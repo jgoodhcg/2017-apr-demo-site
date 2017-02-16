@@ -102,6 +102,40 @@ export default class ExcerciseBar extends React.Component {
         );
     }
 
+    yTicks(parent){
+        let max_reps = parent.max_reps,
+            ticks = _(
+            _.range(0, max_reps,
+                    Math.ceil(max_reps/7)))
+            .map((rep)=>{ return {rep: rep, y: parent.scale_y(rep)};})
+            .value();
+
+        ticks.push({rep: max_reps,
+                    y: parent.scale_y(max_reps)});
+
+        return ticks;
+    }
+
+    renderYTick(y_t, index){
+        // expects y_t to be obj {rep: rep_number, y: position}
+        let x = 0,
+            y = y_t.y;
+
+        return (
+            <g key={y_t.rep}>
+                <line x1={x - 1} x2={x}
+                      y1={y} y2={y}
+                      class="x-axis-tick"
+                      stroke="black" strokeWidth="0.1"
+                />
+                <text x={x - (3 * 1.5)} y={y}
+                      fontFamily="Verdana" fontSize="1.5">
+                    {y_t.rep}
+                </text>
+            </g>
+        );
+    }
+
     render(){
         let parent = this.props.parent;
 
@@ -119,6 +153,16 @@ export default class ExcerciseBar extends React.Component {
 
                 {this.xTicks(parent.state.range, parent)
                      .map(this.renderXTick)}
+
+                <line
+                    class="y-axis"
+                    strokeLinecap="round"
+                    x1="0"  x2="0" y1="-0.25" y2="62.75"
+                    stroke="black" strokeWidth="0.25"/>
+
+                {this.yTicks(parent)
+                     .map(this.renderYTick)}
+
             </svg>
         );
     }
