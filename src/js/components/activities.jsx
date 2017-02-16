@@ -18,7 +18,7 @@ export default class Activities extends React.Component {
                  description: "Some other text. This project is slightly different. Text is shorter on this one."
                 },
 
-                {id: "exercise", resource: "exercise", ext: false, route: "/exercise",
+                {id: "workouts", resource: "workouts", ext: false, route: "/workouts",
                  description: "The description is lengthy on this one. Have to cover all sizing contingencies. Why is CSS so tedious. There must be a better way to do this. Flex box was ok, but there should be even better ways to position stuff around a page."
                 },
 

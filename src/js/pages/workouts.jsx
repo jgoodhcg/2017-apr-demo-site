@@ -11,7 +11,7 @@ import * as d3 from "d3";
 import * as chroma from "d3-scale-chromatic";
 
 
-export default class Exercise extends React.Component {
+export default class Workouts extends React.Component {
     constructor() {
         super();
 
@@ -143,9 +143,8 @@ export default class Exercise extends React.Component {
                     startUpdate={this.updateStart.bind(this)}
                     endUpdate={this.updateEnd.bind(this)}
                 />
-                <ExerciseBar
-                    parent={this}
-                />
+
+                <ExerciseBar parent={this}/>
            </div>
         );
     }
