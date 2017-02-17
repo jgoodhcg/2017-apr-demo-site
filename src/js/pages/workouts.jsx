@@ -3,7 +3,8 @@ import InlineSVG from 'svg-inline-react';
 import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 
 import DateRange from "./../components/daterange.jsx";
-import ExerciseBar from "./../components/exerciseBar.jsx";
+import ExerciseBar from "./../components/exercise.jsx";
+import RunsBar from "./../components/runs.jsx";
 
 import { exercise_data } from "./../modules/exercise_real.js";
 import _ from "lodash";
@@ -29,6 +30,8 @@ export default class Workouts extends React.Component {
                          .domain([0, this.max_reps])
                          .range([62.5, 0]);
 
+        this.data = exercise_data;
+
         this.workout_names = _(exercise_data)
             .map((entry)=>{
                 return Object.keys(entry.data.exercises)
@@ -39,7 +42,6 @@ export default class Workouts extends React.Component {
 
         // state is only for things that change
         this.state = {
-            data: exercise_data,
             start: min_date,
             end: max_date,
             range: exercise_data,
@@ -55,7 +57,7 @@ export default class Workouts extends React.Component {
 
     roundDown(day){
         // takes anything that can be given to Date()
-        // returns timestamp
+        // returns timestamp of that day at 0 h,m,s,ms
         var d = new Date(day);
         d.setHours(0);
         d.setMinutes(0);
@@ -108,7 +110,7 @@ export default class Workouts extends React.Component {
 
     calcRange(s,e){
         // s,e (start,stop) are a js Date
-        let new_range = this.state.data
+        let new_range = this.data
                             .filter((entry)=>{
                                 return entry.start >= s.valueOf()
                                      && entry.stop <= e.valueOf();});
@@ -141,10 +143,10 @@ export default class Workouts extends React.Component {
                     range="#68DADA" inactive="#989A9B"
                     min={this.min} max={this.max}
                     startUpdate={this.updateStart.bind(this)}
-                    endUpdate={this.updateEnd.bind(this)}
-                />
+                    endUpdate={this.updateEnd.bind(this)}/>
 
                 <ExerciseBar parent={this}/>
+                <RunsBar parent={this}/>
            </div>
         );
     }
