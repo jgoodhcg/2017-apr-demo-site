@@ -10,14 +10,46 @@ export default class RunsBar extends React.Component {
         super();
     }
 
+    renderSegment(name, label, x, y, height, parent){
+        return(
+            <rect
+                key={label+"-"+name}
+                x={x - (parent.state.width/2)}
+                y={y}
+                width={parent.state.width}
+                height={height}
+                fill={parent.color(name)}
+                strokeWidth="0"
+            >
+            </rect>
+        );
+    }
+
     renderBar(entry, parent){
         let workout = entry.data.runs,
-            names   = Object.keys(entry.data.runs);
+            names   = Object.keys(entry.data.runs),
+            x       = parent.state.scale_x(parent.roundDown(entry.start.valueOf())),
+            stacker = 62.5,
+            label   = entry.start +"-"+ entry.stop;
 
-        console.log(workout);
+        return (
+            <g key={label}
+               class="bar">
+                {names.map((name)=>{
+                     let dtw_array = workout[name],
+                         seg_distance  =  _(dtw_array)
+                             .reduce((total, dtw)=>{
+                                 let distance = parseFloat(dtw.sets);
 
-        return "bars here";
-      }
+                                 return total + distance;}, 0),
+                         height    = (62.5 - parent.scale_y_runs(seg_distance)),
+                         y         = stacker - height;
+
+                     stacker = y;
+
+                     return this.renderSegment(name, label, x, y, height, parent);})}
+            </g>);
+     }
 
     xTicks(data, parent){
         // return at most twenty dates to use as ticks
@@ -110,9 +142,8 @@ export default class RunsBar extends React.Component {
         return(
             <svg width="100%" height="100%" viewBox="-10 -10 120 82.6">
 
-                {/* {parent.state.range.map((entry)=>{
+                {parent.state.range.map((entry)=>{
                     return this.renderBar(entry, parent);})}
-                  */}
 
                 <line
                     class="x-axis"

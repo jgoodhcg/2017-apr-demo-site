@@ -36,8 +36,6 @@ export default class Workouts extends React.Component {
                               .domain([0, this.max_distance])
                               .range([62.5, 0]);
 
-        console.log(this.max_distance);
-
         this.data = exercise_data;
 
         this.workout_names = _(exercise_data)
