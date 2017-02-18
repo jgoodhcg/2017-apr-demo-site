@@ -30,6 +30,14 @@ export default class Workouts extends React.Component {
                          .domain([0, this.max_reps])
                          .range([62.5, 0]);
 
+        this.max_distance = d3.max(exercise_data, (entry)=>{
+            return this.getTotalDistanceDay(entry).distance});
+        this.scale_y_runs = d3.scaleLinear()
+                              .domain([0, this.max_distance])
+                              .range([62.5, 0]);
+
+        console.log(this.max_distance);
+
         this.data = exercise_data;
 
         this.workout_names = _(exercise_data)
@@ -52,7 +60,6 @@ export default class Workouts extends React.Component {
             width: 100/d3.timeDays(min_date, max_date).length
         };
 
-        console.log(exercise_data);
     }
 
     roundDown(day){
@@ -92,6 +99,25 @@ export default class Workouts extends React.Component {
         });
 
         return {date: date, reps: total_reps};
+    }
+
+    getTotalDistanceDay(day){
+        let runs = Object.keys(day.data.runs),
+            workout = day.data.runs,
+            total_distance = 0,
+            date = new Date(day.start);
+
+        runs.forEach((e)=>{
+            let dtw_arr = workout[e];
+
+            dtw_arr.forEach((dtw)=>{
+                let distance = parseFloat(dtw.sets);
+
+                total_distance += distance;
+            })
+        });
+
+        return {date: date, distance: total_distance}
     }
 
     changeState(keyval){
