@@ -50,22 +50,22 @@
         - [x] y-axis
           - [x] render bar
           - [x] render ticks
-      - [x] bar graph non runs
-          - [x] shows bar space for each day in selection
-          - [x] stacks bars for all excercises
-          - [x] fix width on bars
-      - [ ] bar graph runs
-          - [ ] duplicate x axis
-          - [ ] runs sepcific y axis (distance)
-          - [ ] render bars
+    - [x] bar graph non runs
+      - [x] shows bar space for each day in selection
+      - [x] stacks bars for all excercises
+      - [x] fix width on bars
+    - [x] bar graph runs
+      - [x] duplicate x axis
+      - [x] runs sepcific y axis (distance)
+      - [x] render bars
     - [ ] body heat map
-          - [ ] body svg
-          - [ ] group exercises
-          - [ ] total reps per exercise in date range
-          - [ ] chroma scale each body segment by total reps
-      - [ ] global stats near top
-      - [ ] style with cards
-        - [ ] chorechart
+      - [ ] body svg
+      - [ ] group exercises
+      - [ ] total reps per exercise in date range
+      - [ ] chroma scale each body segment by total reps
+    - [ ] global stats near top
+    - [ ] style with cards
+  - [ ] chorechart
   - [ ] clicky
     - [ ] restyle close button on instructions
   - [ ] chorecchart to alpha_v003

@@ -5,6 +5,7 @@ import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 import DateRange from "./../components/daterange.jsx";
 import ExerciseBar from "./../components/exercise.jsx";
 import RunsBar from "./../components/runs.jsx";
+import Heatmap from "./../components/heatmap.jsx";
 
 import { exercise_data } from "./../modules/exercise_real.js";
 import _ from "lodash";
@@ -46,6 +47,13 @@ export default class Workouts extends React.Component {
             .uniq()
             .value();
 
+        this.non_run_names = _(exercise_data)
+            .map((entry)=>{
+                return Object.keys(entry.data.exercises);})
+            .flatten()
+            .uniq()
+            .value();
+
         // state is only for things that change
         this.state = {
             start: min_date,
@@ -58,6 +66,38 @@ export default class Workouts extends React.Component {
             width: 100/d3.timeDays(min_date, max_date).length
         };
 
+        this.heatmap_totals = this.totalForWorkoutNames();
+        this.max_reps_workout = d3.max(
+            this.heatmap_totals,
+            (total_for_name)=>{
+                return total_for_name.reps;});
+    }
+
+    totalForName(name){
+        return _(this.state.range)
+            .filter((entry)=>{
+                return Object.keys(entry.data.exercises)
+                             .indexOf(name) !== -1;})
+            .map((entry)=>{
+                let exercises  = entry.data.exercises,
+                    srw_arr    = exercises[name],
+                    total_reps = 0;
+
+                srw_arr.forEach((srw)=>{
+                    let sets = parseInt(srw.sets),
+                        reps = parseInt(srw.reps);
+
+                    total_reps += (sets * reps);});
+
+                return total_reps;})
+            .reduce((total, reps)=>{return total + reps;}, 0);
+    }
+
+    totalForWorkoutNames(){
+        return this.non_run_names.map((name)=>{
+            return {
+                name: name,
+                reps: this.totalForName(name)};});
     }
 
     roundDown(day){
@@ -171,6 +211,7 @@ export default class Workouts extends React.Component {
 
                 <ExerciseBar parent={this}/>
                 <RunsBar parent={this}/>
+                <Heatmap parent={this}/>
            </div>
         );
     }
