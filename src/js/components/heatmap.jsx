@@ -58,15 +58,14 @@ export default class Heatmap extends React.Component {
     }
 
     colorParts(parent, associations){
-        let absolute_totals = parent.heatmap_totals,
-            totals = parent.totalForWorkoutNames(),
+        let totals = parent.totalForWorkoutNames(),
             body_parts = Object.keys(associations),
             max_reps_for_a_part = d3
                 .max(_(body_parts)
                     .map((body_part)=>{
                         return this.getTotalRepsForPart(
                             body_part,
-                            absolute_totals,
+                            totals,
                             associations);})
                     .value());
 
@@ -79,10 +78,6 @@ export default class Heatmap extends React.Component {
                     totals,
                     associations),
                 interpolate_index = total_reps/max_reps_for_a_part;
-
-            console.log(body_part);
-            console.log(total_reps);
-            console.log(interpolate_index);
 
             let children = []
                 .slice
@@ -103,14 +98,24 @@ export default class Heatmap extends React.Component {
         this.colorParts(parent, this.associations);
     }
 
+    componentDidUpdate(){
+         let parent = this.props.parent;
+
+        this.colorParts(parent, this.associations);
+    }
+
     render(){
         /*
            SVG artwork copied from
            https://codepen.io/baublet/pen/PzjmpL
         */
 
+        let parent = this.props.parent;
+
         return (
-            <InlineSVG src={require(`./../../resources/body.svg`)}/>
+            <div id={parent.state.start + "-" + parent.state.end}>
+                <InlineSVG src={require(`./../../resources/body.svg`)}/>
+            </div>
         );
     }
 }
