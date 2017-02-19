@@ -65,6 +65,7 @@
       - [x] chroma scale each body segment by total reps
     - [ ] global stats near top
     - [ ] style with cards
+  - [ ] fix bugs date range component
   - [ ] chorechart
   - [ ] clicky
     - [ ] restyle close button on instructions

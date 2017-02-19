@@ -39,13 +39,7 @@ export default class Workouts extends React.Component {
 
         this.data = exercise_data;
 
-        this.workout_names = _(exercise_data)
-            .map((entry)=>{
-                return Object.keys(entry.data.exercises)
-                             .concat(Object.keys(entry.data.runs));})
-            .flatten()
-            .uniq()
-            .value();
+        this.workout_names = this.getAllExercises(exercise_data);
 
         this.non_run_names = _(exercise_data)
             .map((entry)=>{
@@ -63,7 +57,8 @@ export default class Workouts extends React.Component {
                        .domain([this.roundDown(this.min),
                                 this.roundDown(this.max)])
                        .range([0,100]),
-            width: 100/d3.timeDays(min_date, max_date).length
+            width: 100/d3.timeDays(min_date, max_date).length,
+            selected: null
         };
 
         this.heatmap_totals = this.totalForWorkoutNames();
@@ -71,6 +66,16 @@ export default class Workouts extends React.Component {
             this.heatmap_totals,
             (total_for_name)=>{
                 return total_for_name.reps;});
+    }
+
+    getAllExercises(range){
+        return _(range)
+            .map((entry)=>{
+                return Object.keys(entry.data.exercises)
+                             .concat(Object.keys(entry.data.runs));})
+            .flatten()
+            .uniq()
+            .value()
     }
 
     totalForName(name){
@@ -158,6 +163,15 @@ export default class Workouts extends React.Component {
         return {date: date, distance: total_distance}
     }
 
+    totalMiles(range){
+        return _(range)
+            .map((entry)=>{
+                return this.getTotalDistanceDay(entry).distance;})
+            .reduce((total, miles)=>{
+                return total + miles;})
+            .toFixed(2);
+    }
+
     changeState(keyval){
         let new_state = Object.assign({}, this.state, keyval),
             days_in_new_range = d3.timeDays(new_state.start, new_state.end);
@@ -169,7 +183,7 @@ export default class Workouts extends React.Component {
         new_state.width = 100/days_in_new_range.length;
 
         this.setState(new_state);
-        /* console.log(new_state);*/
+        console.log(new_state);
     }
 
     calcRange(s,e){
@@ -207,12 +221,41 @@ export default class Workouts extends React.Component {
               +d.getDate());
     }
 
+    renderExerciseListItems(exercise){
+        return (
+            <span key={exercise}>
+                {exercise}
+            </span>
+        );
+    }
+
+    renderSelected(selected){
+        if (selected !== null){
+            return (
+                <span>
+                    date: {selected.date}
+                    name: {selected.name}
+                </span>
+            );
+        }else{
+            return (<span>none</span>);
+        }
+    }
+
     render(){
         return (
             <div>
                 <div id="global-stats">
                     <h4>Start Date: {this.presentDate(this.state.start)}</h4>
                     <h4>End Date: {this.presentDate(this.state.end)}</h4>
+                    <h4>Miles Ran: {this.totalMiles(this.state.range)}</h4>
+                    <h4>
+                        Exercises: {this.getAllExercises(
+                                this.state.range).length}
+                    </h4>
+                    <h4>
+                        Selected: {this.renderSelected(this.state.selected)}
+                    </h4>
                 </div>
                 <DateRange
                     idprefix="date-range"

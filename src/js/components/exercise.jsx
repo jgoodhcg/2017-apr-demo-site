@@ -10,16 +10,18 @@ export default class ExcerciseBar extends React.Component {
         super();
     }
 
-    renderSegment(name, label, x, y, height, parent){
+    renderSegment(name, label, x, y, height, parent, onclick){
         return(
             <rect
                 key={label+"-"+name}
+                id={label+"-"+name}
                 x={x - (parent.state.width/2)}
                 y={y}
                 width={parent.state.width}
                 height={height}
                 fill={parent.color(name)}
                 strokeWidth="0"
+                onClick={onclick.bind(this)}
             >
             </rect>
         );
@@ -28,7 +30,9 @@ export default class ExcerciseBar extends React.Component {
     renderBar(entry, parent){
         let workout = entry.data.exercises,
             names   = Object.keys(entry.data.exercises),
-            x       = parent.state.scale_x(parent.roundDown(entry.start.valueOf())),
+            start   = entry.start.valueOf(),
+            day     = parent.roundDown(entry.start.valueOf()),
+            x       = parent.state.scale_x(day),
             stacker = 62.5,
             label   = entry.start +"-"+ entry.stop;
 
@@ -48,7 +52,13 @@ export default class ExcerciseBar extends React.Component {
 
                      stacker = y;
 
-                     return this.renderSegment(name, label, x, y, height, parent);})}
+                     return this.renderSegment(
+                         name, label, x, y, height, parent,
+                         (e)=>{parent.changeState(
+                             {selected: {date: parent.presentDate(start),
+                                         name: name,
+                                         srw_array: srw_array,
+                                         id: label+"-"+name}})});})}
             </g>);
     }
 
