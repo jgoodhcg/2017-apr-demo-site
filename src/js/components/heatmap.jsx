@@ -69,8 +69,6 @@ export default class Heatmap extends React.Component {
                             associations);})
                     .value());
 
-        console.log(max_reps_for_a_part);
-
         body_parts.forEach((body_part)=>{
             let workouts = associations[body_part],
                 total_reps = this.getTotalRepsForPart(

@@ -199,9 +199,21 @@ export default class Workouts extends React.Component {
               +d.getDate()).split("-").join(""));
     }
 
+    presentDate(timestamp){
+        let d = new Date(timestamp);
+
+        return (d.getFullYear()+"-"
+              +(d.getMonth()+1)+"-"
+              +d.getDate());
+    }
+
     render(){
         return (
             <div>
+                <div id="global-stats">
+                    <h4>Start Date: {this.presentDate(this.state.start)}</h4>
+                    <h4>End Date: {this.presentDate(this.state.end)}</h4>
+                </div>
                 <DateRange
                     idprefix="date-range"
                     range="#68DADA" inactive="#989A9B"

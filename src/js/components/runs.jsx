@@ -71,10 +71,10 @@ export default class RunsBar extends React.Component {
                 };})
                 .value();
 
-        let end_str = parent.dateString(end);
+        let end_str = parent.roundDown(end);
         // end cap
         values.push({
-            value: end_str,
+            value: parent.presentDate(end),
             x: parent.state.scale_x(end_str)
         });
 
