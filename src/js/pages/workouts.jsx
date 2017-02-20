@@ -242,27 +242,45 @@ export default class Workouts extends React.Component {
         }
     }
 
+    renderStat(label, val){
+        return(
+            <div class="col-4-lg col-6-md col-12-sm">
+                <label>
+                    {label}:
+                    <span> {val}</span>
+                </label>
+            </div>
+        )
+    }
+
     render(){
         return (
-            <div>
-                <div id="global-stats">
-                    <h4>Start Date: {this.presentDate(this.state.start)}</h4>
-                    <h4>End Date: {this.presentDate(this.state.end)}</h4>
-                    <h4>Miles Ran: {this.totalMiles(this.state.range)}</h4>
-                    <h4>
-                        Exercises: {this.getAllExercises(
-                                this.state.range).length}
-                    </h4>
-                    <h4>
-                        Selected: {this.renderSelected(this.state.selected)}
-                    </h4>
+            <div id="workout" class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 card card-1">
+                        <div class="title">
+
+                            {this.renderStat(
+                             "Start Date", this.presentDate(this.state.start))}
+                            {this.renderStat(
+                             "End Date", this.presentDate(this.state.end))}
+                            {this.renderStat(
+                             "Miles Ran", this.totalMiles(this.state.range))}
+                            {this.renderStat(
+                                 "Exercises", this.getAllExercises(
+                                     this.state.range).length)}
+                            {this.renderStat(
+                             "Selected", this.renderSelected(this.state.selected))}
+
+                            <DateRange
+                                idprefix="date-range"
+                                range="#68DADA" inactive="#989A9B"
+                                min={this.min} max={this.max}
+                                startUpdate={this.updateStart.bind(this)}
+                                endUpdate={this.updateEnd.bind(this)}/>
+                        </div>
+                    </div>
                 </div>
-                <DateRange
-                    idprefix="date-range"
-                    range="#68DADA" inactive="#989A9B"
-                    min={this.min} max={this.max}
-                    startUpdate={this.updateStart.bind(this)}
-                    endUpdate={this.updateEnd.bind(this)}/>
 
                 <ExerciseBar parent={this}/>
                 <RunsBar parent={this}/>

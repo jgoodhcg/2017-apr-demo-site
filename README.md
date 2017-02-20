@@ -63,10 +63,9 @@
       - [x] group exercises
       - [x] total reps per exercise in date range
       - [x] chroma scale each body segment by total reps
-    - [ ] global stats near top
+    - [x] global stats near top
     - [ ] style with cards
   - [ ] fix bugs date range component
-  - [ ] chorechart
   - [ ] clicky
     - [ ] restyle close button on instructions
   - [ ] chorecchart to alpha_v003
