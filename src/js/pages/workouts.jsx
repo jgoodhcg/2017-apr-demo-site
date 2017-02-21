@@ -255,7 +255,7 @@ export default class Workouts extends React.Component {
 
     render(){
         return (
-            <div id="workout" class="container-fluid">
+            <div id="workouts" class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 card card-1">
                         <div class="title">
@@ -270,8 +270,10 @@ export default class Workouts extends React.Component {
                                  "Exercises", this.getAllExercises(
                                      this.state.range).length)}
                             {this.renderStat(
-                             "Selected", this.renderSelected(this.state.selected))}
-
+                                 "Selected", this.renderSelected(
+                                     this.state.selected))}
+                        </div>
+                        <div class="date-range-container">
                             <DateRange
                                 idprefix="date-range"
                                 range="#68DADA" inactive="#989A9B"
@@ -282,9 +284,25 @@ export default class Workouts extends React.Component {
                     </div>
                 </div>
 
-                <ExerciseBar parent={this}/>
-                <RunsBar parent={this}/>
-                <Heatmap parent={this}/>
+                <div class="row">
+                    <div class="col-xs-12 card card-1">
+                        <div class="row around-xs">
+                            <div class="col-xs-12 col-md-6" >
+                                <div class="row around-xs">
+                                    <div class="col-xs-12">
+                                        <ExerciseBar parent={this}/>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <RunsBar parent={this}/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 col-lg-3" >
+                                <Heatmap parent={this}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
            </div>
         );
     }

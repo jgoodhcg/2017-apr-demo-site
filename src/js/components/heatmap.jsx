@@ -111,7 +111,7 @@ export default class Heatmap extends React.Component {
         let parent = this.props.parent;
 
         return (
-            <div id={parent.state.start + "-" + parent.state.end}>
+            <div class="heatmap">
                 <InlineSVG src={require(`./../../resources/body.svg`)}/>
             </div>
         );
