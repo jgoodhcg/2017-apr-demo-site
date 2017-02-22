@@ -250,6 +250,7 @@ export default class Workouts extends React.Component {
     }
 
     renderSelected(selected){
+        console.log(selected);
         if (selected !== null){
             return (
                 <span>
@@ -264,11 +265,9 @@ export default class Workouts extends React.Component {
 
     renderStat(label, val){
         return(
-            <div class="col-4-lg col-6-md col-12-sm">
-                <label>
-                    {label}:
-                    <span> {val}</span>
-                </label>
+            <div class="stat col-xs-12 col-sm-6 col-md-3">
+                <label>{label}</label>
+                <span> {val}</span>
             </div>
         )
     }
@@ -278,20 +277,22 @@ export default class Workouts extends React.Component {
             <div id="workouts" class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 card card-1">
-                        <div class="title">
-
+                        <div class="stats row between-xs">
                             {this.renderStat(
                              "Start Date", this.presentDate(this.state.start))}
-                            {this.renderStat(
-                             "End Date", this.presentDate(this.state.end))}
                             {this.renderStat(
                              "Miles Ran", this.totalMiles(this.state.range))}
                             {this.renderStat(
                                  "Exercises", this.getAllExerciseNames(
                                      this.state.range).length)}
                             {this.renderStat(
+                             "End Date", this.presentDate(this.state.end))}
+                        </div>
+                        <div class="row">
+                            {this.renderStat(
                                  "Selected", this.renderSelected(
                                      this.state.selected))}
+
                         </div>
                         <div class="date-range-container">
                             <DateRange
