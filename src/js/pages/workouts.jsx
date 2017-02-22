@@ -39,14 +39,9 @@ export default class Workouts extends React.Component {
 
         this.data = exercise_data;
 
-        this.workout_names = this.getAllExercises(exercise_data);
-
-        this.non_run_names = _(exercise_data)
-            .map((entry)=>{
-                return Object.keys(entry.data.exercises);})
-            .flatten()
-            .uniq()
-            .value();
+        this.workout_names = this.getAllExerciseNames(exercise_data);
+        this.non_run_names = this.getNonRunExercisesNames(exercise_data);
+        this.run_names = this.getRunNames(exercise_data);
 
         // state is only for things that change
         this.state = {
@@ -68,7 +63,7 @@ export default class Workouts extends React.Component {
                 return total_for_name.reps;});
     }
 
-    getAllExercises(range){
+    getAllExerciseNames(range){
         return _(range)
             .map((entry)=>{
                 return Object.keys(entry.data.exercises)
@@ -76,6 +71,24 @@ export default class Workouts extends React.Component {
             .flatten()
             .uniq()
             .value()
+    }
+
+    getNonRunExercisesNames(range){
+        return _(range)
+            .map((entry)=>{
+                return Object.keys(entry.data.exercises);})
+            .flatten()
+            .uniq()
+            .value();
+    }
+
+    getRunNames(range){
+        return _(range)
+            .map((entry)=>{
+                return Object.keys(entry.data.runs);})
+            .flatten()
+            .uniq()
+            .value();
     }
 
     totalForName(name){
@@ -117,11 +130,18 @@ export default class Workouts extends React.Component {
         return d.valueOf();
     }
 
-    color(name){
-        let index = this.workout_names.indexOf(name),
+    colorNonRuns(name){
+         let index = this.workout_names.indexOf(name),
             interpolate_index = index/(this.workout_names.length - 1);
 
         return chroma.interpolateSpectral(interpolate_index);
+    }
+
+    colorRuns(name){
+        let index = this.run_names.indexOf(name),
+            interpolate_index = index/(this.run_names.length -1);
+
+        return chroma.interpolatePRGn(interpolate_index);
     }
 
     getTotalRepsDay(day){
@@ -267,7 +287,7 @@ export default class Workouts extends React.Component {
                             {this.renderStat(
                              "Miles Ran", this.totalMiles(this.state.range))}
                             {this.renderStat(
-                                 "Exercises", this.getAllExercises(
+                                 "Exercises", this.getAllExerciseNames(
                                      this.state.range).length)}
                             {this.renderStat(
                                  "Selected", this.renderSelected(

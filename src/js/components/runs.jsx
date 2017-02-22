@@ -18,7 +18,7 @@ export default class RunsBar extends React.Component {
                 y={y}
                 width={parent.state.width}
                 height={height}
-                fill={parent.color(name)}
+                fill={parent.colorRuns(name)}
                 strokeWidth="0"
             >
             </rect>

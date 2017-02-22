@@ -19,7 +19,7 @@ export default class ExcerciseBar extends React.Component {
                 y={y}
                 width={parent.state.width}
                 height={height}
-                fill={parent.color(name)}
+                fill={parent.colorNonRuns(name)}
                 strokeWidth="0"
                 onClick={onclick.bind(this)}
             >
