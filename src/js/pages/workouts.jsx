@@ -141,7 +141,7 @@ export default class Workouts extends React.Component {
         let index = this.run_names.indexOf(name),
             interpolate_index = index/(this.run_names.length -1);
 
-        return chroma.interpolatePRGn(interpolate_index);
+        return chroma.schemeSet1[2*interpolate_index + 1];
     }
 
     getTotalRepsDay(day){
@@ -177,19 +177,34 @@ export default class Workouts extends React.Component {
                 let distance = parseFloat(dtw.sets);
 
                 total_distance += distance;
-            })
+            });
         });
 
-        return {date: date, distance: total_distance}
+        return {date: date, distance: total_distance};
     }
 
     totalMiles(range){
         return _(range)
-            .map((entry)=>{
-                return this.getTotalDistanceDay(entry).distance;})
-            .reduce((total, miles)=>{
-                return total + miles;})
+            .map((entry)=>{return this.getTotalDistanceDay(entry).distance;})
+            .reduce((total, miles)=>{return total + miles;})
             .toFixed(2);
+    }
+
+    totalTime(range){
+        return _(range)
+            .map((entry)=>{
+                let duration_ms = entry.stop - entry.start;
+                return (((duration_ms/1000)/60)/60);
+            })
+            .reduce((total, time)=>{return total + time;}, 0);
+    }
+
+    elapsedDays(range){
+        let min  = d3.min(range, (entry)=>{return entry.stop;}),
+            max  = d3.max(range, (entry)=>{return entry.stop;}),
+            days = d3.timeDays(new Date(min), new Date(max));
+
+        return days.length;
     }
 
     changeState(keyval){
@@ -253,23 +268,25 @@ export default class Workouts extends React.Component {
         console.log(selected);
         if (selected !== null){
             return (
-                <span>
-                    date: {selected.date}
-                    name: {selected.name}
-                </span>
+                <div class="selected">
+                    <label>date: </label>
+                    <span>{selected.date}</span>
+                    <label>name: </label>
+                    <span>{selected.name}</span>
+                </div>
             );
         }else{
-            return (<span>none</span>);
+            return (<div class="selected"></div>);
         }
     }
 
     renderStat(label, val){
         return(
-            <div class="stat col-xs-12 col-sm-6 col-md-3">
+            <div class="stat">
                 <label>{label}</label>
                 <span> {val}</span>
             </div>
-        )
+        );
     }
 
     render(){
@@ -277,22 +294,29 @@ export default class Workouts extends React.Component {
             <div id="workouts" class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 card card-1">
-                        <div class="stats row between-xs">
+                        <div class="stats">
                             {this.renderStat(
-                             "Start Date", this.presentDate(this.state.start))}
+                                 "Start Date", this.presentDate(
+                                     this.state.start))}
                             {this.renderStat(
-                             "Miles Ran", this.totalMiles(this.state.range))}
+                                 "Miles Ran", this.totalMiles(
+                                     this.state.range))}
                             {this.renderStat(
                                  "Exercises", this.getAllExerciseNames(
                                      this.state.range).length)}
                             {this.renderStat(
-                             "End Date", this.presentDate(this.state.end))}
-                        </div>
-                        <div class="row">
+                                 "Elapsed Days", this.elapsedDays(
+                                     this.state.range))}
                             {this.renderStat(
-                                 "Selected", this.renderSelected(
-                                     this.state.selected))}
-
+                                 "Total Time", this.totalTime(
+                                     this.state.range).toFixed(2)+" hours")}
+                            {this.renderStat(
+                                 "End Date", this.presentDate(
+                                     this.state.end))}
+                        </div>
+                        <div class="selected">
+                            {this.renderSelected(
+                                 this.state.selected)}
                         </div>
                         <div class="date-range-container">
                             <DateRange
@@ -324,7 +348,7 @@ export default class Workouts extends React.Component {
                         </div>
                     </div>
                 </div>
-           </div>
+            </div>
         );
     }
 }
