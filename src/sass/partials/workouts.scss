@@ -3,6 +3,25 @@
         padding-top: 3em;
     }
 
+    .selected{
+        display: flex;
+        justify-content: center;
+
+        label{
+            margin-right: 1em;
+            color: grey;
+        }
+
+        span{
+            mergin-right: 0.5em;
+        }
+        .selected-srws{
+            .selected-srw{
+                
+            }
+        }
+    }
+
     .stats{
         display: flex;
         flex-wrap: wrap;

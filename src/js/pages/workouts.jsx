@@ -264,6 +264,19 @@ export default class Workouts extends React.Component {
         );
     }
 
+    renderSelectedsrw(srw){
+        return (
+            <div class="selected-srw"
+                 key={srw.sets+"-"+srw.reps+"-"+srw.weight}>
+                <label>sets: </label>
+                <span>{srw.sets}</span>
+                <label>reps: </label>
+                <span>{srw.reps}</span>
+                <label>weight: </label>
+                <span>{srw.weight}</span>
+            </div>);
+    }
+
     renderSelected(selected){
         console.log(selected);
         if (selected !== null){
@@ -271,8 +284,14 @@ export default class Workouts extends React.Component {
                 <div class="selected">
                     <label>date: </label>
                     <span>{selected.date}</span>
+
                     <label>name: </label>
                     <span>{selected.name}</span>
+
+                    <div class="selected-srws">
+                        {selected.srw_array.map(
+                             this.renderSelectedsrw.bind(this))}
+                    </div>
                 </div>
             );
         }else{
