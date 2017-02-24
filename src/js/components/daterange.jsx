@@ -71,7 +71,7 @@ export default class DateRange extends React.Component {
         let svg = document.getElementById(this.state.id+"-svg"),
             start = document.getElementById(this.state.id+"-start"),
             end   = document.getElementById(this.state.id+"-end"),
-            scale = 100/svg.clientWidth;
+            scale = 130/svg.clientWidth;
 
         this.state.scale = scale;
 
@@ -98,12 +98,14 @@ export default class DateRange extends React.Component {
             svg.removeEventListener('mousemove', this.updateCircle.bind(this));
             this.state.selected = null;
             this.state.prevEvent = null;});
-        /* svg.addEventListener('mouseleave', (e)=>{
-         *     svg.removeEventListener('mousemove', this.updateCircle.bind(this));
-         *     this.state.selected = null;
-         *     this.state.prevEvent = null;});*/
+        svg.addEventListener('mouseleave', (e)=>{
+            start.removeEventListener('mousemove', this.updateCircle.bind(this));
+            end.removeEventListener('mousemove', this.updateCircle.bind(this));
+            this.state.selected = null;
+            this.state.prevEvent = null;});
         svg.addEventListener('touchend', (e)=>{
-            svg.removeEventListener('touchmove', this.updateCircle.bind(this));
+            start.removeEventListener('touchmove', this.updateCircle.bind(this));
+            end.removeEventListener('touchmove', this.updateCircle.bind(this));
             this.state.selected = null;
             this.state.prevEvent = null;});
     }
