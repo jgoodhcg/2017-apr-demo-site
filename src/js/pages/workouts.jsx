@@ -313,6 +313,23 @@ export default class Workouts extends React.Component {
             <div id="workouts" class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 card card-1">
+                        <h1>2016 workout data</h1>
+                        <p>
+                            This page is a visualization of some spreadsheet data I've kept
+                            about all of my workout history over the past year.
+                        </p>
+                        <p>
+                            The renderings are done with svg and react, with some d3 for
+                            coloring and scaling of the x and y coordinate.
+                        </p>
+                        <p>
+                            The stats area includes a data range selection for limiting all
+                            the graphs to a window of time. Any bar in the repititions graph
+                            can be selected to view the details of the exercise.
+                        </p>
+                    </div>
+                    <div class="col-xs-12 card card-1">
+                        <h2> stats </h2>
                         <div class="stats">
                             {this.renderStat(
                                  "Start Date", this.presentDate(
@@ -333,10 +350,8 @@ export default class Workouts extends React.Component {
                                  "End Date", this.presentDate(
                                      this.state.end))}
                         </div>
-                        <div class="selected">
-                            {this.renderSelected(
-                                 this.state.selected)}
-                        </div>
+                        {this.renderSelected(
+                             this.state.selected)}
                         <div class="date-range-container">
                             <DateRange
                                 idprefix="date-range"
@@ -354,14 +369,17 @@ export default class Workouts extends React.Component {
                             <div class="col-xs-12 col-md-6" >
                                 <div class="row around-xs">
                                     <div class="col-xs-12">
+                                        <h2> stacked bar graph of total reps </h2>
                                         <ExerciseBar parent={this}/>
                                     </div>
                                     <div class="col-xs-12">
+                                        <h2> miles per run </h2>
                                         <RunsBar parent={this}/>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-6 col-lg-3" >
+                                <h2> body heat map of non-run exercises </h2>
                                 <Heatmap parent={this}/>
                             </div>
                         </div>

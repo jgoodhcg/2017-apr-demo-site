@@ -150,7 +150,7 @@ export default class ExcerciseBar extends React.Component {
         let parent = this.props.parent;
 
         return(
-            <svg width="100%" height="100%" viewBox="-10 -10 120 82.6">
+            <svg width="100%" viewBox="-10 0 120 82.6">
 
                 {parent.state.range.map((entry)=>{
                      return this.renderBar(entry, parent);})}

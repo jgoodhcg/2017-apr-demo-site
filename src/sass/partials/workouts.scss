@@ -1,6 +1,5 @@
 #workouts{
     .heatmap{
-        padding-top: 3em;
     }
 
     .selected{
@@ -8,12 +7,12 @@
         justify-content: center;
 
         label{
-            margin-right: 1em;
+            margin-right: 0.5em;
             color: grey;
         }
 
         span{
-            mergin-right: 0.5em;
+            margin-right: 0.5em;
         }
         .selected-srws{
             .selected-srw{
@@ -26,6 +25,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
+        margin-bottom: 2em;
     }
 
     .stat{
