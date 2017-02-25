@@ -67,8 +67,10 @@
     - [x] style with cards
   - [x] fix bugs date range component
   - [ ] chorecchart to alpha_v003
-- [ ] card alignment issues with grid system
+- [x] card alignment issues with grid system
 - [ ] activity/project component animation slide icon (see sketchbook)
+  - [ ] js toggle close class on click
+- [ ] images for projects
 - [ ] color scheme decision
 - [ ] Name pointer change
 - [ ] google analytics
