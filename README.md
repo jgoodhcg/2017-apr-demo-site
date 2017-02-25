@@ -66,8 +66,6 @@
     - [x] global stats near top
     - [x] style with cards
   - [x] fix bugs date range component
-  - [ ] clicky
-    - [ ] restyle close button on instructions
   - [ ] chorecchart to alpha_v003
 - [ ] card alignment issues with grid system
 - [ ] activity/project component animation slide icon (see sketchbook)

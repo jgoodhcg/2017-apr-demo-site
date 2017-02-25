@@ -2,34 +2,3 @@
 #activities{
 }
 
-.activity-container{
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.activity-image{
-    background-color: $bg-dark;
-    padding: 0;
-    position: relative;
-    height: 14em;
-    width: 8.75em;
-        
-    overflow: hidden;
-    display: flex;
-
-    div a i svg{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
-}
-
-.activity-info{
-}
-
-
-@media only screen and (max-width: $sm) {
-    .activity-image{
-        height: 6em;
-    }
-}
