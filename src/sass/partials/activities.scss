@@ -18,10 +18,18 @@
         padding-left: 0.5em;
         padding-right: 0.5em;
 
+        overflow: hidden;
+
         .activity-cover{
+            transition: 1s;
             width: 100%;
             height: 100%;
+            margin: 0;
             background-color: $bg-dark;
+        }
+
+        .activity-cover.closed{
+            width: 0;
         }
     }
 
@@ -36,6 +44,10 @@
     @media only screen and (max-width: $sm) {
         .activity-image{
             height: 8em;
+        }
+
+        .activity-cover-container{
+            display: none;
         }
     }
 }
