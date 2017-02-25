@@ -17,6 +17,8 @@
 
         background-color: $bg-light;
 
+        cursor: pointer; cursor:hand;
+
         #name-text{
             font-size: 1.65em;
             color:  $text-icons;
@@ -41,6 +43,10 @@
             margin: 0.25em;
             width: $icon-size;
         } 
+
+        #gmail{
+            cursor: pointer; cursor: hand;
+        }
     }
 }
 
