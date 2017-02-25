@@ -54,7 +54,7 @@
      inkscape:cx="784.80419"
      inkscape:cy="1025.8428"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
@@ -106,33 +106,13 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,947.63784)"
-     style="display:inline"
-     sodipodi:insensitive="true">
-    <path
-       style="fill:#0d3076;fill-opacity:0.28985506;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 1000,0 A 1000,1000 0 0 0 0,1000 1000,1000 0 0 0 1000,2000 1000,1000 0 0 0 2000,1000 1000,1000 0 0 0 1000,0 Z m 0,600 a 400,400 0 0 1 400,400 400,400 0 0 1 -400,400 400,400 0 0 1 -400,-400 400,400 0 0 1 400,-400 z"
-       id="path4222"
-       transform="translate(0,-947.63784)"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#0d3076;fill-opacity:0.28985506;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1000,100 a 900,900 0 0 0 -900,900 900,900 0 0 0 900,900 900,900 0 0 0 900,-900 900,900 0 0 0 -900,-900 z m 0,500 a 400,400 0 0 1 400,400 400,400 0 0 1 -400,400 400,400 0 0 1 -400,-400 400,400 0 0 1 400,-400 z"
-       id="path4224"
-       transform="translate(0,-947.63784)"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#0d3076;fill-opacity:0.28985506;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 1000,300 a 700,700 0 0 0 -700,700 700,700 0 0 0 700,700 700,700 0 0 0 700,-700 700,700 0 0 0 -700,-700 z m 0,300 a 400,400 0 0 1 400,400 400,400 0 0 1 -400,400 400,400 0 0 1 -400,-400 400,400 0 0 1 400,-400 z"
-       id="path4226"
-       transform="translate(0,-947.63784)"
-       inkscape:connector-curvature="0" />
+     style="display:inline;opacity:1">
     <circle
-       transform="translate(0,-547.63784)"
-       style="fill:#0d3076;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="display:inline;opacity:1;fill:#0d3076;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.25671506px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="path4230"
        cx="1000"
-       cy="600"
-       r="300" />
+       cy="52.362144"
+       r="377.01453" />
   </g>
   <g
      inkscape:groupmode="layer"
