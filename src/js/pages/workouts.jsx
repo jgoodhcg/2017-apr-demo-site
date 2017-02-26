@@ -332,22 +332,22 @@ export default class Workouts extends React.Component {
                         <h2> stats </h2>
                         <div class="stats">
                             {this.renderStat(
-                                 "Start Date", this.presentDate(
+                                 "start date", this.presentDate(
                                      this.state.start))}
                             {this.renderStat(
-                                 "Miles Ran", this.totalMiles(
+                                 "miles ran", this.totalMiles(
                                      this.state.range))}
                             {this.renderStat(
-                                 "Exercises", this.getAllExerciseNames(
+                                 "exercises", this.getAllExerciseNames(
                                      this.state.range).length)}
                             {this.renderStat(
-                                 "Elapsed Days", this.elapsedDays(
+                                 "elapsed days", this.elapsedDays(
                                      this.state.range))}
                             {this.renderStat(
-                                 "Total Time", this.totalTime(
+                                 "total time", this.totalTime(
                                      this.state.range).toFixed(2)+" hours")}
                             {this.renderStat(
-                                 "End Date", this.presentDate(
+                                 "end date", this.presentDate(
                                      this.state.end))}
                         </div>
                         {this.renderSelected(

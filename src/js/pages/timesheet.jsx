@@ -31,6 +31,8 @@ export default class Timesheet extends React.Component {
 
         let data = this.formatTimesheetData(timesheet_data);
 
+        console.log(data);
+
         let opacity_scale = this.opacityScale(data);
 
         this.state = {
@@ -221,6 +223,7 @@ export default class Timesheet extends React.Component {
 
         return {data: new_data, opacityScale: new_opacity_scale, selected: null};
     }
+
     setStart(s_date){
         let end = (this.state.end instanceof Date? this.state.end : new Date()),
             n = this.filterData(s_date, end, this.state.projects);
@@ -585,11 +588,56 @@ export default class Timesheet extends React.Component {
         }
     }
 
+    renderStat(label, val){
+        return(
+            <div class="stat">
+                <label>{label}</label>
+                <span> {val}</span>
+            </div>
+        );
+    }
+
+    getTotalTime(range){
+        /*
+           [{yyyy-mm: {yyyy-mm-dd: [{start: Date, end: Date}]}}]
+        */
+        let total_ms =  _(range)
+            .reduce((total, month)=>{
+                console.log(month);
+                return total
+                     + _(month).reduce((total, day)=>{
+                         console.log(day);
+                         return total
+                              + _(day).reduce((total, tasks)=>{
+                                  return total
+                                       + _(tasks).reduce((total, task)=>{
+                                           return total
+                                                + (task.end.valueOf()
+                                                 - task.start.valueOf());
+                                       }, 0);
+                              }, 0);
+                     }, 0);
+            }, 0);
+
+        return ((((total_ms/1000)/60)/60)/24).toFixed(2);
+    }
+
     render() {
         return(
             <div id="timesheet-page" class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 card card-1">
+                        <h1>timesheet data</h1>
+                        <p>
+                            I've tracked many types of projects with a timesheet mobile app
+                            for a few years. This is a selection of that CSV data parsed
+                            and visualized.
+                        </p>
+                    </div>
+                </div>
                 <div class="row around-xs">
                     <div class="col-xs-12 card card-1">
+                        <h2>controls</h2>
                         <div class="project-buttons">
                             {this.listAllProjects().map(
                                  this.projectButton.bind(this))}
@@ -602,6 +650,12 @@ export default class Timesheet extends React.Component {
                                 startUpdate={this.setStart.bind(this)}
                                 endUpdate={this.setEnd.bind(this)}
                             />
+                        </div>
+                        <h2>stats</h2>
+                        <div class="stats">
+                            {this.renderStat(
+                                 "total time",
+                                 this.getTotalTime(this.state.data)+" days")}
                         </div>
                     </div>
                 </div>
