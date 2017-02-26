@@ -40,6 +40,23 @@
         }
     }
 
+    .stats{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-bottom: 2em;
+    }
+
+    .stat{
+        text-align: center;
+        margin: 0.5em;
+
+        label{
+            margin-right: 1em;
+            color: grey;
+        }
+    }
+
     @media only screen and (min-width: $lg) {
         .date-line{
             stroke-width: 0.5px;
