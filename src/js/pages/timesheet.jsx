@@ -584,30 +584,26 @@ export default class Timesheet extends React.Component {
         return(
             <div id="timesheet-page" class="container-fluid">
                 <div class="row around-xs">
-                    <div class="col-xs-12">
-                        <div class="card card-1">
-                            <div class="project-buttons">
-                                {this.listAllProjects().map(
-                                     this.projectButton.bind(this))}
-                            </div>
-                            <div class="date-range-container">
-                                <DateRange
-                                    idprefix="date-range"
-                                    range="#68DADA" inactive="#989A9B"
-                                    min={this.globalMin} max={this.globalMax}
-                                    startUpdate={this.setStart.bind(this)}
-                                    endUpdate={this.setEnd.bind(this)}
-                                />
-                            </div>
+                    <div class="col-xs-12 card card-1">
+                        <div class="project-buttons">
+                            {this.listAllProjects().map(
+                                 this.projectButton.bind(this))}
+                        </div>
+                        <div class="date-range-container">
+                            <DateRange
+                                idprefix="date-range"
+                                range="#68DADA" inactive="#989A9B"
+                                min={this.globalMin} max={this.globalMax}
+                                startUpdate={this.setStart.bind(this)}
+                                endUpdate={this.setEnd.bind(this)}
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div class="card card-1">
-                            <div class="row">
-                                {this.renderAllOrSelected()}
-                            </div>
+                    <div class="col-xs-12 card card-1">
+                        <div class="row">
+                            {this.renderAllOrSelected()}
                         </div>
                     </div>
                 </div>
