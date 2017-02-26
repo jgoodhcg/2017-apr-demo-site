@@ -15,13 +15,14 @@
         left: 0;
         right: 0;
         height: 16em;
-        padding-left: 0.5em;
+        padding-left: 0em;
         padding-right: 0.5em;
+        margin-left: 23%;
 
         overflow: hidden;
 
         .activity-cover{
-            transition: 1s;
+            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -35,16 +36,28 @@
             }
         }
 
-        .activity-cover.closed{
+        .activity-cover.open{
             width: 0;
+            i{
+                transition: 0.3s;
+                opacity: 0;
+            }
         }
     }
 
     .activity-image{
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 16em;
         background-color: $bg-dark;
         margin: 0;
+        overflow: hidden;
+
+        i svg{
+            width: 100%;
+        }
     }
 
 

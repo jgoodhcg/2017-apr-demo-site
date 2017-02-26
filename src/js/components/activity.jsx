@@ -13,19 +13,21 @@ export default class Activity extends React.Component {
                 <div id={this.props.id} class="activity-container card card-1" >
                     <div class="row middle-xs">
                         <div class="activity-cover-container">
-                            <div class="activity-cover card">
-                                <InlineSVG src={require(`./../../resources/activity-bg.svg`)}/>
+                            <div class={"activity-cover card "+
+                                        (this.props.closed? "" : "open")}
+                                 onClick={this.props.click}>
+                                <InlineSVG src={require(`./../../resources/${this.props.resource}-cover.svg`)}/>
                             </div>
                         </div>
                         <div  class="col-xs-12 col-sm-3">
                             <div class="activity-image card">
                                  {!this.props.ext ?
                                   <Link to={this.props.route} >
-                                      {/* <InlineSVG src={require(`./../../resources/${this.props.resource}.svg`)}/> */}
+                                      <InlineSVG src={require(`./../../resources/${this.props.resource}.svg`)}/>
                                   </Link>
                                   :
                                   <a href={this.props.route}>
-                                      {/* <InlineSVG src={require(`./../../resources/${this.props.resource}.svg`)}/> */}
+                                      <InlineSVG src={require(`./../../resources/${this.props.resource}.svg`)}/>
                                   </a>
                                  }
                             </div>
