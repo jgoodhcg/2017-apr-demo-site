@@ -7,20 +7,21 @@ import { timesheet_data } from "./../modules/timesheet_real.js";
 import DateRange from "./../components/daterange.jsx";
 import _ from "lodash";
 import * as d3 from "d3";
+import * as chroma from "d3-scale-chromatic";
 
 export default class Timesheet extends React.Component {
     constructor() {
         super();
 
         this.colors = {
-           "Dev Skills"    : '#0D1B41',
-           "Demo Website"  : '#9B351E',
-           "Onestop"       : '#0D308E',
-           "Sketchbook"    : '#3D5B11',
-           "Music Lessons" : '#9B7335',
-           "Meditation"    : '#5BAA35',
-           "Ta-done"       : '#0B73AA',
-           "Art"           : '#222335'
+           "Dev Skills"    : this.generateColor(0),
+           "Demo Website"  : this.generateColor(1),
+           "Onestop"       : this.generateColor(2),
+           "Sketchbook"    : this.generateColor(3),
+           "Music Lessons" : this.generateColor(4),
+           "Meditation"    : this.generateColor(5),
+           "Ta-done"       : this.generateColor(6),
+           "Art"           : this.generateColor(7)
         };
 
         this.globalMax = d3.max(timesheet_data, (entry)=>{
@@ -42,6 +43,10 @@ export default class Timesheet extends React.Component {
             selected: null,
             data
         };
+    }
+
+    generateColor(index){
+        return chroma.schemeDark2[index];
     }
 
     changeState(keyval){
