@@ -600,26 +600,39 @@ export default class Timesheet extends React.Component {
     getTotalTime(range){
         /*
            [{yyyy-mm: {yyyy-mm-dd: [{start: Date, end: Date}]}}]
-        */
+         */
         let total_ms =  _(range)
             .reduce((total, month)=>{
-                console.log(month);
                 return total
                      + _(month).reduce((total, day)=>{
-                         console.log(day);
                          return total
                               + _(day).reduce((total, tasks)=>{
                                   return total
                                        + _(tasks).reduce((total, task)=>{
                                            return total
                                                 + (task.end.valueOf()
-                                                 - task.start.valueOf());
-                                       }, 0);
-                              }, 0);
-                     }, 0);
-            }, 0);
+                                                 - task.start.valueOf());},
+                                                         0);}, 0);}, 0);}, 0);
 
         return ((((total_ms/1000)/60)/60)/24).toFixed(2);
+    }
+
+    getLongestTask(range){
+        let task_times_ms = _(range)
+            .map((month)=>{
+                return _(month).map((day)=>{
+                    return _(day).map((tasks)=>{
+                        return _(tasks).map((task)=>{
+                            return task.end.valueOf() - task.start.valueOf();
+                        }).value();
+                    }).value();
+                }).value();
+            })
+            .flattenDeep()
+            .value(),
+            longest_task_time_ms = d3.max(task_times_ms);
+
+        return ((((longest_task_time_ms/1000))/60)/60).toFixed(2);
     }
 
     render() {
@@ -637,6 +650,16 @@ export default class Timesheet extends React.Component {
                 </div>
                 <div class="row around-xs">
                     <div class="col-xs-12 card card-1">
+                        <h2>stats</h2>
+                        <div class="stats">
+                            {this.renderStat(
+                                 "total time",
+                                 this.getTotalTime(this.state.data)+" days")}
+                            {this.renderStat(
+                                 "longest task",
+                                 this.getLongestTask(this.state.data)+" hours")}
+                        </div>
+
                         <h2>controls</h2>
                         <div class="project-buttons">
                             {this.listAllProjects().map(
@@ -650,12 +673,6 @@ export default class Timesheet extends React.Component {
                                 startUpdate={this.setStart.bind(this)}
                                 endUpdate={this.setEnd.bind(this)}
                             />
-                        </div>
-                        <h2>stats</h2>
-                        <div class="stats">
-                            {this.renderStat(
-                                 "total time",
-                                 this.getTotalTime(this.state.data)+" days")}
                         </div>
                     </div>
                 </div>
