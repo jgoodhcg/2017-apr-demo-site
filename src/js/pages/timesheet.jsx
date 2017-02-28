@@ -635,6 +635,22 @@ export default class Timesheet extends React.Component {
         return ((((longest_task_time_ms/1000))/60)/60).toFixed(2);
     }
 
+    totalTasks(range){
+         let tasks_num =  _(range)
+            .reduce((total, month)=>{
+                return total
+                     + _(month).reduce((total, day)=>{
+                         return total
+                              + _(day).reduce((total, tasks)=>{
+                                  let selected_tasks = tasks.filter(
+                                      (task)=>{return this.state.projects
+                                                          .has(task.project)})
+                                  return total + selected_tasks.length;
+                              },0);}, 0);}, 0);
+
+        return tasks_num;
+    }
+
     render() {
         return(
             <div id="timesheet-page" class="container-fluid">
@@ -658,6 +674,10 @@ export default class Timesheet extends React.Component {
                             {this.renderStat(
                                  "longest task",
                                  this.getLongestTask(this.state.data)+" hours")}
+                            {this.renderStat(
+                                 "number of tasks",
+                                 this.totalTasks(this.state.data)
+                             )}
                         </div>
 
                         <h2>controls</h2>

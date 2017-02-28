@@ -70,8 +70,11 @@
 - [x] card alignment issues with grid system
 - [x] activity/project component animation slide icon (see sketchbook)
   - [x] js toggle close class on click
-- [ ] images for projects
-- [ ] color scheme decision
+- [x] images for projects
+- [x] color scheme decision
+- [ ] timesheet
+  - [ ] stats
+  - [ ] fix problem of not rendering last task
 - [ ] Name pointer change
 - [ ] google analytics
 - [ ] project descriptions and bio

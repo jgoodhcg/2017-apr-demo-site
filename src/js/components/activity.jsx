@@ -9,7 +9,7 @@ export default class Activity extends React.Component {
 
     render(){
         return (
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-12 col-md-6">
                 <div id={this.props.id} class="activity-container card card-1" >
                     <div class="row middle-xs">
                         <div class="activity-cover-container">
@@ -20,7 +20,8 @@ export default class Activity extends React.Component {
                             </div>
                         </div>
                         <div  class="col-xs-12 col-sm-3">
-                            <div class="activity-image card">
+                            <div class={"activity-image card "+
+                                       (this.props.closed? "" : "open")}>
                                  {!this.props.ext ?
                                   <Link to={this.props.route} >
                                       <InlineSVG src={require(`./../../resources/${this.props.resource}.svg`)}/>
