@@ -39,7 +39,7 @@
     - [x] responsive sizing
   - [ ] excercise data
     - [x] parse csv into JSON
-      - [ ] basic bar chart
+      - [x] basic bar chart
         - [x] x-axis
           - [x] render bar
           - [x] render ticks
@@ -65,19 +65,30 @@
       - [x] chroma scale each body segment by total reps
     - [x] global stats near top
     - [x] style with cards
+    - [ ] card for process
   - [x] fix bugs date range component
-  - [ ] chorecchart to alpha_v003
+  - [ ] chorechart to alpha_v003
 - [x] card alignment issues with grid system
 - [x] activity/project component animation slide icon (see sketchbook)
   - [x] js toggle close class on click
 - [x] images for projects
-- [x] color scheme decision
+- [x] color scheme 
 - [ ] timesheet
   - [ ] stats
+    - [x] total time
+    - [x] number of tasks
+    - [x] longest task
+    - [ ] shortest task
+    - [ ] longest streak
   - [ ] fix problem of not rendering last task
-- [ ] Name pointer change
+  - [ ] card for process
+- [ ] better font (on headers too)
+- [x] Name pointer change
 - [ ] google analytics
 - [ ] project descriptions and bio
+  - [ ] source ccode link 
+  - [ ] buttons on projects
+  - [ ] change cover to a div from svg
 - [ ] favicon
 - [ ] update readme
 
