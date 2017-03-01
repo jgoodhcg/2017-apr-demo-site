@@ -82,6 +82,8 @@
     - [ ] longest streak
   - [ ] fix problem of not rendering last task
   - [ ] card for process
+- [ ] resume page
+- [ ] full body bio image
 - [ ] better font (on headers too)
 - [x] Name pointer change
 - [ ] google analytics
