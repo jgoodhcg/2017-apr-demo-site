@@ -80,7 +80,7 @@
     - [x] longest task
     - [ ] shortest task
     - [ ] longest streak
-  - [ ] fix problem of not rendering last task
+  - [x] fix problem of not rendering last task
   - [ ] card for process
 - [ ] resume page
 - [ ] full body bio image
