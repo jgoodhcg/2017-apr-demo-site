@@ -44,24 +44,6 @@ export default class Timesheet extends React.Component {
             data
         };
 
-        let xx = this.debugFilterData(new Date(0), new Date(), new Set(["Art"]),
-                                               timesheet_data);
-        this.state.projects = new Set(["Art"]);
-        this.state.data = xx.data;
-        this.state.opacityScale = xx.opacityScale;
-    }
-
-    debugFilterData(start, end, projects, ts){
-         let new_data = this.betaFormatStep(
-                this.alphaFormatStep(ts)
-                    .filter((task)=>{
-                        return projects.has(task.project) &&
-                               task.start.valueOf() > start.valueOf() &&
-                               task.end.valueOf() < end.valueOf();
-                    })),
-             new_opacity_scale = this.opacityScale(new_data);
-
-        return {data: new_data, opacityScale: new_opacity_scale, selected: null};
     }
 
     generateColor(index){
@@ -473,9 +455,6 @@ export default class Timesheet extends React.Component {
             tasks = month_obj[year_month_key][kebab_day],
             has_tasks = typeof tasks !== "undefined";
 
-        /* console.log(day);
-         * console.log(valid_date);
-         */
         if(valid_date){
             let x = date_obj.getDay() * width,
                 y = this.weekOfMonth(date_obj) * height,
