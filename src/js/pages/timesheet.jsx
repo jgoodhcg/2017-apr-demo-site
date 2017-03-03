@@ -410,6 +410,13 @@ export default class Timesheet extends React.Component {
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-4">
+                        <button
+                            class="back-button"
+                            onClick={(e)=>{
+                                    this.changeState({selected: null});}}
+                        >back
+                        </button>
+
                         <svg
                             width="100%"
                             viewBox="0 0 100 100">
@@ -423,7 +430,6 @@ export default class Timesheet extends React.Component {
                                 {tasks_rendered}
                             </g>
                         </svg>
-                        <span>click on any task to go back!</span>
                     </div>
                     <div class="col-xs-12 col-sm-8">
                         {_(tasks).reverse()
@@ -513,13 +519,6 @@ export default class Timesheet extends React.Component {
                 height={this_height}
                 opacity={opacity}
                 y={y}
-                onClick={(e)=>{
-                        if(this.state.selected == kebab_day){
-                            this.changeState({selected: null});
-                        }else{
-                            this.changeState({selected: kebab_day});
-                        }
-                    }}
                 fill={this.colors[the_task.project]}>
             </rect>
         );
@@ -547,11 +546,7 @@ export default class Timesheet extends React.Component {
                 opacity={opacity}
                 y={y}
                 onClick={(e)=>{
-                        if(this.state.selected == kebab_day){
-                            this.changeState({selected: null});
-                        }else{
-                            this.changeState({selected: kebab_day});
-                        }
+                        this.changeState({selected: kebab_day});
                     }}
                 fill={this.colors[the_task.project]}>
             </rect>
