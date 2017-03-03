@@ -396,7 +396,7 @@ export default class Timesheet extends React.Component {
                 .find((month)=>{return Object.keys(month)[0] == month_key;}),
             tasks = _.orderBy(month[month_key][kebab_day], ["end", "start"]),
             task_fn = (task, i) => {
-                return this.task(task, i, tasks, 100, 100, kebab_day);},
+                return this.taskAbsolute(task, i, tasks, 100, 100, kebab_day);},
             tasks_rendered = tasks.map(task_fn);
 
         return (
@@ -413,12 +413,22 @@ export default class Timesheet extends React.Component {
                         <svg
                             width="100%"
                             viewBox="0 0 100 100">
-                            {tasks_rendered}
+                            <rect x="0" y="0"
+                                  height="100" width="100"
+                                  fill="none"
+                                  stroke="black"
+                            >
+                            </rect>
+                            <g transform="rotate(180, 50, 50)">
+                                {tasks_rendered}
+                            </g>
                         </svg>
                         <span>click on any task to go back!</span>
                     </div>
                     <div class="col-xs-12 col-sm-8">
-                        {tasks.map(this.taskInfo.bind(this))}
+                        {_(tasks).reverse()
+                                 .map(this.taskInfo.bind(this))
+                                 .value()}
                     </div>
                 </div>
             </div>
@@ -480,6 +490,39 @@ export default class Timesheet extends React.Component {
         }else{
             return(<g key={kebab_day}></g>);
         }
+    }
+
+    taskAbsolute(the_task, the_index, day_tasks, width, height, kebab_day){
+
+        let day_time_ms = 24*60*60*1000,
+            task_time_ms = the_task.end.valueOf() - the_task.start.valueOf(),
+            the_task_ratio = task_time_ms/day_time_ms,
+            prev_tasks = this.prevTasks(the_task, day_tasks),
+            comb_ratios = this.combPrevTasksRatios(prev_tasks, day_time_ms),
+            this_height = the_task_ratio * height,
+            y = comb_ratios * height,
+            opacity = (this.state.selected == null?
+                       this.state.opacityScale(day_time_ms) :
+                       1);
+
+        return (
+            <rect
+                class="task"
+                key={the_index}
+                width={width}
+                height={this_height}
+                opacity={opacity}
+                y={y}
+                onClick={(e)=>{
+                        if(this.state.selected == kebab_day){
+                            this.changeState({selected: null});
+                        }else{
+                            this.changeState({selected: kebab_day});
+                        }
+                    }}
+                fill={this.colors[the_task.project]}>
+            </rect>
+        );
     }
 
     task(the_task, the_index, day_tasks, width, height, kebab_day){
