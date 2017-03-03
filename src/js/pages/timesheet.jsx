@@ -41,6 +41,7 @@ export default class Timesheet extends React.Component {
             tags: new Set(),
             opacityScale: opacity_scale,
             selected: null,
+            absolute: false,
             data
         };
 
@@ -396,7 +397,12 @@ export default class Timesheet extends React.Component {
                 .find((month)=>{return Object.keys(month)[0] == month_key;}),
             tasks = _.orderBy(month[month_key][kebab_day], ["end", "start"]),
             task_fn = (task, i) => {
-                return this.taskAbsolute(task, i, tasks, 100, 100, kebab_day);},
+                if(this.state.absolute){
+                     return this.taskAbsolute(task, i, tasks, 100, 100, kebab_day);
+                }else{
+                    return this.task(task, i, tasks, 100, 100, kebab_day);
+                }
+            },
             tasks_rendered = tasks.map(task_fn);
 
         return (
@@ -471,15 +477,20 @@ export default class Timesheet extends React.Component {
             tasks = month_obj[year_month_key][kebab_day],
             has_tasks = typeof tasks !== "undefined";
 
-        if(valid_date){
+        if (valid_date) {
             let x = date_obj.getDay() * width,
                 y = this.weekOfMonth(date_obj) * height,
                 task_fn = (task, i) => {
-                    return this.task(task, i, tasks, width, height, kebab_day);},
-                tasks_rendered = has_tasks? tasks.map(task_fn)
-                               : function(){return(<g></g>);}();
+                    if (this.state.absolute) {
+                        return this.taskAbsolute(task, i, tasks, width, height, kebab_day);
+                    } else {
+                        return this.task(task, i, tasks, width, height, kebab_day);
+                    }
+                },
+                tasks_rendered = has_tasks ? tasks.map(task_fn)
+                    : function () { return (<g></g>); }();
 
-            return(
+            return (
                 <g class="day"
                    transform={"translate("+x+","+y+")"}
                    key={kebab_day}>
@@ -488,7 +499,8 @@ export default class Timesheet extends React.Component {
                         width={width}
                         height={height}>
                     </rect>
-                    <g class="tasks">
+                    <g class="tasks"
+                    transform={"rotate(180,"+(width/2)+","+(height/2)+")"}>
                         {tasks_rendered}
                     </g>
                 </g>
@@ -517,7 +529,6 @@ export default class Timesheet extends React.Component {
                 key={the_index}
                 width={width}
                 height={this_height}
-                opacity={opacity}
                 y={y}
                 fill={this.colors[the_task.project]}>
             </rect>
@@ -720,6 +731,13 @@ export default class Timesheet extends React.Component {
                         <div class="project-buttons">
                             {this.listAllProjects().map(
                                  this.projectButton.bind(this))}
+                        </div>
+                        <div class="misc-buttons">
+                            <button class={"absolute-toggle "
+                                            + (this.state.absolute? "active" : "inactive")}
+                                    onClick={(e)=>{this.changeState({absolute: !this.state.absolute})}}>
+                            | abs |
+                            </button>
                         </div>
                         <div class="date-range-container">
                             <DateRange

@@ -1,5 +1,5 @@
 #timesheet-page{
-    .back-button{
+    button{
         border-radius: 2px;
         background-color: #0B1B41;
         color: white;
@@ -9,6 +9,22 @@
         margin-top: 0.5em;
         margin-bottom: 0.5em;
     }
+
+    .misc-buttons{
+        display: flex;
+        justify-content: center;
+    }
+    .absolute-toggle{
+        &.active{
+            border: 0.25em solid white;
+        }
+        &.inactive{
+            border: 0.25em solid $bg-dark;
+            background-color: white;
+            color: $bg-dark;
+        }
+    }
+
     .project-buttons{
         display: flex;
         flex-wrap: wrap;
