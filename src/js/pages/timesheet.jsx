@@ -31,8 +31,6 @@ export default class Timesheet extends React.Component {
 
         let data = this.formatTimesheetData(timesheet_data);
 
-        console.log(data);
-
         let opacity_scale = this.opacityScale(data);
 
         this.state = {
@@ -45,6 +43,25 @@ export default class Timesheet extends React.Component {
             selected: null,
             data
         };
+
+        let xx = this.debugFilterData(new Date(0), new Date(), new Set(["Art"]),
+                                               timesheet_data);
+        this.state.projects = new Set(["Art"]);
+        this.state.data = xx.data;
+        this.state.opacityScale = xx.opacityScale;
+    }
+
+    debugFilterData(start, end, projects, ts){
+         let new_data = this.betaFormatStep(
+                this.alphaFormatStep(ts)
+                    .filter((task)=>{
+                        return projects.has(task.project) &&
+                               task.start.valueOf() > start.valueOf() &&
+                               task.end.valueOf() < end.valueOf();
+                    })),
+             new_opacity_scale = this.opacityScale(new_data);
+
+        return {data: new_data, opacityScale: new_opacity_scale, selected: null};
     }
 
     generateColor(index){
@@ -75,6 +92,7 @@ export default class Timesheet extends React.Component {
             .value();
     }
     betaFormatStep(timesheet_data){
+        console.log(timesheet_data);
         let getMonthPrependZero = (date)=>{
             let tmp_num = (date.getMonth()+1).toString(),
                 month_num = (tmp_num.length == 1? "0"+tmp_num : ""+tmp_num);
@@ -206,7 +224,7 @@ export default class Timesheet extends React.Component {
                              .domain([
                                  minMax.min,
                                  minMax.max])
-                             .range([0, 1]);
+                             .range([0.25, 1]);
 
         return opacityScale;
     }
@@ -399,8 +417,6 @@ export default class Timesheet extends React.Component {
                 return this.task(task, i, tasks, 100, 100, kebab_day);},
             tasks_rendered = tasks.map(task_fn);
 
-        console.log(tasks);
-
         return (
             <div class="col-xs-12">
                 <div class="row">
@@ -457,6 +473,9 @@ export default class Timesheet extends React.Component {
             tasks = month_obj[year_month_key][kebab_day],
             has_tasks = typeof tasks !== "undefined";
 
+        /* console.log(day);
+         * console.log(valid_date);
+         */
         if(valid_date){
             let x = date_obj.getDay() * width,
                 y = this.weekOfMonth(date_obj) * height,
