@@ -665,7 +665,7 @@ export default class Timesheet extends React.Component {
         return ((((total_ms/1000)/60)/60)/24).toFixed(2);
     }
 
-    getLongestTask(range){
+    getExtremeTasks(range){
         let task_times_ms = _(range)
             .map((month)=>{
                 return _(month).map((day)=>{
@@ -678,9 +678,11 @@ export default class Timesheet extends React.Component {
             })
             .flattenDeep()
             .value(),
-            longest_task_time_ms = d3.max(task_times_ms);
+            longest_task_time_ms = d3.max(task_times_ms),
+            shortest_task_time_ms = d3.min(task_times_ms);
 
-        return ((((longest_task_time_ms/1000))/60)/60).toFixed(2);
+        return {longest: ((((longest_task_time_ms/1000))/60)/60).toFixed(2),
+                shortest: ((((shortest_task_time_ms/1000))/60)/60).toFixed(2)};
     }
 
     totalTasks(range){
@@ -737,7 +739,10 @@ export default class Timesheet extends React.Component {
                                  this.getTotalTime(this.state.data)+" days")}
                             {this.renderStat(
                                  "longest task",
-                                 this.getLongestTask(this.state.data)+" hours")}
+                                 this.getExtremeTasks(this.state.data).longest+" hours")}
+                            {this.renderStat(
+                                 "shortest task",
+                                 this.getExtremeTasks(this.state.data).shortest+" hours")}
                             {this.renderStat(
                                  "number of tasks",
                                  this.totalTasks(this.state.data)
