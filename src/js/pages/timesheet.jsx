@@ -707,14 +707,15 @@ export default class Timesheet extends React.Component {
                         <h1>timesheet data</h1>
                         <p>
                             I've tracked many types of projects with a timesheet mobile app
-                            for a few years. This is a selection of that CSV data parsed
-                            and visualized.
+                            for a few years. This is a selection of that data after being exported 
+                            as a csv, parsed into json, and visualized in svg.
                         </p>
                         <p>
                             A simple clojure project was used to parse the exported csv files
                             into a json file. The json file is included in the client side bundle of this
                             javascript project. React components with inline svg are used to visualized 
-                            the data and provide user interaction.
+                            the data and provide user interaction. State managment is done within the 
+                            react component for the page. 
                         </p>
                         <p>
                             Stats are displayed for the current time window selection. Move the circles
