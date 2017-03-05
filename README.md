@@ -78,10 +78,9 @@
     - [x] total time
     - [x] number of tasks
     - [x] longest task
-    - [ ] shortest task
-    - [ ] longest streak
+    - [x] shortest task
   - [x] fix problem of not rendering last task
-  - [ ] card for process
+  - [x] card for process
 - [ ] resume page
 - [ ] full body bio image
 - [ ] better font (on headers too)
