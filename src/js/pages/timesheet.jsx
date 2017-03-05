@@ -709,6 +709,21 @@ export default class Timesheet extends React.Component {
                             for a few years. This is a selection of that CSV data parsed
                             and visualized.
                         </p>
+                        <p>
+                            A simple clojure project was used to parse the exported csv files
+                            into a json file. The json file is included in the client side bundle of this
+                            javascript project. React components with inline svg are used to visualized 
+                            the data and provide user interaction.
+                        </p>
+                        <p>
+                            Stats are displayed for the current time window selection. Move the circles
+                            on the time window selection component to change the current time window. 
+                            Pressing the colored project buttons selects and deselcts invidual projects. 
+                            The absolute button alters the display of a day. Relatively displayed days 
+                            scale the opacity to the day with the longest recorded cumulative task time, 
+                            each task is sized relative to other tasks in the day. Absolutely displayed 
+                            days scale the task proportional to twenty four hours and do not adjust opacity. 
+                        </p>
                     </div>
                 </div>
                 <div class="row around-xs">
