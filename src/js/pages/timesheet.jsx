@@ -500,7 +500,11 @@ export default class Timesheet extends React.Component {
                         height={height}>
                     </rect>
                     <g class="tasks"
-                    transform={"rotate(180,"+(width/2)+","+(height/2)+")"}>
+                    transform={"rotate(180,"+(width/2)+","+(height/2)+")"}
+                    onClick={(e)=>{
+                        this.changeState({selected: kebab_day});
+                    }}
+                    >
                         {tasks_rendered}
                     </g>
                 </g>
@@ -556,9 +560,6 @@ export default class Timesheet extends React.Component {
                 height={this_height}
                 opacity={opacity}
                 y={y}
-                onClick={(e)=>{
-                        this.changeState({selected: kebab_day});
-                    }}
                 fill={this.colors[the_task.project]}>
             </rect>
         );
