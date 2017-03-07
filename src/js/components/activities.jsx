@@ -58,8 +58,7 @@ export default class Activities extends React.Component {
                                    description={activity.description}
                                    closed={activity.closed}
                                    click={(e)=>{
-                                           this.open(activity.id);
-                                           console.log("clicked!");}}>
+                                           this.open(activity.id);}}>
                          </Activity>);})}
             </div>
         );

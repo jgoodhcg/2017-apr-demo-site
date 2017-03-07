@@ -708,7 +708,7 @@ export default class Timesheet extends React.Component {
         return(
             <div id="timesheet-page" class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12 card card-1">
+                    <div class="col-xs-12 col-lg-6 col-lg-offset-3 card card-1">
                         <h1>timesheet data</h1>
                         <p>
                             I've tracked many types of projects with a timesheet mobile app

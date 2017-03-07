@@ -34,6 +34,7 @@ export default class Activity extends React.Component {
                             </div>
                         </div>
                         <div class="activity-info col-xs-12 col-sm-9 ">
+                            <h2 class="hidden-sm-up">{this.props.id}</h2>
                             <p>{this.props.description}</p>
                         </div>
                     </div>
