@@ -432,7 +432,7 @@ export default class Timesheet extends React.Component {
                                   stroke="black"
                             >
                             </rect>
-                            <g transform="rotate(180, 50, 50)">
+                            <g >
                                 {tasks_rendered}
                             </g>
                         </svg>
@@ -500,7 +500,6 @@ export default class Timesheet extends React.Component {
                         height={height}>
                     </rect>
                     <g class="tasks"
-                    transform={"rotate(180,"+(width/2)+","+(height/2)+")"}
                     onClick={(e)=>{
                         this.changeState({selected: kebab_day});
                     }}
@@ -522,11 +521,15 @@ export default class Timesheet extends React.Component {
             prev_tasks = this.prevTasks(the_task, day_tasks),
             comb_ratios = this.combPrevTasksRatios(prev_tasks, day_time_ms),
             this_height = the_task_ratio * height,
-            y = comb_ratios * height,
+            hours = the_task.start.getHours(),
+            minutes = the_task.start.getMinutes(),
+            y = ((((hours * 60) + minutes)/1440)*height),
             opacity = (this.state.selected == null?
                        this.state.opacityScale(day_time_ms) :
                        1);
+        let message = {the_task, task_time_ms, height, this_height, hours, minutes, y};
 
+        console.log(message);
         return (
             <rect
                 class="task"
