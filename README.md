@@ -37,7 +37,7 @@
     - [x] bind dates to x positions
     - [x] add date selection component to timesheets
     - [x] responsive sizing
-  - [ ] excercise data
+  - [x] excercise data
     - [x] parse csv into JSON
       - [x] basic bar chart
         - [x] x-axis
@@ -65,7 +65,7 @@
       - [x] chroma scale each body segment by total reps
     - [x] global stats near top
     - [x] style with cards
-    - [ ] card for process
+    - [x] card for process
   - [x] fix bugs date range component
   - [ ] chorechart to alpha_v003
 - [x] card alignment issues with grid system
@@ -73,8 +73,8 @@
   - [x] js toggle close class on click
 - [x] images for projects
 - [x] color scheme 
-- [ ] timesheet
-  - [ ] stats
+- [x] timesheet
+  - [x] stats
     - [x] total time
     - [x] number of tasks
     - [x] longest task
