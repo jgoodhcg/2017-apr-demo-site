@@ -24,7 +24,11 @@ export default class Activities extends React.Component {
                                     use of I. A small amount of humor would be beneficial
                                     but it should avoid using self deprecation or sarcasm.
                                     Seven sentences is fine.
+                                    <div class="theme-link">
+                                        <Link to="/experience">resume</Link>
+                                    </div>
                                 </p>
+                               
                             </div>
                         </div>
                     </div>

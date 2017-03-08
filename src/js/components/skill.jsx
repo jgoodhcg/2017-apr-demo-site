@@ -23,7 +23,7 @@ export default class Skill extends React.Component {
             // TODO simplify x calc
         });
         return(
-            <svg class="skill" width="100%" height="100%" viewBox="0 0 100 16">
+            <svg class="skill" width="100%" viewBox="0 0 100 16">
                 {rects}
             </svg>
         );

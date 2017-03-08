@@ -4,25 +4,25 @@
 
         text-align: left;
 
-        h2{
-            margin: 0.1em;
-            color: $secondary-text
-        }
-        h3{
-            margin: 0.1em;
-            color: $secondary-text
-        }
-        p{
-            margin: 0.1em;
-            color: $primary-text;
-        }
+        // h2{
+        //     margin: 0.1em;
+        //     color: $secondary-text
+        // }
+        // h3{
+        //     margin: 0.1em;
+        //     color: $secondary-text
+        // }
+        // p{
+        //     margin: 0.1em;
+        //     color: $primary-text;
+        // }
     }
 
     svg.skill{
         rect{
-            stroke: $accent-color;
+            stroke: $bg-light;
             &.filled{
-                fill: $accent-color;
+                fill: $bg-light;
             }
             &.empty{
                 fill: $text-icons;
