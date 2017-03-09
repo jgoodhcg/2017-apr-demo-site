@@ -312,15 +312,19 @@ export default class Workouts extends React.Component {
         return (
             <div id="workouts" class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12 card card-1">
+                    <div class="col-xs-12 col-lg-6 col-lg-offset-3 card card-1">
                         <h1>2016 workout data</h1>
                         <p>
                             This page is a visualization of some spreadsheet data I've kept
                             about all of my workout history over the past year.
                         </p>
                         <p>
-                            The renderings are done with svg and react, with some d3 for
-                            coloring and scaling of the x and y coordinate.
+                            Data was captured in a google sheets document. After being exported 
+                            to a csv it was parsed with a simple clojure application into a json 
+                            document. That document is included in the spa bundle of this site. 
+                            React components of inline svg, with some d3 libraries, render the 
+                            data and provide user interaction. State is managed at the page 
+                            level component.
                         </p>
                         <p>
                             The stats area includes a data range selection for limiting all
