@@ -13,7 +13,7 @@ export default class Experience extends React.Component {
         return (
             <div id="experience" class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12 col-md-8">
+                    <div class="col-xs-12 col-md-9">
                         <div class="row">
                             <div id="exp-skills" class="col-xs-12">
                                <div class="card card-1 ">
@@ -21,7 +21,7 @@ export default class Experience extends React.Component {
                                 <h3>languages</h3>
                                 <p>javascript, clojure(script), bash, sass, sql</p>
                                 <h3>frameworks & libraries</h3>
-                                <p>react, reagent, reframe, d3, luminus</p>
+                                <p>react, reagent, reframe, redux, d3, luminus</p>
                                 <h3>platforms & tools</h3>
                                 <p>node, lein, webpack, docker, vagrant, git, nginx, postgres</p>
                                 </div>
@@ -32,13 +32,31 @@ export default class Experience extends React.Component {
                                 <div class="card card-1 ">
                                 <h2>employment</h2>
                                 <h3>onestop feb 2016 – present</h3>
-                                <p>maintaining/extending legacy e-commerce site and supporting applications</p>
+                                <p>maintained/extended legacy e-commerce site and supporting applications</p>
+                                <ul>
+                                    <li>diagnosed and solved problems with code base, business workflows, 
+                                        black box dependencies</li>
+                                    <li>created an automated deoployment system for entire platform with 
+                                        <span style={{fontStyle: "italic"}}> successfull</span> documentation</li>
+                                    <li>extended functionality to meet changing business requirments whithin the 
+                                        limitations of the legacy systems in place.
+                                    </li>
+                                    <li>developed version control and deployment workflow that allowed 
+                                        collaboration with several developers on many features 
+                                        and bug fixes simultaneously
+                                    </li>
+                                </ul>
                                 <p>php, python, javascript, bash, sql, css, sass</p>
                                 <p>zend, jquery</p>
                                 <p>apache, git, mercurial, vagrant, postgres</p>
 
                                 <h3>city of wyoming may 2015 – nov 2015</h3>
                                 <p>developed internal crud application for public works department</p>
+                                <ul>
+                                    <li>designed, and coordinated homegrown solution for data capturing needs</li>
+                                    <li>learned tech stack <span style={{fontStyle: "italic"}}> on the job</span></li>
+                                    <li>regularly held meetings to discuss progress and changing requirments</li>
+                                </ul>
                                 <p>php, javascript, sql, sass</p>
                                 <p>jquery, moment</p>
                                 <p>iis, git, microsoft sql server</p>
@@ -56,7 +74,7 @@ export default class Experience extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-4"> 
+                    <div class="col-xs-12 col-md-3"> 
                         <div class="card card-1">
                         <h2>skill ratings</h2>
                         <p>(relative)</p>
@@ -75,6 +93,8 @@ export default class Experience extends React.Component {
                         <Skill score="4"></Skill>
                         <code>react, reagent, reframe, luminus, pixi</code>
                         <Skill score="3"></Skill>
+                        <code>redux</code>
+                        <Skill score="2"></Skill>
                         <hr/>
                         <p>platforms/tools</p>
                         <code>vagrant, svg</code>
