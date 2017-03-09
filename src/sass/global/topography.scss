@@ -35,6 +35,13 @@ p {
   line-height: 1.8;
 }
 
+ul{
+    font-family: $font-family;
+    font-size: 1.125rem;
+    font-weight: 200;
+    line-height: 1.8;
+}
+
 .font-light {
   font-weight: $font-weight-light;
 }
