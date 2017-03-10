@@ -89,11 +89,11 @@ export default class Experience extends React.Component {
                         <Skill score="2"></Skill>
                         <hr/>
                         <p>frameworks/libraries</p>
-                        <code>d3</code>
+                        <code>react, reagent, reframe</code>
                         <Skill score="4"></Skill>
-                        <code>react, reagent, reframe, luminus, pixi</code>
+                        <code>luminus, d3</code>
                         <Skill score="3"></Skill>
-                        <code>redux</code>
+                        <code>redux, pixi</code>
                         <Skill score="2"></Skill>
                         <hr/>
                         <p>platforms/tools</p>
