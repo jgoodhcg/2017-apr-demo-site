@@ -11,8 +11,7 @@ export default class Activities extends React.Component {
 
         this.state = {
             activities: [
-                {id: "chorechart", resource: "chorechart", ext: true,
-                 closed: true,
+                {id: "chorechart", resource: "chorechart", closed: true,
                  description: `Chorechart is a SPA for logging chores, meant as a learning 
                                 project that could be useful personally.  
                                 The stack is clojure(script), reframe, luminus, and postgres. 
@@ -22,20 +21,17 @@ export default class Activities extends React.Component {
                         {name: "app", ext: true, href: "http://chorechart.jgoodhcg.com/signup"}]
                 },
 
-                {id: "timesheet", resource: "timesheet", ext: false,
-                 closed: true,
+                {id: "timesheet", resource: "timesheet", closed: true,
                  description: ``,
                  links: [{name: "timesheets", ext: false, href: "/timesheet"}]
                 },
 
-                {id: "workouts", resource: "workouts", ext: false,
-                 closed: true,
+                {id: "workouts", resource: "workouts", closed: true,
                  description: ``,
                  links: [{name: "workouts", ext: false, href: "/workouts"}]
                 },
 
-                {id: "clicky", resource: "clicky", ext: false,
-                 closed: true,
+                {id: "clicky", resource: "clicky", closed: true,
                  description: ``,
                  links: [{name: "clicky", ext: false, href: "/clicky"}]
                 },
