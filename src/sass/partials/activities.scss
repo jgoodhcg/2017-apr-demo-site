@@ -1,6 +1,37 @@
 
 #activities{
 
+    .activity-links{
+        max-height: 99em;
+        transition: max-height 5s;
+
+        &.closed{
+            max-height: 0em;
+            .activity-link a{display: none;}}
+    }
+    .activity-link{
+        display: flex;
+        justify-content: center;
+        background-clip:content-box;
+        background-color: $bg-dark;
+
+        a {
+            color: white;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        &.left{
+            padding-right: 0em;
+            border-right: 1px solid $bg-light;
+        }
+        &.right{
+            padding-left: 0em;
+            border-left: 1px solid $bg-light;
+        }
+    }
+
     .activity-container{
 
         .row{
