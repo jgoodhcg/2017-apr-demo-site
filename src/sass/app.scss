@@ -74,16 +74,3 @@ body {
   line-height: $font-height;
 }
 
-.theme-link{
-  display: inline-block;
-  background-color: $bg-light;
-  border: 0.25em $bg-dark solid;
-  border-radius: 1em;
-  padding: 0.5em;
-  
-  a{
-    color: white;
-    text-decoration: none;
-  }
-  
-}

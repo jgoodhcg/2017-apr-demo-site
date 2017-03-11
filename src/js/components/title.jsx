@@ -12,23 +12,23 @@ export default class Activities extends React.Component {
             <div class="row">
                 <div id="title" class="col-xs-12">
                     <div class="card card-1">
-                        <div class="row around-xs middle-sm">
+                        <div class="row around-xs middle-sm main-title-row">
                             <div id="portrait" class="col-xs-12 col-sm-3">
                                 <InlineSVG src={require("./../../resources/justin.svg")}/>
                             </div>
                             <div id="info" class="col-xs-12 col-sm-9">
                                 <p id="bio" >
-                                    My bio should be conscise. I don't know if I spelled
-                                    that correctly. There should be clear definitions of
-                                    what I work on and how I do it. There should be little
-                                    use of I. A small amount of humor would be beneficial
-                                    but it should avoid using self deprecation or sarcasm.
-                                    Seven sentences is fine.    
-                                </p>
-                                <div class="theme-link">
-                                        <Link to="/experience">resume</Link>
-                                </div>
-                               
+                                    Programmer, life quantifiying nut, wannabe artist. Since becoming 
+                                    and adult I've attempted to study movie making, illustration, and then 
+                                    completed a computer science degree. Recent obsessions have been optimizing 
+                                    productivity through data capture, analysis, and quantification. This site 
+                                    shows a portion of those efforts in a fun experimental design.     
+                                </p>      
+                            </div>
+                        </div>
+                        <div class="row resume-link-container">
+                            <div class="resume-link col-xs-12">
+                                <a href="#/experience">experience</a>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,22 @@
-#title-container{
+
+.main-title-row{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.resume-link-container{padding-bottom: 0em !important;}
+.resume-link{
+     display: flex;
+        justify-content: center;
+        background-clip:content-box;
+        background-color: $bg-light;
+
+        a {
+            color: white;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+        }
 }
 
 #title{
@@ -18,11 +36,13 @@
             display: flex;
             align-items: center
           }
-        i svg{height: $portrait-size;}
+        i svg{
+            // height: $portrait-size;
+            width: 100%;}
     }
 
     #info{
-        padding-right: 2em;
+        // padding-right: 2em;
         #bio{
         }
     } 
