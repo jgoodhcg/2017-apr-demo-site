@@ -13,7 +13,7 @@
         display: flex;
         justify-content: center;
         background-clip:content-box;
-        background-color: $bg-dark;
+        background-color: $bg-light;
 
         a {
             color: white;
@@ -24,11 +24,11 @@
 
         &.left{
             padding-right: 0em;
-            border-right: 1px solid $bg-light;
+            border-right: 1px solid white;
         }
         &.right{
             padding-left: 0em;
-            border-left: 1px solid $bg-light;
+            border-left: 1px solid white;
         }
     }
 

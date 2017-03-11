@@ -33,13 +33,14 @@ export default class Activity extends React.Component {
 
                     </div>
                     <div class={"row activity-links " +
-                            (this.props.closed ? " closed" : "")}>
-                        <div class="activity-link left col-xs-6 ">
-                            <a href="#/experience">resume</a>
-                        </div>
-                        <div class="activity-link right col-xs-6 ">
-                            <a href="#/experience">resume</a>
-                        </div>
+                        (this.props.closed ? " closed" : "")}>
+                        {this.props.links.map((link, i) => {
+                            return (
+                                <div class={"activity-link col-xs-6 " +
+                                (i % 2 === 0? " left" : " right") }>
+                                    <a href={link.href}>{link.name}</a>
+                                </div>);
+                        })}
                     </div>
                 </div>
             </div >

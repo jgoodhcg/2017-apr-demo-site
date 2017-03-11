@@ -17,8 +17,8 @@ export default class Activities extends React.Component {
                                 The stack is clojure(script), reframe, luminus, and postgres. 
                                 It is still in an early stage of development, 
                                 and has a very vanilla bootstrap style.`,
-                links: [{name: "repo", ext: true, href: "https://github.com/jgoodhcg/chorechart"},
-                        {name: "app", ext: true, href: "http://chorechart.jgoodhcg.com/signup"}]
+                links: [{name: "repo", href: "https://github.com/jgoodhcg/chorechart"},
+                        {name: "app", href: "http://chorechart.jgoodhcg.com/signup"}]
                 },
 
                 {id: "timesheet", resource: "timesheet", closed: true,
@@ -26,23 +26,23 @@ export default class Activities extends React.Component {
                                 d3 to an entirely react based rendering. A few lessons were 
                                 learned from this project. Some d3 libraries were used, mostly 
                                 for scaling.`,
-                 links: [{name: "repo", ext: true, href: "https://github.com/jgoodhcg/demo-site/blob/master/src/js/pages/timesheet.jsx"},
-                         {name: "timesheets", ext: false, href: "/timesheet"}]
+                 links: [{name: "repo", href: "https://github.com/jgoodhcg/demo-site/blob/master/src/js/pages/timesheet.jsx"},
+                         {name: "timesheets", href: "#/timesheet"}]
                 },  
 
                 {id: "workouts", resource: "workouts", closed: true,
                  description: `2016 workout spreadsheet visualized with svg based graphs. This 
                                 was the second attempt at react based data rendering and capitalized 
                                 on some of the lessons learned from timesheets.`,
-                 links: [{name: "repo", ext: true, href: "https://github.com/jgoodhcg/demo-site/blob/master/src/js/pages/workouts.jsx"},
-                         {name: "workouts", ext: false, href: "/workouts"}]
+                 links: [{name: "repo", href: "https://github.com/jgoodhcg/demo-site/blob/master/src/js/pages/workouts.jsx"},
+                         {name: "workouts", href: "#/workouts"}]
                 },
 
                 {id: "clicky", resource: "clicky", closed: true,
                  description: `Clicky is an older project. It was an attempt at making something fun 
                                 and interactive with webgl wrapper PIXI.js.`,
-                 links: [{name: "repo", ext: true, href: "https://github.com/jgoodhcg/demo-site/blob/master/src/js/modules/clicky.js"},
-                         {name: "clicky", ext: false, href: "/clicky"}]
+                 links: [{name: "repo", href: "https://github.com/jgoodhcg/demo-site/blob/master/src/js/modules/clicky.js"},
+                         {name: "clicky", href: "#/clicky"}]
                 },
            ]};
     }
