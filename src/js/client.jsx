@@ -3,6 +3,9 @@ require("./../sass/app.scss");
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, IndexRoute, browserHistory, hashHistory } from "react-router";
+import * as ReactGA from "react-ga";
+
+ReactGA.initialize('UA-74205906-1');
 
 import Layout from "./layout.jsx";
 import Index from "./pages/index.jsx";
@@ -10,6 +13,7 @@ import Experience from "./pages/experience.jsx";
 import Clicky from "./pages/clicky-thing.jsx";
 import Timesheet from "./pages/timesheet.jsx";
 import Workouts from "./pages/workouts.jsx";
+
 
 var metaTag=document.createElement('meta');
 metaTag.name = "viewport";
@@ -22,8 +26,13 @@ document.body.appendChild(app_element);
 
 const app = document.getElementById("app");
 
+function logPageView() {
+  ReactGA.set({ page: window.location.pathname });
+  ReactGA.pageview(window.location.pathname);
+}
+
 ReactDOM.render(
-    <Router history={hashHistory}>
+    <Router history={hashHistory} onUpdate={logPageView}>
         <Route path="/" component={Layout}>
             <IndexRoute component={Index}></IndexRoute>
             <Route path="experience" name="experience" component={Experience}></Route>

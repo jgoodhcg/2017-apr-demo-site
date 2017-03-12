@@ -83,8 +83,7 @@
   - [x] card for process
 - [x] resume page
 - [x] make resume more apparently clickable
-- [ ] full body bio image
-- [ ] better font (on headers too)
+- [x] full body bio image
 - [x] Name pointer change
 - [ ] google analytics
 - [x] project descriptions and bio
