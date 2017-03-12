@@ -81,15 +81,15 @@
     - [x] shortest task
   - [x] fix problem of not rendering last task
   - [x] card for process
-- [ ] resume page
+- [x] resume page
+- [x] make resume more apparently clickable
 - [ ] full body bio image
 - [ ] better font (on headers too)
 - [x] Name pointer change
 - [ ] google analytics
-- [ ] project descriptions and bio
-  - [ ] source ccode link 
-  - [ ] buttons on projects
-  - [ ] change cover to a div from svg
+- [x] project descriptions and bio
+  - [x] source ccode link 
+  - [x] buttons on projects
 - [ ] favicon
 - [ ] update readme
 
