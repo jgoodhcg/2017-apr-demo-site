@@ -20,8 +20,8 @@
 
     svg.skill{
         rect{
-            stroke: $bg-dark;
-            stroke-width: 1.5;
+            stroke: $bg-light;
+            stroke-width: 1;
             &.filled{
                 fill: $bg-light;
             }

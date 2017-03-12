@@ -18,7 +18,7 @@ export default class Skill extends React.Component {
                      x={ Math.max(i*(2+((i === 0 ? 0 : 1)*width)+((i === 0 ? 0 : 1)*pad)), 2) } y="4"
                      width={width} height="6"
                      strokeWidth={stroke}
-                     rx="2" ry="2"/>);
+                     rx="1" ry="1"/>);
             // x calculation is complicated, sorry
             // TODO simplify x calc
         });

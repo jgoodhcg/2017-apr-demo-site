@@ -4,12 +4,13 @@
     padding-right: 0.5em;
 }
 
-.resume-link-container{padding-bottom: 0em !important;}
 .resume-link{
      display: flex;
         justify-content: center;
-        background-clip:content-box;
         background-color: $bg-light;
+        border-radius: 0.25em;
+        width: 10em;
+        padding: 0.5em;
 
         a {
             color: white;
