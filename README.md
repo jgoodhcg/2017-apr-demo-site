@@ -85,7 +85,7 @@
 - [x] make resume more apparently clickable
 - [x] full body bio image
 - [x] Name pointer change
-- [ ] google analytics
+- [x] google analytics
 - [x] project descriptions and bio
   - [x] source ccode link 
   - [x] buttons on projects
