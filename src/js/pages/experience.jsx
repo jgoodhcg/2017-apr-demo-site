@@ -74,36 +74,34 @@ export default class Experience extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-3"> 
+                    <div class="col-xs-12 col-md-3">
                         <div class="card card-1">
                         <h2>skill ratings</h2>
-                        <p>(relative)</p>
-                        <p>0 - don't know it at all,<br/> 5 - my strongest skills</p>
                         <hr/>
-                        <p>languages</p>
-                        <code> javascript, php </code>
+                        <h3>languages</h3>
+                        <p> javascript, php </p>
                         <Skill score="5"></Skill>
-                        <code> sass, clojure(script) </code>
+                        <p> sass, clojure(script) </p>
                         <Skill score="3"></Skill>
-                        <code> sql, bash, python </code>
+                        <p> sql, bash, python </p>
                         <Skill score="2"></Skill>
                         <hr/>
-                        <p>frameworks/libraries</p>
-                        <code>react, reagent, reframe</code>
+                        <h3>frameworks/libraries</h3>
+                        <p>react, reagent, reframe</p>
                         <Skill score="4"></Skill>
-                        <code>luminus, d3</code>
+                        <p>luminus, d3</p>
                         <Skill score="3"></Skill>
-                        <code>redux, pixi</code>
+                        <p>redux, pixi</p>
                         <Skill score="2"></Skill>
                         <hr/>
-                        <p>platforms/tools</p>
-                        <code>vagrant, svg</code>
+                        <h3>platforms/tools</h3>
+                        <p>vagrant, svg</p>
                         <Skill score="5"></Skill>
-                        <code>lein, webpack, postgres, git</code>
+                        <p>lein, webpack, postgres, git</p>
                         <Skill score="3"></Skill>
-                        <code>node, npm, docker, canvas, webgl</code>
+                        <p>node, npm, docker, canvas, webgl</p>
                         <Skill score="2"></Skill>
-                        <code>nginx, apache</code>
+                        <p>nginx, apache</p>
                         <Skill score="1"></Skill>
                         </div>
                     </div>
