@@ -47,11 +47,12 @@ export default class Activities extends React.Component {
            ]};
     }
 
-    open(id){
+    toggle(id){
         let index = _.findIndex(this.state.activities, (activity)=>{
             return activity.id === id;});
 
-        this.state.activities[index].closed = false;
+        this.state.activities[index].closed =
+           ! this.state.activities[index].closed;
         this.setState(this.state);
     }
 
@@ -67,7 +68,8 @@ export default class Activities extends React.Component {
                                    description={activity.description}
                                    closed={activity.closed}
                                    click={(e)=>{
-                                           this.open(activity.id);}}>
+                                           this.toggle(activity.id);}}
+                         >
                          </Activity>);})}
             </div>
         );
