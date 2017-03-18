@@ -18,6 +18,11 @@ import Workouts from "./pages/workouts.jsx";
 var metaTag=document.createElement('meta');
 metaTag.name = "viewport";
 metaTag.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0";
+var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = "https://fonts.googleapis.com/css?family=Arimo";
+    document.head.appendChild(link);
+
 document.getElementsByTagName('head')[0].appendChild(metaTag);
 
 let app_element = document.createElement("div");

@@ -24,7 +24,7 @@ $md: 64em;
 $lg: 75em;
 
 // fonts
-$font-family: 'Lato', Helvetica, sans-serif;
+$font-family: 'Arimo', Helvetica, sans-serif;
 $font-weight-light: 300;
 $font-weight-regular: 400;
 $font-weight-heavy: 700;
@@ -49,8 +49,6 @@ $icon-size: 1.5em;
 @import './../sass/partials/timesheet';
 @import './../sass/partials/calendar';
 @import './../sass/partials/workouts';
-
-@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic);
 
 // universal
 
