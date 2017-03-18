@@ -17,6 +17,7 @@ export default class Activities extends React.Component {
                                 <InlineSVG src={require("./../../resources/justin.svg")} />
                             </div>
                             <div id="info" class="col-xs-12 col-sm-9">
+                                <h1 id="info-title" >Hi, I'm Justin</h1>
                                 <p id="bio" >
                                     Programmer, life quantifiying nut, wannabe artist. Since becoming
                                     and adult I've attempted to study movie making, illustration, and then

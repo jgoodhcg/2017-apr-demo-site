@@ -44,7 +44,14 @@
 
     #info{
         // padding-right: 2em;
+        #info-title{
+            margin-bottom: 0.05em;
+            margin-left: 0.25em;
+            color: $bg-dark;
+        }
         #bio{
+            margin-top: 0.05em;
+            margin-left: 0.5em;
         }
     } 
 }
