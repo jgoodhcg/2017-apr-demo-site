@@ -13,10 +13,12 @@
     .misc-buttons{
         display: flex;
         justify-content: center;
+
+        button{margin: 0.25em;}
     }
     .absolute-toggle{
         &.active{
-            border: 0.25em solid white;
+            border: 0.25em solid $bg-dark;
         }
         &.inactive{
             border: 0.25em solid $bg-dark;

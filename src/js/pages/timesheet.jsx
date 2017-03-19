@@ -526,9 +526,7 @@ export default class Timesheet extends React.Component {
             opacity = (this.state.selected == null?
                        this.state.opacityScale(day_time_ms) :
                        1);
-        let message = {the_task, task_time_ms, height, this_height, hours, minutes, y};
 
-        console.log(message);
         return (
             <rect
                 class="task"
@@ -767,6 +765,23 @@ export default class Timesheet extends React.Component {
                                             + (this.state.absolute? "active" : "inactive")}
                                     onClick={(e)=>{this.changeState({absolute: !this.state.absolute})}}>
                             | abs |
+                            </button>
+                            <button
+                                onClick={(e)=>{
+                                        let full_selection = new Set(Object.keys(this.colors));
+                                        if (this.state.projects.size === full_selection.size){
+                                            this.changeState({projects: new Set([])});
+                                        }else{
+                                            let n = this.filterData(
+                                                this.state.start,
+                                                this.state.end,
+                                                full_selection);
+
+                                            this.changeState(
+                                                Object.assign(
+                                                    {projects: full_selection}, n));
+                                        }}}>
+                            toggle all
                             </button>
                         </div>
                         <div class="date-range-container">
