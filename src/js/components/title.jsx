@@ -20,8 +20,10 @@ export default class Activities extends React.Component {
                                 <h1 id="info-title" >Hi, I'm Justin</h1>
                                 <p id="bio" >
                                     Programmer, life quantifiying nut, and wannabe artist.
-                                    Recent obsessions have been data visualization and functional reactive programming.
-                                    This site is a demonstration of my full stack software skills, design and visualization abilities.
+                                    Recent programming interestes are data visualization and functional reactive programming.
+                                    Recent general interests (in no particularl order) are illustration, biological anthropology, bodyweight fitness, guitar and music theory, woodworking, resource managment games, aquaponics, and science fiction.
+                                    I'm a fan of simple, in both software and visual design. 
+                                    This site is a demonstration of my full stack software skills, design and visualization abilities. <a href="https://github.com/jgoodhcg/demo-site">The github repository.</a>
                                 </p>
                                 <div class="resume-link">
                                     <a href="#/experience">experience</a>

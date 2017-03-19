@@ -716,10 +716,12 @@ export default class Timesheet extends React.Component {
                         <p>
                             I've tracked many types of projects with a timesheet mobile app
                             for a few years. This is a selection of that data after being exported 
-                            as a csv, parsed into json, and visualized in svg.
+                            as a csv, parsed into json, and visualized in svg. <a href="https://github.com/jgoodhcg/demo-site/blob/master/src/js/pages/timesheet.jsx">The code.</a>
+
                         </p>
                         <p>
-                            A simple clojure project was used to parse the exported csv files
+                            A <a href="https://github.com/jgoodhcg/timesheet-parser">simple clojure project</a> was
+                            used to parse the exported csv files
                             into a json file. The json file is included in the client side bundle of this
                             javascript project. React components with inline svg are used to visualized 
                             the data and provide user interaction. State managment is done within the 
@@ -733,6 +735,13 @@ export default class Timesheet extends React.Component {
                             scale the opacity to the day with the longest recorded cumulative task time, 
                             each task is sized relative to other tasks in the day. Absolutely displayed 
                             days scale the task proportional to twenty four hours and do not adjust opacity. 
+                        </p>
+                        <p>
+                            As part of a personal data capture goal I plan to make a postgres
+                            database with a clojure project api. When that is deployed I will
+                            develop some client applications for capturing data. This will remove the need
+                            for the third party time sheets android app. The next version of this visualization will be
+                            using that api project to dynamically get data.
                         </p>
                     </div>
                 </div>
@@ -779,8 +788,7 @@ export default class Timesheet extends React.Component {
 
                                             this.changeState(
                                                 Object.assign(
-                                                    {projects: full_selection}, n));
-                                        }}}>
+                                                    {projects: full_selection}, n));}}}>
                             toggle all
                             </button>
                         </div>

@@ -316,11 +316,12 @@ export default class Workouts extends React.Component {
                         <h1>2016 workout data</h1>
                         <p>
                             This page is a visualization of some spreadsheet data I've kept
-                            about all of my workout history over the past year.
+                            about all of my workout history over the past year.<a href="https://github.com/jgoodhcg/demo-site/blob/master/src/js/pages/workouts.jsx">The code.</a>
                         </p>
                         <p>
                             Data was captured in a google sheets document. After being exported 
-                            to a csv it was parsed with a simple clojure application into a json 
+                            to a csv it was parsed with a <a href="https://github.com/jgoodhcg/exercise-data-parser">
+                            simple clojure application</a> into a json
                             document. That document is included in the spa bundle of this site. 
                             React components of inline svg, with some d3 libraries, render the 
                             data and provide user interaction. State is managed at the page 
@@ -330,6 +331,13 @@ export default class Workouts extends React.Component {
                             The stats area includes a data range selection for limiting all
                             the graphs to a window of time. Any bar in the repititions graph
                             can be selected to view the details of the exercise.
+                        </p>
+                        <p>
+                            As part of a personal data capture goal I plan to make a postgres
+                            database with a clojure project api. When that is deployed I will
+                            develop some client applications for capturing data. This will remove the need
+                            for the google sheets. The next version of this visualization will be
+                            using that api project to dynamically get data.
                         </p>
                     </div>
                     <div class="col-xs-12 card card-1">
