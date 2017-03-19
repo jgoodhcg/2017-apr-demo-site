@@ -36,9 +36,9 @@ export default class Experience extends React.Component {
                                 <ul>
                                     <li>diagnosed and solved problems with code base, business workflows, 
                                         black box dependencies</li>
-                                    <li>created an automated deoployment system for entire platform with 
+                                    <li>created an automated deployment system for entire platform with 
                                         <span style={{fontStyle: "italic"}}> successfull</span> documentation</li>
-                                    <li>extended functionality to meet changing business requirments whithin the 
+                                    <li>extended functionality to meet changing business requirements within the 
                                         limitations of the legacy systems in place.
                                     </li>
                                     <li>developed version control and deployment workflow that allowed 
