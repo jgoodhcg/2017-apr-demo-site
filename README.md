@@ -1,11 +1,28 @@
 # Justin Good Demo Site
 
+## About
+This project was an experiment with react and d3. They don't blend very well together so it 
+is mostly react with some d3 libraries sprinkled in. Code quality took a back seat to a running 
+_finished_ project. It was a trade off I intended for this project, I have other projects that 
+put code quality above everything else.
+
+## Lessons Learned
+- don't model data structures after view hierarchy  
+
+Most of this project started out as sketches of what the end result would look like. Those sketches and an impulse to turn everything into components (not a bad thing generally) led me to structure the state objects in the timesheets visualization in a (weird way)[https://github.com/jgoodhcg/demo-site/blob/master/src/js/pages/timesheet.jsx#L155].  
+
+Since I intend to work mostly from a visual idea of the end result, it is super important to build the data structures to be complaint with the functions that manipulate and report on them and not just to the functions that render them.  
+
+
 ## Dev Setup
-- use **docker** and **docker-compose** `$ docker-compse up --build`
+- use [docker](https://www.docker.com/) and (docker-compose)[https://docs.docker.com/compose/] 
+to run `$ docker-compse up --build` at the root of this project.
 
 ## Production Setup
 - attach to docker container with `docker exec -i container-name /bin/bash`
-- compile project with `webpack` and scp the static files from docker container to vps
+- compile project with `webpack` and scp the static files from docker container to vps' nginx public directory
+- docker container file location `/wwwroot`
+- [docker cp](https://docs.docker.com/engine/reference/commandline/cp/)
 
 ## Todo 
 ### refactor
