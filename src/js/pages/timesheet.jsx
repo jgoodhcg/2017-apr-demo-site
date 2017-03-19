@@ -75,7 +75,6 @@ export default class Timesheet extends React.Component {
             .value();
     }
     betaFormatStep(timesheet_data){
-        console.log(timesheet_data);
         let getMonthPrependZero = (date)=>{
             let tmp_num = (date.getMonth()+1).toString(),
                 month_num = (tmp_num.length == 1? "0"+tmp_num : ""+tmp_num);
@@ -569,36 +568,42 @@ export default class Timesheet extends React.Component {
     }
 
     weekOfMonth(d){
-            let firstOfMonth =
-                    new Date(d.getFullYear(), d.getMonth(), 1);
-            // array of start of each week this month
-            // d3.timeWeeks is exclusive on the second date
-            let weekStarts = d3.timeWeeks(
-                firstOfMonth,
-                // first day of next month
-                new Date(d.getFullYear(), d.getMonth() + 1, 1));
+        let firstOfMonth =
+            new Date(d.getFullYear(), d.getMonth(), 1);
+        // array of start of each week this month
+        // d3.timeWeeks is exclusive on the second date
+        let weekStarts = d3.timeWeeks(
+            firstOfMonth,
+            // first day of next month
+            new Date(d.getFullYear(), d.getMonth() + 1, 1));
 
-            let thisWeekStart = d3.timeWeek(d);
+        let thisWeekStart = d3.timeWeek(d);
 
-            // index of weekStarts is the zero based week of month num
-            // -1 means the first week but this month started
-            // after sunday
-            let weekOfMonth = weekStarts.findIndex(
-                function(ws){
-                    return ws.getDate() == this.getDate();},
-                thisWeekStart) + 1;
+        // index of weekStarts is the zero based week of month num
+        // -1 means the first week but this month started
+        // after sunday
+        // In other words: this month started on monday - saturday
+        // and the beginning (sunday) of the first week of this month
+        // was last month
+        let weekOfMonth = weekStarts.findIndex(
+            function(ws){
+                return (
+                    ws.getDate() === this.getDate() &&
+                    ws.getMonth() === this.getMonth()) ;},
+            thisWeekStart) + 1;
 
-            if(firstOfMonth.getDay() == 0){
-                // shift the rows for months that start on sunday
-                weekOfMonth = weekOfMonth - 1;
-            }
-
-            return weekOfMonth;
+        if(firstOfMonth.getDay() === 0){
+            // shift the rows for months that start on sunday
+            weekOfMonth = weekOfMonth - 1;
         }
+
+        return weekOfMonth;
+    }
+
     tasksTime(tasks){
         return tasks.reduce((a, b) => {
             let a_time_ms = a instanceof Date ?
-                    a.end.valueOf() - a.start.valueOf() : a;
+                            a.end.valueOf() - a.start.valueOf() : a;
             let b_time_ms = b.end.valueOf() - b.start.valueOf();
 
             return a_time_ms + b_time_ms;
