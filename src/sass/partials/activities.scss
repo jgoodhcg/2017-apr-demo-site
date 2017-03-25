@@ -60,17 +60,19 @@
             width: 100%;
             height: 100%;
             margin: 0;
-            background-color: $bg-dark;
+
 
             cursor: pointer; cursor:hand;
-            i{
-                width: 100%;
+            span{
+                color: $bg-light;
+                font-size: 4.5em;
             }
         }
 
         .activity-cover.open{
             width: 0;
-            i{
+            border: none;
+            span{
                 transition: 0.3s;
                 opacity: 0;
             }
@@ -83,9 +85,9 @@
         justify-content: center;
         width: 100%;
         height: 16em;
-        background-color: $bg-light;
         margin: 0;
         overflow: hidden;
+        background-color: $bg-light;
 
         i svg{
             width: 100%;

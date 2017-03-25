@@ -16,7 +16,9 @@ export default class Activity extends React.Component {
                         <div class="activity-cover-container">
                             <div class={"activity-cover card " +
                                 (this.props.closed ? "" : "open")}>
-                                <InlineSVG src={require(`./../../resources/${this.props.resource}-cover.svg`)} />
+                                <span>
+                                    {this.props.id}
+                                </span>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-3">
