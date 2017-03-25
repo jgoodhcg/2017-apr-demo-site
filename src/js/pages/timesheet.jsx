@@ -2,12 +2,12 @@ import React from "react";
 import InlineSVG from 'svg-inline-react';
 import { IndexLink, Link, browserHistory, hashHistory } from "react-router";
 
-import Calendar from "./../modules/timesheet.js";
-import { timesheet_data } from "./../modules/timesheet_real.js";
 import DateRange from "./../components/daterange.jsx";
 import _ from "lodash";
 import * as d3 from "d3";
 import * as chroma from "d3-scale-chromatic";
+
+let timesheet_data = null;
 
 export default class Timesheet extends React.Component {
     constructor() {
@@ -24,27 +24,32 @@ export default class Timesheet extends React.Component {
            "Art"           : this.generateColor(7)
         };
 
-        this.globalMax = d3.max(timesheet_data, (entry)=>{
-            return entry.start;});
-        this.globalMin = d3.min(timesheet_data, (entry)=>{
-            return entry.end;});
-
-        let data = this.formatTimesheetData(timesheet_data);
-
-        let opacity_scale = this.opacityScale(data);
-
         this.state = {
             start: new Date(0),
             end: new Date(),
             intervalError: false,
             projects: new Set(Object.keys(this.colors)),
             tags: new Set(),
-            opacityScale: opacity_scale,
             selected: null,
             absolute: false,
-            data
+            data: null
         };
 
+        let req = new XMLHttpRequest();
+        req.onload = (e)=>{
+            let timesheet_data = JSON.parse(e.target.responseText),
+                data = this.formatTimesheetData(timesheet_data),
+                opacity_scale = this.opacityScale(data);
+
+            this.globalMax = d3.max(timesheet_data, (entry)=>{
+                return entry.start;});
+            this.globalMin = d3.min(timesheet_data, (entry)=>{
+                return entry.end;});
+
+            this.changeState({data, opacityScale: opacity_scale});
+        };
+        req.open("GET", "timesheet.json");
+        req.send();
     }
 
     generateColor(index){
@@ -273,8 +278,7 @@ export default class Timesheet extends React.Component {
     }
 
     listAllProjects(){
-        let projects = new Set(timesheet_data.map( // gets all unique projects
-            (entry) => {return entry.project;}));
+        let projects = new Set(Object.keys(this.colors));
         return [...projects]; // returns an array that is map-able
     }
 
@@ -806,7 +810,7 @@ export default class Timesheet extends React.Component {
                 <div class="row">
                     <div class="col-xs-12 card card-1">
                         <div class="row">
-                            {this.renderAllOrSelected()}
+                            {this.state.data !== null? this.renderAllOrSelected(): ""}
                         </div>
                     </div>
                 </div>
