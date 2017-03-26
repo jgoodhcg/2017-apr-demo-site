@@ -17,50 +17,61 @@ export default class Workouts extends React.Component {
     constructor() {
         super();
 
-        // global min max for DateRange component
-        this.min = d3.min(exercise_data, (day)=>{return day.start;});
-        this.max = d3.max(exercise_data, (day)=>{return day.stop;});
+        this.state = {loaded: false};
 
-        let min_date = new Date(this.min),
-            max_date = new Date(this.max);
+        let req = new XMLHttpRequest();
+        req.onload = (e)=>{
+            let exercise_data = JSON.parse(e.target.responseText);
+            // global min max for DateRange component
+            this.min = d3.min(exercise_data, (day)=>{return day.start;});
+            this.max = d3.max(exercise_data, (day)=>{return day.stop;});
 
-        // all instance properties are for unchanging things
-        this.max_reps = d3.max(exercise_data,(entry)=>{
-            return this.getTotalRepsDay(entry).reps;});
-        this.scale_y = d3.scaleLinear()
-                         .domain([0, this.max_reps])
-                         .range([62.5, 0]);
+            let min_date = new Date(this.min),
+                max_date = new Date(this.max);
 
-        this.max_distance = d3.max(exercise_data, (entry)=>{
-            return this.getTotalDistanceDay(entry).distance});
-        this.scale_y_runs = d3.scaleLinear()
-                              .domain([0, this.max_distance])
-                              .range([62.5, 0]);
+            // all instance properties are for unchanging things
+            this.max_reps = d3.max(exercise_data,(entry)=>{
+                return this.getTotalRepsDay(entry).reps;});
+            this.scale_y = d3.scaleLinear()
+                             .domain([0, this.max_reps])
+                             .range([62.5, 0]);
 
-        this.data = exercise_data;
+            this.max_distance = d3.max(exercise_data, (entry)=>{
+                return this.getTotalDistanceDay(entry).distance});
+            this.scale_y_runs = d3.scaleLinear()
+                                  .domain([0, this.max_distance])
+                                  .range([62.5, 0]);
 
-        this.workout_names = this.getAllExerciseNames(exercise_data);
-        this.non_run_names = this.getNonRunExercisesNames(exercise_data);
-        this.run_names = this.getRunNames(exercise_data);
+            this.data = exercise_data;
 
-        // state is only for things that change
-        this.state = {
-            start: min_date,
-            end: max_date,
-            range: exercise_data,
-            scale_x: d3.scaleLinear()
-                       .domain([this.roundDown(this.min),
-                                this.roundDown(this.max)])
-                       .range([0,100]),
-            width: 100/d3.timeDays(min_date, max_date).length,
-            selected: null
+            this.workout_names = this.getAllExerciseNames(exercise_data);
+            this.non_run_names = this.getNonRunExercisesNames(exercise_data);
+            this.run_names = this.getRunNames(exercise_data);
+
+            // state is only for things that change
+            this.state = {
+                start: min_date,
+                end: max_date,
+                range: exercise_data,
+                scale_x: d3.scaleLinear()
+                           .domain([this.roundDown(this.min),
+                                    this.roundDown(this.max)])
+                           .range([0,100]),
+                width: 100/d3.timeDays(min_date, max_date).length,
+                selected: null
+            };
+
+            this.heatmap_totals = this.totalForWorkoutNames();
+            this.max_reps_workout = d3.max(
+                this.heatmap_totals,
+                (total_for_name)=>{
+                    return total_for_name.reps;});
+
+            this.changeState({loaded: true});
         };
+        req.open("GET", "exercise.json");
+        req.send();
 
-        this.heatmap_totals = this.totalForWorkoutNames();
-        this.max_reps_workout = d3.max(
-            this.heatmap_totals,
-            (total_for_name)=>{
-                return total_for_name.reps;});
     }
 
     getAllExerciseNames(range){
@@ -342,6 +353,8 @@ export default class Workouts extends React.Component {
                     </div>
                 </div>
 
+                {(this.state.loaded? (
+                    <div>
                 <div class="row">
                  <div class="col-xs-12 card card-1">
                         <h2> stats </h2>
@@ -399,7 +412,9 @@ export default class Workouts extends React.Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>    
+                    </div>) : "")}
+                
             </div>
         );
     }
