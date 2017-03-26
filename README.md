@@ -20,7 +20,8 @@ to run `$ docker-compse up --build` at the root of this project.
 
 ## Production Setup
 - attach to docker container with `docker exec -i container-name /bin/bash`
-- compile project with `webpack` and scp the static files from docker container to vps' nginx public directory
+- set node environment to production so webpack optimizes js bundle `export NODE_ENV=production`
+- compile project with `root:/app/src$ webpack` and scp the static files from docker container to vps' nginx public directory
 - docker container file location `/wwwroot`
 - [docker cp](https://docs.docker.com/engine/reference/commandline/cp/)
 
