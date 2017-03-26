@@ -48,8 +48,6 @@
         padding-right: 0.5em;
         border-radius: 2px;
         margin-left: 23%;
-
-
         overflow: hidden;
 
         .activity-cover{
@@ -78,6 +76,10 @@
         }
     }
 
+    .activity-cover-container.open{
+        animation: 0.3s ease-in 0.2s 1 normal forwards running hackSwipe;
+    }
+
     .activity-image{
         display: flex;
         align-items: center;
@@ -96,6 +98,11 @@
     @keyframes circle{
         0%  {clip-path: circle(100% at center);}
         100%{clip-path: circle(30% at center);}
+    }
+
+    @keyframes hackSwipe{
+        0%  {width: auto;}
+        100% {width: 0;}
     }
 
     /* @keyframes duration | timing-function | delay | 
