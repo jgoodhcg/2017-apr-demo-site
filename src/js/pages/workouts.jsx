@@ -340,7 +340,10 @@ export default class Workouts extends React.Component {
                             using that api project to dynamically get data.
                         </p>
                     </div>
-                    <div class="col-xs-12 card card-1">
+                </div>
+
+                <div class="row">
+                 <div class="col-xs-12 card card-1">
                         <h2> stats </h2>
                         <div class="stats">
                             {this.renderStat(
