@@ -37,8 +37,8 @@ export default class Timesheet extends React.Component {
 
         let req = new XMLHttpRequest();
         req.onload = (e)=>{
-            let timesheet_data = JSON.parse(e.target.responseText),
-                data = this.formatTimesheetData(timesheet_data),
+            timesheet_data = JSON.parse(e.target.responseText);
+            let data = this.formatTimesheetData(timesheet_data),
                 opacity_scale = this.opacityScale(data);
 
             this.globalMax = d3.max(timesheet_data, (entry)=>{
@@ -797,13 +797,14 @@ export default class Timesheet extends React.Component {
                             </button>
                         </div>
                         <div class="date-range-container">
-                            <DateRange
-                                idprefix="date-range"
-                                range="#68DADA" inactive="#989A9B"
-                                min={this.globalMin} max={this.globalMax}
-                                startUpdate={this.setStart.bind(this)}
-                                endUpdate={this.setEnd.bind(this)}
-                            />
+                            {this.state.data !== null? (
+                                 <DateRange
+                                     idprefix="date-range"
+                                     range="#68DADA" inactive="#989A9B"
+                                     min={this.globalMin} max={this.globalMax}
+                                     startUpdate={this.setStart.bind(this)}
+                                     endUpdate={this.setEnd.bind(this)}
+                                 />): ""}
                         </div>
                     </div>
                 </div>
