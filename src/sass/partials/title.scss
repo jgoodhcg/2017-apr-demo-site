@@ -4,22 +4,6 @@
     padding-right: 0.5em;
 }
 
-.resume-link{
-     display: flex;
-        justify-content: center;
-        background-color: $bg-light;
-        border-radius: 0.25em;
-        width: 10em;
-        padding: 0.5em;
-
-        a {
-            color: white;
-            width: 100%;
-            text-align: center;
-            text-decoration: none;
-        }
-}
-
 #title{
     $portrait-size: 10em;
 

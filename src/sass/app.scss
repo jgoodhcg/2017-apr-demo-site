@@ -72,3 +72,24 @@ body {
   line-height: $font-height;
 }
 
+.button-links{
+    display: flex;
+    justify-content: center;
+}
+.button-link{
+    display: flex;
+    justify-content: center;
+    background-color: $bg-light;
+    border-radius: 0.25em;
+    width: 8em;
+    padding: 0.5em;
+    margin: 0.25em;
+
+    a {
+        color: white;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+    }
+}
+

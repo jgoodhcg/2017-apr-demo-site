@@ -27,7 +27,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,9 +54,9 @@
      inkscape:window-height="1056"
      id="namedview4304"
      showgrid="false"
-     inkscape:zoom="1"
+     inkscape:zoom="2.8284271"
      inkscape:cx="533.02541"
-     inkscape:cy="449.64637"
+     inkscape:cy="609.64637"
      inkscape:window-x="1920"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -83,7 +83,7 @@
      style="display:inline"
      transform="translate(0,-3733)">
     <circle
-       style="fill:#1a8787;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#49adad;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="path4470"
        cx="499.56583"
        cy="4232.1465"
@@ -185,10 +185,11 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="zszz" />
     <path
-       style="fill:#94dfdf;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
-       d="M 580.5,403 554,358.25 c 0,0 34.5,-40.25 32.5,-57.5 -2,-17.25 -6.5,-17 -6.5,-17 0,0 13,-0.5 16,9.75 3,10.25 -4,78.25 -15.5,109.5 z"
+       style="fill:#94dfdf;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 580.5,403 554,358.25 c 0,0 16.11522,-27.87563 23.30761,-46.18629 C 583.65654,295.90037 580,283.75 580,283.75 c 0,0 13,-0.5 16,9.75 3,10.25 -4,78.25 -15.5,109.5 z"
        id="path4917"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccscsc" />
     <path
        style="fill:#94dfdf;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 447,292.25 c 0,0 -17.25,4 -22.75,4.75 -5.5,0.75 6.25,53.75 6.25,53.75 l 61,46 c 0,0 -48.75,-79 -50.75,-83.75 -2,-4.75 6.25,-20.75 6.25,-20.75 z"

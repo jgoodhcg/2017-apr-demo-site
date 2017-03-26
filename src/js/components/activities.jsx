@@ -18,7 +18,7 @@ export default class Activities extends React.Component {
                                 It is still in an early stage of development, 
                                 and has a very vanilla bootstrap style.`,
                 links: [{name: "repo", href: "https://github.com/jgoodhcg/chorechart"},
-                        {name: "app", href: "http://chorechart.jgoodhcg.com/signup"}]
+                        {name: "chorechart", href: "http://chorechart.jgoodhcg.com/signup"}]
                 },
 
                 {id: "timesheet", resource: "timesheet", closed: true,

@@ -23,10 +23,16 @@ export default class Activities extends React.Component {
                                     Recent programming interestes are data visualization and functional reactive programming.
                                     Recent general interests (in no particularl order) are illustration, biological anthropology, bodyweight fitness, guitar and music theory, woodworking, resource managment games, aquaponics, and science fiction.
                                     I'm a fan of simple, in both software and visual design. 
-                                    This site is a demonstration of my full stack software skills, design and visualization abilities. <a href="https://github.com/jgoodhcg/demo-site">The github repository.</a>
+                                    This site is a demonstration of my full stack software skills, design and visualization abilities. 
                                 </p>
-                                <div class="resume-link">
-                                    <a href="#/experience">experience</a>
+                                <div class="button-links">
+                                    <div class="button-link">
+                                        <a href="#/experience">experience</a>
+                                    </div>
+                                    <div class="button-link">
+                                        <a href="https://github.com/jgoodhcg/demo-site">
+                                            demo-site github</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
